@@ -16,7 +16,7 @@ countries = df.location.unique()
 
 # Graph info
 plt.figure(figsize=(8,5))
-plt.title('Corona cases', fontdict={'fontsize':22})
+plt.title('Total cases', fontdict={'fontsize':22})
 plt.xlabel('Date', fontdict={'fontsize':15})
 plt.ylabel('Cases', fontdict={'fontsize':15})
 
