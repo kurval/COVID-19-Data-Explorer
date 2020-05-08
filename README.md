@@ -1,5 +1,5 @@
 # Corona-Graph
-Compare corona statistics between different countries.
+Compare corona statistics between different countries with updated data.
 
 ![graph](screenshot.png)
 
