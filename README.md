@@ -1,7 +1,7 @@
 # Corona-Graph
 Compare corona statistics between different countries.
 
-![graph](screen_shot.png)
+![graph](screenshot.png)
 
 Using:
 * python3
