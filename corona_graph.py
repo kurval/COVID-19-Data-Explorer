@@ -33,6 +33,7 @@ while True:
         for country in countries:
             if country == new_country:
                 new_df = df.loc[df['location'] == country]
+                new_df['new_cases'] = new_df['new_cases'].cumsum(axis = 0)
                 plt.plot(new_df.date, new_df.new_cases, marker='.', label=country)
     else:
         break
