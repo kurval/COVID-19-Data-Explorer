@@ -1,9 +1,9 @@
-# Corona-Graph
+# COVID-19-Graph
 Compare corona statistics between different countries with updated data.
 
-![graph](screenshot.png)
+![graph](total_cases.png)
 
-Using:
+## Using:
 * python3
 * pandas, matplotlib, numpy
 * data.world's REST API
