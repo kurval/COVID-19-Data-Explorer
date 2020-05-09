@@ -11,7 +11,7 @@ results = dw.query(
 	'markmarkoh/coronavirus-data', 
     'SELECT * FROM full_data')
 df = results.dataframe
-countries = df.location.unique()
+countries = np.sort(df.location.unique())
 
 # Graph info
 plt.figure(figsize=(8,5))
@@ -25,7 +25,7 @@ oldest = min(df['date'])
 scale = np.arange(oldest, youngest)
 
 # User input
-print("Options:\n\n".upper(), countries)
+print("\nOptions:\n\n".upper(), np.array2string(countries, separator=',').replace("'", ''))
 while True:
     new_country = input("\nEnter country name or hit Enter to continue: ").capitalize()
     if not new_country:
