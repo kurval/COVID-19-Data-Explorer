@@ -12,7 +12,7 @@ results = dw.query(
     'SELECT * FROM full_data')
 df = results.dataframe
 
-# Sort country names
+# Sort country names and create ndarray
 df.drop(df.loc[df['location'] == "Cote d'Ivoire"].index, inplace=True)
 countries = np.sort(df.location.unique())
 df['location'] = df['location'].str.lower()
@@ -39,7 +39,7 @@ while True:
         for country in countries:
             if country == new_country:
                 new_df = df.loc[df['location'] == country]
-                plt.plot(new_df.date, new_df.total_cases, marker='.', label=np.char.title(country))
+                plt.plot(new_df.date, new_df.total_cases, marker='.', label=new_country.title())
         print("\nAdded ", new_country.title())
     else:
         print(f"\nERROR: Country '{new_country}' doesn't exist. Try again.")
