@@ -11,7 +11,10 @@ results = dw.query(
 	'markmarkoh/coronavirus-data', 
     'SELECT * FROM full_data')
 df = results.dataframe
+
+# Sort country names
 countries = np.sort(df.location.unique())
+df['location'] = df['location'].str.lower()
 
 # Graph info
 plt.figure(figsize=(8,5))
@@ -26,15 +29,17 @@ scale = np.arange(oldest, youngest)
 
 # User input
 print("\nOptions:\n\n".upper(), countries)
+countries = np.array(countries, dtype=np.str)
+countries = np.char.lower(countries)
 while True:
-    new_country = input("\nEnter country name or hit Enter to continue: ")
+    new_country = input("\nEnter country name or hit Enter to continue: ").lower()
     if not new_country:
         break
     elif new_country in countries:
         for country in countries:
             if country == new_country:
                 new_df = df.loc[df['location'] == country]
-                plt.plot(new_df.date, new_df.total_cases, marker='.', label=country)
+                plt.plot(new_df.date, new_df.total_cases, marker='.', label=np.char.title(country))
     else:
         print("\nCountry doesn't exist. Try again.")
         continue
