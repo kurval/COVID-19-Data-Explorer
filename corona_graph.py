@@ -7,7 +7,7 @@ import pandas as pd
 import re
 register_matplotlib_converters()
 
-# Get data
+# Import data
 results = dw.query(
 	'markmarkoh/coronavirus-data', 
     'SELECT * FROM full_data')
