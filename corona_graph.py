@@ -28,7 +28,7 @@ oldest = min(df['date'])
 scale = np.arange(oldest, youngest)
 
 # User input
-print("\nOptions:\n\n".upper(), countries)
+print("\nOptions:\n\n".upper(), np.array2string(countries, max_line_width=150, separator=', ').replace("'", ''))
 countries = np.char.lower(countries.astype(str))
 while True:
     new_country = input("\nEnter country name or hit Enter to continue: ").lower()
