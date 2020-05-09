@@ -39,6 +39,7 @@ while True:
             if country == new_country:
                 new_df = df.loc[df['location'] == country]
                 plt.plot(new_df.date, new_df.total_cases, marker='.', label=np.char.title(country))
+        print("\nAdded ", new_country.title())
     else:
         print("\nCountry doesn't exist. Try again.")
         continue
