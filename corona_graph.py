@@ -46,8 +46,9 @@ while True:
         continue
 
 # Adjust and show graph
-plt.xticks(scale[::5].tolist()+[youngest], fontsize=8, rotation=70, ha="right")
+stardate = '2020-03-01'
+plt.xticks([stardate]+scale[::5].tolist()+[youngest], fontsize=8, rotation=70, ha="right")
 plt.legend()
-plt.xlim(['2020-03-01', youngest])
+plt.xlim([stardate, youngest])
 plt.tight_layout()
 plt.show()
