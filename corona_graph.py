@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 from pandas.plotting import register_matplotlib_converters
 import numpy as np
 import pandas as pd
-import re
 register_matplotlib_converters()
 
 # Import data
@@ -26,16 +25,19 @@ oldest = min(df['date'])
 scale = np.arange(oldest, youngest)
 
 # User input
+print("Options:\n\n".upper(), countries)
 while True:
-    print("Options:\n\n".upper(), countries)
-    new_country = input("\nEnter country name or enter to continue: ")
-    if new_country:
+    new_country = input("\nEnter country name or hit Enter to continue: ").capitalize()
+    if not new_country:
+        break
+    elif new_country in countries:
         for country in countries:
             if country == new_country:
                 new_df = df.loc[df['location'] == country]
                 plt.plot(new_df.date, new_df.total_cases, marker='.', label=country)
     else:
-        break
+        print("\nCountry doesn't exist. Try again.")
+        continue
 
 # Adjust and show graph
 plt.xticks(scale[::15])
