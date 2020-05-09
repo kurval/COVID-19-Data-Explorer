@@ -42,7 +42,7 @@ while True:
                 plt.plot(new_df.date, new_df.total_cases, marker='.', label=np.char.title(country))
         print("\nAdded ", new_country.title())
     else:
-        print("\nCountry doesn't exist. Try again.")
+        print(f"\nERROR: Country '{new_country}' doesn't exist. Try again.")
         continue
 
 # Adjust and show graph
