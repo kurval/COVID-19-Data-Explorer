@@ -27,7 +27,7 @@ scale = np.arange(oldest, youngest)
 # User input
 print("\nOptions:\n\n".upper(), np.array2string(countries, separator=', ').replace("'", ''))
 while True:
-    new_country = input("\nEnter country name or hit Enter to continue: ").capitalize()
+    new_country = input("\nEnter country name or hit Enter to continue: ")
     if not new_country:
         break
     elif new_country in countries:
