@@ -13,6 +13,7 @@ results = dw.query(
 df = results.dataframe
 
 # Sort country names
+df.drop(df.loc[df['location'] == "Cote d'Ivoire"].index, inplace=True)
 countries = np.sort(df.location.unique())
 df['location'] = df['location'].str.lower()
 
