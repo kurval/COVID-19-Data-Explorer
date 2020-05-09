@@ -29,8 +29,7 @@ scale = np.arange(oldest, youngest)
 
 # User input
 print("\nOptions:\n\n".upper(), countries)
-countries = np.array(countries, dtype=np.str)
-countries = np.char.lower(countries)
+countries = np.char.lower(countries.astype('str'))
 while True:
     new_country = input("\nEnter country name or hit Enter to continue: ").lower()
     if not new_country:
