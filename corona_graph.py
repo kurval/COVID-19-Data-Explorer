@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from pandas.plotting import register_matplotlib_converters
 import numpy as np
 import pandas as pd
-from option_functions import choose_chart, choose_country
+from option_functions import choose_chart, choose_country, choose_time_period
 register_matplotlib_converters()
 
 # Import data
@@ -35,7 +35,6 @@ class Graph:
         plt.tight_layout()
         plt.show()
 
-stardate = '2020-03-01'
 youngest = max(df['date'])
 oldest = min(df['date'])
 
@@ -69,5 +68,6 @@ while new_country:
             new_df = df.loc[df['location'] == country]
             plt.plot(new_df.date, new_df[chart], marker='.', label=new_country.title())
 
-# Adjust and show graph
+# Adjust time period and show graph
+stardate = choose_time_period(youngest)
 new_graph.show_graph(youngest, stardate)
