@@ -1,4 +1,7 @@
 def choose_chart():
+    '''
+    Allowing user to choose data type
+    '''
     print("Options:\n\n1: Total cases\n2: Total deaths\n")
     while True:
         try:
@@ -14,6 +17,9 @@ def choose_chart():
     return chart
 
 def choose_country(countries):
+    '''
+    Allowing user to choose country data
+    '''
     while True:
         new_country = input("\nEnter country name or hit Enter to continue: ").lower()
         if not new_country:
