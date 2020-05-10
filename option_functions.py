@@ -3,6 +3,8 @@ import pandas as pd
 def choose_chart():
     '''
     Allowing user to choose data type
+
+        return: chart number (1=total_cases, 2=total_deaths)
     '''
     print("Options:\n\n1: Total cases\n2: Total deaths\n")
     while True:
@@ -21,6 +23,10 @@ def choose_chart():
 def choose_country(countries):
     '''
     Allowing user to choose country data
+
+        param: countries (list of all the countries)
+        type: ndarray
+        return: country name in lower case 
     '''
     while True:
         new_country = input("\nEnter country name or hit Enter to continue: ").lower()
@@ -37,6 +43,10 @@ def choose_country(countries):
 def choose_time_period(youngest):
     '''
     Allowing user to choose time period
+
+        param: youngest (newest date)
+        type: datetime.date object
+        return: startdate (youngest - time period)
     '''
     print("\nOptions:\n\n1: One month\n2: Three months\n3: Five months\n")
     while True:
