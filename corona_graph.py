@@ -12,16 +12,46 @@ results = dw.query(
     'SELECT * FROM full_data')
 df = results.dataframe
 
-# Sort country names and create ndarray
+class Graph:
+    def __init__(self, chart_name, ylabel):
+        self.chart_name = chart_name
+        self.ylabel = ylabel
+    
+    def set_info(self):
+        plt.figure(num='COVID-19', figsize=(8,5))
+        plt.title(self.chart_name.title(), fontdict={'fontsize':22})
+        plt.xlabel('Date', fontdict={'fontsize':15})
+        plt.ylabel(self.ylabel, fontdict={'fontsize':15})
+
+# Sort country names
 df.drop(df.loc[df['location'] == "Cote d'Ivoire"].index, inplace=True)
 countries = np.sort(df.location.unique())
 df['location'] = df['location'].str.lower()
 
-# Graph info
-plt.figure(num='COVID-19', figsize=(8,5))
-plt.title('Total cases', fontdict={'fontsize':22})
-plt.xlabel('Date', fontdict={'fontsize':15})
-plt.ylabel('Cases', fontdict={'fontsize':15})
+# Choose stats
+print("Options:\n\n1: Total cases\n2: Total deaths\n")
+while True:
+    try:
+        chart = int(input("Choose statistics number: "))
+    except ValueError:
+        print("\nERROR: Input not number. Try again.")
+        continue
+    if chart != 1 and chart !=2:
+        print("\nERROR: Invalid number. Try again.")
+        continue
+    else:
+        break
+
+if chart == 1:
+    chart = 'total_cases'
+    ylabel = 'Cases'
+else:
+    chart = 'total_deaths'
+    ylabel = 'Deaths'
+
+# Creating new line graph
+new_graph = Graph(chart, ylabel)
+new_graph.set_info()
 
 # Set range
 youngest = max(df['date'])
@@ -39,7 +69,7 @@ while True:
         for country in countries:
             if country == new_country:
                 new_df = df.loc[df['location'] == country]
-                plt.plot(new_df.date, new_df.total_cases, marker='.', label=new_country.title())
+                plt.plot(new_df.date, new_df[chart], marker='.', label=new_country.title())
         print("\nAdded ", new_country.title())
     else:
         print(f"\nERROR: Country '{new_country}' doesn't exist. Try again.")
