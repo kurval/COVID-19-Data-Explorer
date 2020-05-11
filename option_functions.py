@@ -60,6 +60,7 @@ def choose_time_period(youngest):
             continue
         else:
             break
-    period = 3 if period == 2 else 5
+    if period != 1:
+        period = 3 if period == 2 else 5
     startdate = pd.to_datetime(youngest, format="%Y-%m-%d") - pd.DateOffset(months=period)
     return startdate
