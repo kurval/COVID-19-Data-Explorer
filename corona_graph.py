@@ -45,12 +45,7 @@ df['location'] = df['location'].str.lower()
 
 # Choose stats
 chart = choose_chart()
-if chart == 1:
-    chart = 'total_cases'
-    ylabel = 'Cases'
-else:
-    chart = 'total_deaths'
-    ylabel = 'Deaths'
+chart, ylabel = ('total_cases', 'Cases') if chart == 1 else ('total_deaths', 'Deaths')
 
 # Creating new line graph
 new_graph = Graph(chart, ylabel)
