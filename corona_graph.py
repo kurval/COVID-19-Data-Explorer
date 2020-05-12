@@ -31,12 +31,13 @@ class Graph:
         plt.xticks(fontsize=8, rotation=70, ha="right")
         ax.xaxis.set_major_locator(mdates.WeekdayLocator())
         plt.legend(loc=2)
-        plt.xlim([stardate, youngest + timedelta(days=1)])
         plt.tight_layout()
+        plt.xlim([stardate, youngest + timedelta(days=1)])
         plt.show()
 
 youngest = max(df['date'])
 oldest = min(df['date'])
+stardate = choose_time_period(youngest)
 
 # Sort country names
 df.drop(df.loc[df['location'] == "Cote d'Ivoire"].index, inplace=True)
@@ -60,12 +61,11 @@ while True:
     new_country = choose_country(countries)
     if not new_country:
         break
-    new_df = df.loc[df['location'] == new_country]
+    new_df = df.loc[(df['location'] == new_country) & (df['date'] > datetime.strptime(stardate, '%Y-%m-%d').date())]
     if chart == 'new_cases' or chart == 'new_deaths':
         ax.bar(new_df['date'], new_df[chart], alpha=0.5, label=new_country.title())
     else:
         ax.plot(new_df['date'], new_df[chart], marker='.', label=new_country.title(), linewidth=2, markersize=12)
 
 # Adjust time period and show graph
-stardate = choose_time_period(youngest)
 new_graph.show_graph(youngest, stardate)
