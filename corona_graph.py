@@ -56,8 +56,7 @@ new_graph.set_info()
 # Adding countries to graph
 print("\nOptions:\n\n".upper(), np.array2string(countries, max_line_width=150, separator=', ').replace("'", ''))
 countries = np.char.lower(countries.astype(str))
-new_country = 'default'
-while new_country:
+while True:
     new_country = choose_country(countries)
     if not new_country:
         break
