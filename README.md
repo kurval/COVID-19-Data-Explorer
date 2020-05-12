@@ -1,5 +1,5 @@
 # COVID-19-Graph
-Compare corona statistics between different countries with updated data.
+Comparing corona statistics between different countries with updated data.
 
 ![total_cases](images/total_cases.png)
 
