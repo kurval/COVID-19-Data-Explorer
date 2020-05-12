@@ -44,7 +44,7 @@ def choose_time_period(youngest):
         param: youngest (newest date)
         type: datetime.date object
         return: startdate (youngest - time period)
-        returntype: str
+        returntype: datetime object
     '''
     print("\nOptions:\n\n1: One month\n2: Three months\n3: Five months\n")
     while True:
@@ -61,4 +61,4 @@ def choose_time_period(youngest):
     if period != 1:
         period = 3 if period == 2 else 5
     startdate = pd.to_datetime(youngest, format="%Y-%m-%d") - pd.DateOffset(months=period)
-    return startdate.strftime("%Y-%m-%d")
+    return startdate.date()

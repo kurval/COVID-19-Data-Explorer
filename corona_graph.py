@@ -61,7 +61,7 @@ while True:
     new_country = choose_country(countries)
     if not new_country:
         break
-    new_df = df.loc[(df['location'] == new_country) & (df['date'] > datetime.strptime(stardate, '%Y-%m-%d').date())]
+    new_df = df.loc[(df['location'] == new_country) & (df['date'] > stardate)]
     if chart == 'new_cases' or chart == 'new_deaths':
         ax.bar(new_df['date'], new_df[chart], alpha=0.5, label=new_country.title())
     else:
