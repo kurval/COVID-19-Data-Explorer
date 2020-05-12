@@ -30,7 +30,7 @@ class Graph:
     def show_graph(self, youngest, stardate):
         plt.xticks(fontsize=8, rotation=70, ha="right")
         ax.xaxis.set_major_locator(mdates.WeekdayLocator())
-        #plt.legend()
+        plt.legend()
         plt.xlim([stardate, youngest + timedelta(days=1)])
         plt.tight_layout()
         plt.show()
@@ -62,8 +62,7 @@ while True:
         break
     new_df = df.loc[df['location'] == new_country]
     if chart == 'new_cases' or chart == 'new_deaths':
-        ax.bar(new_df['date'], new_df[chart], alpha=0.5)
-        ax.legend(labels=new_country)
+        ax.bar(new_df['date'], new_df[chart], alpha=0.5, label=new_country.title())
     else:
         ax.plot(new_df.date, new_df[chart], marker='.', label=new_country.title())
 
