@@ -30,7 +30,7 @@ class Graph:
     def show_graph(self, youngest, stardate):
         plt.xticks(fontsize=8, rotation=70, ha="right")
         ax.xaxis.set_major_locator(mdates.WeekdayLocator())
-        plt.legend()
+        plt.legend(loc=2)
         plt.xlim([stardate, youngest + timedelta(days=1)])
         plt.tight_layout()
         plt.show()
