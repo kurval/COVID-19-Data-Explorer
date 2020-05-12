@@ -64,7 +64,7 @@ while True:
     if chart == 'new_cases' or chart == 'new_deaths':
         ax.bar(new_df['date'], new_df[chart], alpha=0.5, label=new_country.title())
     else:
-        ax.plot(new_df.date, new_df[chart], marker='.', label=new_country.title(), linewidth=2, markersize=12)
+        ax.plot(new_df['date'], new_df[chart], marker='.', label=new_country.title(), linewidth=2, markersize=12)
 
 # Adjust time period and show graph
 stardate = choose_time_period(youngest)
