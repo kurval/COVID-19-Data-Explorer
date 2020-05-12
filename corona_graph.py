@@ -5,6 +5,8 @@ from pandas.plotting import register_matplotlib_converters
 import numpy as np
 import pandas as pd
 from option_functions import choose_chart, choose_country, choose_time_period
+from datetime import datetime, timedelta
+import matplotlib.dates as mdates
 register_matplotlib_converters()
 
 # Import data
@@ -17,21 +19,17 @@ class Graph:
     def __init__(self, chart_name, ylabel):
         self.chart_name = chart_name
         self.ylabel = ylabel
-        self.scale = 0
-    
+
     def set_info(self):
-        plt.figure(num='COVID-19', figsize=(8,5))
-        plt.title(self.chart_name.title(), fontdict={'fontsize':22})
-        plt.xlabel('Date', fontdict={'fontsize':15})
-        plt.ylabel(self.ylabel, fontdict={'fontsize':15})
-    
-    def set_range(self, oldest, youngest):
-        self.scale = np.arange(oldest, youngest)
+        ax.set_title(self.chart_name.title(), fontdict={'fontsize':22})
+        ax.set_xlabel('Date', fontdict={'fontsize':15})
+        ax.set_ylabel(self.ylabel, fontdict={'fontsize':15})
 
     def show_graph(self, youngest, stardate):
-        plt.xticks([stardate]+new_graph.scale[::5].tolist()+[youngest], fontsize=8, rotation=70, ha="right")
+        plt.xticks(fontsize=8, rotation=70, ha="right")
+        ax.xaxis.set_major_locator(mdates.WeekdayLocator())
         plt.legend()
-        plt.xlim([stardate, youngest])
+        plt.xlim([stardate, youngest + timedelta(days=1)])
         plt.tight_layout()
         plt.show()
 
@@ -45,12 +43,15 @@ df['location'] = df['location'].str.lower()
 
 # Choose stats
 chart = choose_chart()
-chart, ylabel = ('total_cases', 'Cases') if chart == 1 else ('total_deaths', 'Deaths')
+if chart == 1 or chart == 2:
+    chart, ylabel = ('total_cases', 'Cases') if chart == 1 else ('total_deaths', 'Deaths')
+else:
+    chart, ylabel = ('new_cases', 'Cases') if chart == 3 else ('new_deaths', 'Deaths')
 
 # Creating new line graph
 new_graph = Graph(chart, ylabel)
+fig, ax = plt.subplots(figsize=(15,7))
 new_graph.set_info()
-new_graph.set_range(oldest, youngest)
 
 # Adding countries to graph
 print("\nOptions:\n\n".upper(), np.array2string(countries, max_line_width=150, separator=', ').replace("'", ''))
@@ -58,10 +59,14 @@ countries = np.char.lower(countries.astype(str))
 new_country = 'default'
 while new_country:
     new_country = choose_country(countries)
-    for country in countries:
-        if country == new_country:
-            new_df = df.loc[df['location'] == country]
-            plt.plot(new_df.date, new_df[chart], marker='.', label=new_country.title())
+    if not new_country:
+        break
+    new_df = df.loc[df['location'] == new_country]
+    if chart == 'new_cases' or chart == 'new_deaths':
+        new_df.set_index('date',inplace=True)
+        ax.bar(new_df.index, new_df[chart])
+        break
+    plt.plot(new_df.date, new_df[chart], marker='.', label=new_country.title())
 
 # Adjust time period and show graph
 stardate = choose_time_period(youngest)

@@ -4,16 +4,16 @@ def choose_chart():
     '''
     Allowing user to choose data type
 
-        return: chart number (1=total_cases, 2=total_deaths)
+        return: chart number (1=total_cases, 2=total_deaths, 3=new_cases, 4=new_deaths,)
     '''
-    print("Options:\n\n1: Total cases\n2: Total deaths\n")
+    print("Options:\n\n1: Total cases\n2: Total deaths\n3: New cases\n4: New deaths\n")
     while True:
         try:
             chart = int(input("Choose statistics number: "))
         except ValueError:
             print("\nERROR: Input not number. Try again.")
             continue
-        if chart != 1 and chart !=2:
+        if chart != 1 and chart !=2 and chart != 3 and chart !=4:
             print("\nERROR: Invalid number. Try again.")
             continue
         else:
