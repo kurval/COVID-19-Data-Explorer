@@ -48,7 +48,7 @@ if chart == 1 or chart == 2:
 else:
     chart, ylabel = ('new_cases', 'Cases') if chart == 3 else ('new_deaths', 'Deaths')
 
-# Creating new line graph
+# Creating new graph
 new_graph = Graph(chart, ylabel)
 fig, ax = plt.subplots(figsize=(15,7))
 new_graph.set_info()
