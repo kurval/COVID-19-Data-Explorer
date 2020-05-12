@@ -46,10 +46,9 @@ df['location'] = df['location'].str.lower()
 # Choose stats
 chart = stats[choose_chart()]
 ylabel = chart.split(sep='_')[-1]
-print(ylabel)
 
 # Creating new graph
-new_graph = Graph(chart, ylabel)
+new_graph = Graph(chart.replace('_', ' '), ylabel)
 plt.style.use('ggplot')
 fig, ax = plt.subplots(figsize=(15,7))
 new_graph.set_info()
