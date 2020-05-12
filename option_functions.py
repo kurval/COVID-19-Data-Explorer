@@ -8,12 +8,8 @@ def choose_chart():
     '''
     print("Options:\n\n1: Total cases\n2: Total deaths\n3: New cases\n4: New deaths\n")
     while True:
-        try:
-            chart = int(input("Choose statistics number: "))
-        except ValueError:
-            print("\nERROR: Input not number. Try again.")
-            continue
-        if chart != 1 and chart !=2 and chart != 3 and chart !=4:
+        chart = input("Choose statistics number: ")
+        if chart != '1' and chart != '2' and chart != '3' and chart != '4':
             print("\nERROR: Invalid number. Try again.")
             continue
         else:

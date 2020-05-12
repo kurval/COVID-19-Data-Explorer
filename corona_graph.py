@@ -15,6 +15,8 @@ results = dw.query(
     'SELECT * FROM full_data')
 df = results.dataframe
 
+stats = {'1':"total_cases", '2':"total_deaths", '3':"new_cases", '4':"new_deaths"}
+
 class Graph:
     def __init__(self, chart_name, ylabel):
         self.chart_name = chart_name
@@ -42,14 +44,13 @@ countries = np.sort(df.location.unique())
 df['location'] = df['location'].str.lower()
 
 # Choose stats
-chart = choose_chart()
-if chart == 1 or chart == 2:
-    chart, ylabel = ('total_cases', 'Cases') if chart == 1 else ('total_deaths', 'Deaths')
-else:
-    chart, ylabel = ('new_cases', 'Cases') if chart == 3 else ('new_deaths', 'Deaths')
+chart = stats[choose_chart()]
+ylabel = chart.split(sep='_')[-1]
+print(ylabel)
 
 # Creating new graph
 new_graph = Graph(chart, ylabel)
+plt.style.use('ggplot')
 fig, ax = plt.subplots(figsize=(15,7))
 new_graph.set_info()
 
