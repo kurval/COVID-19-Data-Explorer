@@ -50,7 +50,7 @@ ylabel = chart.split(sep='_')[-1]
 # Creating new graph
 new_graph = Graph(chart.replace('_', ' '), ylabel)
 plt.style.use('ggplot')
-fig, ax = plt.subplots(figsize=(15,7))
+fig, ax = plt.subplots(figsize=(15,7), num='COVID-19')
 new_graph.set_info()
 
 # Adding countries to graph
