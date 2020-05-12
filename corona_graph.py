@@ -24,13 +24,13 @@ class Graph:
 
     def set_info(self):
         ax.set_title(self.chart_name.title(), fontdict={'fontsize':22})
-        ax.set_xlabel('Date', fontdict={'fontsize':15})
+        ax.set_xlabel('date', fontdict={'fontsize':15})
         ax.set_ylabel(self.ylabel, fontdict={'fontsize':15})
 
     def show_graph(self, youngest, stardate):
         plt.xticks(fontsize=8, rotation=70, ha="right")
         ax.xaxis.set_major_locator(mdates.WeekdayLocator())
-        plt.legend()
+        #plt.legend()
         plt.xlim([stardate, youngest + timedelta(days=1)])
         plt.tight_layout()
         plt.show()
@@ -62,10 +62,10 @@ while True:
         break
     new_df = df.loc[df['location'] == new_country]
     if chart == 'new_cases' or chart == 'new_deaths':
-        new_df.set_index('date',inplace=True)
-        ax.bar(new_df.index, new_df[chart])
-        break
-    plt.plot(new_df.date, new_df[chart], marker='.', label=new_country.title())
+        ax.bar(new_df['date'], new_df[chart], alpha=0.5)
+        ax.legend(labels=new_country)
+    else:
+        ax.plot(new_df.date, new_df[chart], marker='.', label=new_country.title())
 
 # Adjust time period and show graph
 stardate = choose_time_period(youngest)
