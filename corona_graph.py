@@ -18,25 +18,38 @@ df = results.dataframe
 stats = {'1':"total_cases", '2':"total_deaths", '3':"new_cases", '4':"new_deaths"}
 
 class Graph:
-    def __init__(self, chart_name, ylabel):
+    def __init__(self, chart_name, ylabel, xlabel):
         self.chart_name = chart_name
         self.ylabel = ylabel
+        self.xlabel = xlabel
 
     def set_info(self):
         ax.set_title(self.chart_name.title(), fontdict={'fontsize':22})
-        ax.set_xlabel('date', fontdict={'fontsize':15})
+        ax.set_xlabel(self.xlabel, fontdict={'fontsize':15})
         ax.set_ylabel(self.ylabel, fontdict={'fontsize':15})
 
-    def show_graph(self, youngest, stardate):
-        plt.xticks(fontsize=8, rotation=70, ha="right")
+    def ajust_graph(self, youngest, stardate):
+        plt.xticks(fontsize=8, rotation=50, ha="right")
         ax.xaxis.set_major_locator(mdates.WeekdayLocator())
         plt.legend(loc=2)
         plt.tight_layout()
         plt.xlim([stardate, youngest + timedelta(days=1)])
-        plt.show()
 
 youngest = max(df['date'])
 oldest = min(df['date'])
+
+#Set style for graph
+plt.style.use('ggplot')
+
+#Additional graph
+graph2 = Graph('Total cases', 'countries', 'cases')
+fig, ax = plt.subplots(figsize=(15,7))
+top20 = df.groupby('location')[['new_cases']].sum().sort_values(['new_cases'])[-20:-1].reset_index()
+top20.plot(kind='barh', color='#336600', width=0.85, y="new_cases", x="location", ax=ax)
+graph2.set_info()
+plt.show()
+
+# Choose time prediod
 stardate = choose_time_period(youngest)
 
 # Sort country names
@@ -49,8 +62,7 @@ chart = stats[choose_chart()]
 ylabel = chart.split(sep='_')[-1]
 
 # Creating new graph
-new_graph = Graph(chart.replace('_', ' '), ylabel)
-plt.style.use('ggplot')
+new_graph = Graph(chart.replace('_', ' '), ylabel, 'date')
 fig, ax = plt.subplots(figsize=(15,7), num='COVID-19')
 new_graph.set_info()
 
@@ -61,11 +73,12 @@ while True:
     new_country = choose_country(countries)
     if not new_country:
         break
-    new_df = df.loc[(df['location'] == new_country) & (df['date'] > stardate)]
+    new_df = df.loc[(df['location'] == new_country) & (df['date'] > stardate)].reset_index()
     if chart == 'new_cases' or chart == 'new_deaths':
         ax.bar(new_df['date'], new_df[chart], alpha=0.5, label=new_country.title())
     else:
         ax.plot(new_df['date'], new_df[chart], marker='.', label=new_country.title(), linewidth=2, markersize=12)
 
 # Adjust time period and show graph
-new_graph.show_graph(youngest, stardate)
+new_graph.ajust_graph(youngest, stardate)
+plt.show()
