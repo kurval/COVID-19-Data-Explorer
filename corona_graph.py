@@ -16,6 +16,8 @@ results = dw.query(
 df = results.dataframe
 
 stats = {'1':"total_cases", '2':"total_deaths", '3':"new_cases", '4':"new_deaths"}
+title_font = {'fontweight':'bold', 'fontsize':22}
+label_font = {'weight':'bold', 'fontsize': 15}
 
 class Graph:
     def __init__(self, chart_name, ylabel, xlabel):
@@ -24,16 +26,16 @@ class Graph:
         self.xlabel = xlabel
 
     def set_info(self):
-        ax.set_title(self.chart_name.title(), fontdict={'fontsize':22})
-        ax.set_xlabel(self.xlabel, fontdict={'fontsize':15})
-        ax.set_ylabel(self.ylabel, fontdict={'fontsize':15})
+        ax.set_title(self.chart_name.title(), fontdict=title_font)
+        ax.set_xlabel(self.xlabel, fontdict=label_font)
+        ax.set_ylabel(self.ylabel, fontdict=label_font)
 
     def ajust_graph(self, youngest, stardate):
         plt.xticks(fontsize=8, rotation=50, ha="right")
         ax.xaxis.set_major_locator(mdates.WeekdayLocator())
         plt.legend(loc=2)
         plt.tight_layout()
-        plt.xlim([stardate, youngest + timedelta(days=1)])
+        plt.xlim([stardate, youngest])
 
 youngest = max(df['date'])
 oldest = min(df['date'])
@@ -73,12 +75,12 @@ while True:
     new_country = choose_country(countries)
     if not new_country:
         break
-    new_df = df.loc[(df['location'] == new_country) & (df['date'] > stardate)].reset_index()
+    new_df = df.loc[(df['location'] == new_country) & (df['date'] >= stardate)].reset_index()
     if chart == 'new_cases' or chart == 'new_deaths':
         ax.bar(new_df['date'], new_df[chart], alpha=0.5, label=new_country.title())
     else:
         ax.plot(new_df['date'], new_df[chart], marker='.', label=new_country.title(), linewidth=2, markersize=12)
 
-# Adjust time period and show graph
+# Adjust and show graph
 new_graph.ajust_graph(youngest, stardate)
 plt.show()
