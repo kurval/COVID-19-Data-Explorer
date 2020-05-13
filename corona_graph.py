@@ -35,7 +35,7 @@ class Graph:
         ax.xaxis.set_major_locator(mdates.WeekdayLocator())
         plt.legend(loc=2)
         plt.tight_layout()
-        plt.xlim([stardate, youngest])
+        plt.xlim([stardate, youngest + timedelta(days=1)])
 
 youngest = max(df['date'])
 oldest = min(df['date'])
@@ -75,7 +75,7 @@ while True:
     new_country = choose_country(countries)
     if not new_country:
         break
-    new_df = df.loc[(df['location'] == new_country) & (df['date'] >= stardate)].reset_index()
+    new_df = df.loc[(df['location'] == new_country) & (df['date'] > stardate)].reset_index()
     if chart == 'new_cases' or chart == 'new_deaths':
         ax.bar(new_df['date'], new_df[chart], alpha=0.5, label=new_country.title())
     else:
