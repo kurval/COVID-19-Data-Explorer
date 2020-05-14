@@ -17,8 +17,8 @@ class Graph:
 
     def set_info(self):
         self.ax.set_title(self.chart_name.title(), fontdict=title_font)
-        self.ax.set_xlabel(self.xlabel, fontdict=label_font)
-        self.ax.set_ylabel(self.ylabel, fontdict=label_font)
+        self.ax.set_xlabel(self.xlabel.title(), fontdict=label_font)
+        self.ax.set_ylabel(self.ylabel.title(), fontdict=label_font)
 
     def ajust_graph(self, youngest, stardate):
         plt.xticks(fontsize=8, rotation=50, ha="right")
