@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 import datadotworld as dw
-import matplotlib.pyplot as plt
 from pandas.plotting import register_matplotlib_converters
-import numpy as np
 import pandas as pd
 from graph_functions import show_most_cases, compare_countries
 register_matplotlib_converters()
