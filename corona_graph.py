@@ -5,7 +5,6 @@ from pandas.plotting import register_matplotlib_converters
 import numpy as np
 import pandas as pd
 from graph_functions import show_most_cases, compare_countries
-from classes import Graph
 register_matplotlib_converters()
 
 # Import data
