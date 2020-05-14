@@ -7,29 +7,36 @@ import pandas as pd
 from graph_functions import show_most_cases, compare_countries
 register_matplotlib_converters()
 
-# Import data
-results = dw.query(
-	'markmarkoh/coronavirus-data', 
-    'SELECT * FROM full_data')
-df = results.dataframe
+def import_data():
+    '''
+    Imports data from dataworld.
+    '''
+    results = dw.query(
+        'markmarkoh/coronavirus-data', 
+        'SELECT * FROM full_data')
+    df = results.dataframe
+    return df
 
-youngest = max(df['date'])
-oldest = min(df['date'])
+def process_data(df):
+    '''
+    Sorts country names
+    '''
+    df.drop(df.loc[df['location'] == "Cote d'Ivoire"].index, inplace=True)
+    df['location'] = df['location'].str.lower()
+    return df
 
-# Print timestamp
-print(f"Updated: {youngest}")
+def main():
+    df = import_data()
+    youngest = max(df['date'])
+    oldest = min(df['date'])
+    print(f"Updated: {youngest}")
 
-# Set style for all graphs
-plt.style.use('ggplot')
+    plt.style.use('ggplot')
+    show_most_cases('3', df)
+    show_most_cases('4', df)
+    df = process_data(df)
+    countries = np.sort(df['location'].unique())
+    compare_countries(df, countries, youngest)
 
-# Showing top 20 countries graphs
-show_most_cases('3', df)
-show_most_cases('4', df)
-
-# Sort country names
-df.drop(df.loc[df['location'] == "Cote d'Ivoire"].index, inplace=True)
-countries = np.sort(df.location.unique())
-df['location'] = df['location'].str.lower()
-
-# Compare countries graph
-compare_countries(df, countries, youngest)
+if __name__ == "__main__":
+    main()
