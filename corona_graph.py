@@ -42,7 +42,7 @@ chart = stats[choose_chart()]
 ylabel = chart.split(sep='_')[-1]
 
 # Creating new graph
-new_graph = Graph(chart.replace('_', ' '), ylabel, 'date')
+new_graph = Graph(chart.replace('_', ' ').title(), ylabel, 'date')
 new_graph.set_info()
 
 # Adding countries to graph

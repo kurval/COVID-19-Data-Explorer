@@ -13,10 +13,10 @@ class Graph:
         self.chart_name = chart_name
         self.ylabel = ylabel
         self.xlabel = xlabel
-        self.fig, self.ax = plt.subplots(figsize=(15,7))
+        self.fig, self.ax = plt.subplots(num='COVID-19', figsize=(15,7))
 
     def set_info(self):
-        self.ax.set_title(self.chart_name.title(), fontdict=title_font)
+        self.ax.set_title(self.chart_name, fontdict=title_font)
         self.ax.set_xlabel(self.xlabel.title(), fontdict=label_font)
         self.ax.set_ylabel(self.ylabel.title(), fontdict=label_font)
 
