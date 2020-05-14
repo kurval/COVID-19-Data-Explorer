@@ -36,7 +36,7 @@ def show_most_cases(chart_num, df):
     graph.ax.legend().set_visible(False)
     plt.show()
 
-def compare_countries(df, youngest):
+def compare_countries(dataframe, youngest):
     '''
     Allows user to choose time period of the graph 1 ,3 ,5 months.
     User can choose countries to graph from 210 countries.
@@ -46,7 +46,7 @@ def compare_countries(df, youngest):
         param: dataframe, youngest date
         type: dataframe object, datetime.date
     '''
-    df.drop(df.loc[df['location'] == "Cote d'Ivoire"].index, inplace=True)
+    df = dataframe.drop(dataframe.loc[dataframe['location'] == "Cote d'Ivoire"].index)
     countries = np.sort(df['location'].unique())
     df['location'] = df['location'].str.lower()
     stardate = choose_time_period(youngest)
