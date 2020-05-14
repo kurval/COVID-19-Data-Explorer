@@ -17,7 +17,7 @@ def choose_chart():
             break
     return chart
 
-def choose_country(countries):
+def choose_country(countries, choices):
     '''
     Allowing user to choose country data
 
@@ -28,13 +28,18 @@ def choose_country(countries):
     while True:
         new_country = input("\nEnter country name or hit Enter to continue: ").lower()
         if not new_country:
+            new_country = '0'
             break
-        elif new_country in countries:
-            print("\nAdded ", new_country.title())
-            break
-        else:
+        elif new_country in choices:
+            print(f"\nERROR: '{new_country}' already in a list. Try again.")
+            continue
+        elif not(new_country in countries):
             print(f"\nERROR: Country '{new_country}' doesn't exist. Try again.")
             continue
+        else:
+            print("\nAdded ", new_country.title())
+            break
+            
     return new_country
 
 def choose_time_period(youngest):

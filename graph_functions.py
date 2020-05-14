@@ -51,14 +51,15 @@ def compare_countries(df, countries, youngest):
     new_graph.set_info()
     print("\nOptions:\n\n".upper(), np.array2string(countries, max_line_width=150, separator=', ').replace("'", ''))
     countries = np.char.lower(countries.astype(str))
+    new_country = []
     while True:
-        new_country = choose_country(countries)
-        if not new_country:
+        new_country.append(choose_country(countries, new_country))
+        if new_country[-1] == '0':
             break
-        new_df = df.loc[(df['location'] == new_country) & (df['date'] > stardate)].reset_index()
+        new_df = df.loc[(df['location'] == new_country[0]) & (df['date'] > stardate)].reset_index()
         if chart == 'new_cases' or chart == 'new_deaths':
-            new_graph.ax.bar(new_df['date'], new_df[chart], alpha=0.5, label=new_country.title())
+            new_graph.ax.bar(new_df['date'], new_df[chart], alpha=0.5, label=new_country[0].title())
         else:
-            new_graph.ax.plot(new_df['date'], new_df[chart], marker='.', label=new_country.title(), linewidth=2, markersize=12)
+            new_graph.ax.plot(new_df['date'], new_df[chart], marker='.', label=new_country[0].title(), linewidth=2, markersize=12)
     new_graph.ajust_graph(youngest, stardate)
     plt.show()
