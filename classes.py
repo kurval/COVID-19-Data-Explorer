@@ -9,6 +9,8 @@ title_font = {'fontweight':'bold', 'fontsize':22}
 label_font = {'weight':'bold', 'fontsize': 15}
 
 class Graph:
+    plt.style.use('ggplot')
+    
     def __init__(self, chart_name, ylabel, xlabel):
         self.chart_name = chart_name
         self.ylabel = ylabel

@@ -20,8 +20,10 @@ def get_N_HexCol(N=20):
 def show_most_cases(chart_num, df):
     '''
     Shows 20 countries statistic of most cases/deaths
+    Chart nums: '3':"new_cases", '4':"new_deaths"
 
         param: chart name, dataframe
+        type: str, dataframe object
     '''
     chart = stats[chart_num]
     stats_name = chart.split(sep='_')[-1]
@@ -34,15 +36,19 @@ def show_most_cases(chart_num, df):
     graph.ax.legend().set_visible(False)
     plt.show()
 
-def compare_countries(df, countries, youngest):
+def compare_countries(df, youngest):
     '''
     Allows user to choose time period of the graph 1 ,3 ,5 months.
     User can choose countries to graph from 210 countries.
     User can also choose statistics type from 1=total_cases, 2=total_deaths, 3=new_cases, 4=new_deaths.
     Depending statistics type grap is bar graph (3,4) or line graph (1,2)
 
-        param: dataframe, countries array, youngest date
+        param: dataframe, youngest date
+        type: dataframe object, datetime.date
     '''
+    df.drop(df.loc[df['location'] == "Cote d'Ivoire"].index, inplace=True)
+    countries = np.sort(df['location'].unique())
+    df['location'] = df['location'].str.lower()
     stardate = choose_time_period(youngest)
     chart = stats[choose_chart()]
     ylabel = chart.split(sep='_')[-1]

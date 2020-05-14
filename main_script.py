@@ -10,6 +10,8 @@ register_matplotlib_converters()
 def import_data():
     '''
     Imports data from dataworld.
+
+        return: dataframe object
     '''
     results = dw.query(
         'markmarkoh/coronavirus-data', 
@@ -17,33 +19,13 @@ def import_data():
     df = results.dataframe
     return df
 
-def get_countries(df):
-    '''
-    Returning all the country names for options
-    '''
-    df.drop(df.loc[df['location'] == "Cote d'Ivoire"].index, inplace=True)
-    countries = np.sort(df['location'].unique())
-    return countries
-
-def process_data(df):
-    '''
-    Converts all the country names to lowercase for comparing
-    '''
-    df['location'] = df['location'].str.lower()
-    return df
-
 def main():
     df = import_data()
     youngest = max(df['date'])
-    oldest = min(df['date'])
     print(f"Updated: {youngest}")
-
-    plt.style.use('ggplot')
     #show_most_cases('3', df)
     #show_most_cases('4', df)
-    countries = get_countries(df)
-    df = process_data(df)
-    compare_countries(df, countries, youngest)
+    compare_countries(df, youngest)
 
 if __name__ == "__main__":
     main()
