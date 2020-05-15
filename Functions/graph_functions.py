@@ -38,19 +38,20 @@ def show_most_cases(chart_num, df):
     plt.xticks(fontsize=10)
     plt.show()
 
-def compare_countries(dataframe, youngest):
+def compare_countries(dataframe):
     '''
     Allows user to choose time period of the graph 1 ,3 ,5 months.
     User can choose countries to graph from 210 countries.
     User can also choose statistics type from 1=total_cases, 2=total_deaths, 3=new_cases, 4=new_deaths.
     Depending statistics type grap is bar graph (3,4) or line graph (1,2)
 
-        param: dataframe, youngest date
-        type: dataframe object, datetime.date
+        param: dataframe
+        type: dataframe object
     '''
     df = dataframe.drop(dataframe.loc[dataframe['location'] == "Cote d'Ivoire"].index)
     countries = np.sort(df['location'].unique())
     df['location'] = df['location'].str.lower()
+    youngest = max(df['date'])
     stardate = choose_time_period(youngest)
     chart = stats[choose_chart()]
     ylabel = chart.split(sep='_')[-1]
@@ -69,5 +70,5 @@ def compare_countries(dataframe, youngest):
             new_graph.ax.bar(new_df['date'], new_df[chart], align='edge', alpha=0.5, label=new_country[-1].title())
         else:
             new_graph.ax.plot(new_df['date'], new_df[chart], marker='.', label=new_country[-1].title(), linewidth=2, markersize=12)
-    new_graph.ajust_graph(youngest, stardate)
+    new_graph.ajust_graph()
     plt.show()

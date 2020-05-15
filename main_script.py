@@ -24,7 +24,7 @@ def main():
     print(f"Updated: {youngest}")
     show_most_cases('3', df)
     show_most_cases('4', df)
-    compare_countries(df, youngest)
+    compare_countries(df)
 
 if __name__ == "__main__":
     main()

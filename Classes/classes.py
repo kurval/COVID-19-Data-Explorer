@@ -22,7 +22,7 @@ class Graph:
         self.ax.set_xlabel(self.xlabel.title(), fontdict=label_font)
         self.ax.set_ylabel(self.ylabel.title(), fontdict=label_font)
 
-    def ajust_graph(self, youngest, stardate):
+    def ajust_graph(self):
         plt.xticks(fontsize=10, rotation=50, ha="right")
         plt.yticks(fontsize=10)
         self.ax.xaxis.set_major_locator(mdates.WeekdayLocator())
