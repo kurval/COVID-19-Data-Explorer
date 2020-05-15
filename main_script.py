@@ -22,8 +22,8 @@ def main():
     df = import_data()
     youngest = max(df['date'])
     print(f"Updated: {youngest}")
-    show_most_cases('3', df)
-    show_most_cases('4', df)
+    #show_most_cases('3', df)
+    #show_most_cases('4', df)
     compare_countries(df, youngest)
 
 if __name__ == "__main__":

@@ -34,6 +34,8 @@ def show_most_cases(chart_num, df):
     for i, country in enumerate(top20[chart]):
         graph.ax.text(country, i, " "+str(country), va='center')
     graph.ax.legend().set_visible(False)
+    plt.yticks(fontweight='bold', color='black')
+    plt.xticks(fontsize=10)
     plt.show()
 
 def compare_countries(dataframe, youngest):
@@ -62,9 +64,9 @@ def compare_countries(dataframe, youngest):
         new_country.append(choose_country(countries, new_country))
         if new_country[-1] == '0':
             break
-        new_df = df.loc[(df['location'] == new_country[-1]) & (df['date'] > stardate)].reset_index()
+        new_df = df.loc[(df['location'] == new_country[-1]) & (df['date'] >= stardate)].reset_index()
         if chart == 'new_cases' or chart == 'new_deaths':
-            new_graph.ax.bar(new_df['date'], new_df[chart], alpha=0.5, label=new_country[-1].title())
+            new_graph.ax.bar(new_df['date'], new_df[chart], align='edge', alpha=0.5, label=new_country[-1].title())
         else:
             new_graph.ax.plot(new_df['date'], new_df[chart], marker='.', label=new_country[-1].title(), linewidth=2, markersize=12)
     new_graph.ajust_graph(youngest, stardate)

@@ -23,8 +23,9 @@ class Graph:
         self.ax.set_ylabel(self.ylabel.title(), fontdict=label_font)
 
     def ajust_graph(self, youngest, stardate):
-        plt.xticks(fontsize=8, rotation=50, ha="right")
+        plt.xticks(fontsize=10, rotation=50, ha="right")
+        plt.yticks(fontsize=10)
         self.ax.xaxis.set_major_locator(mdates.WeekdayLocator())
         plt.legend(loc=2)
         plt.tight_layout()
-        plt.xlim([stardate, youngest + timedelta(days=1)])
+        plt.margins(x=0)
