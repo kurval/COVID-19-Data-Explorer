@@ -1,10 +1,10 @@
 # COVID-19-Statistics
 Comparing corona statistics between different countries with updated data.
 
-![total_cases](images/total_cases.png)
-![new_cases](images/new_cases.png)
-![most_cases](images/most_cases.png)
-![most_deaths](images/most_deaths.png)
+![total_cases](Images/total_cases.png)
+![new_cases](Images/new_cases.png)
+![most_cases](Images/most_cases.png)
+![most_deaths](Images/most_deaths.png)
 
 ## Using:
 * python3
