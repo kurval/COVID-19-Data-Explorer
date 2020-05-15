@@ -2,7 +2,7 @@
 import datadotworld as dw
 from pandas.plotting import register_matplotlib_converters
 import pandas as pd
-from graph_functions import show_most_cases, compare_countries
+from Functions.graph_functions import show_most_cases, compare_countries
 register_matplotlib_converters()
 
 def import_data():

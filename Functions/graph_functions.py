@@ -2,8 +2,8 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
-from classes import Graph
-from option_functions import choose_chart, choose_country, choose_time_period
+from Classes.classes import Graph
+from Functions.option_functions import choose_chart, choose_country, choose_time_period
 import colorsys
 
 stats = {'1':"total_cases", '2':"total_deaths", '3':"new_cases", '4':"new_deaths"}
