@@ -7,6 +7,7 @@ from Classes.classes import Graph
 from Functions.option_functions import choose_chart, choose_country, choose_time_period
 import colorsys
 import matplotlib as mpl
+from matplotlib.ticker import FuncFormatter
 
 stats = {'1':"total_cases", '2':"total_deaths", '3':"new_cases", '4':"new_deaths"}
 
@@ -22,10 +23,15 @@ def get_N_HexCol(N=20):
 def format_numbers(arr):
     i = 0
     for num in arr:
-        if len(num) > 7:
+        if len(num) >= 8:
             arr[i] = (num[:3] + ' M').replace(',', '.')
         i += 1
     return arr
+
+def cases(x, pos):
+    if x >= 1000000:
+        return '{:1.1f} M'.format(x*1e-6)
+    return '{:,}'.format(int(x), ',')
 
 def show_most_cases(chart_num, df):
     '''
@@ -42,14 +48,14 @@ def show_most_cases(chart_num, df):
     values = top20[chart].apply("{:,}".format).to_numpy()
     values = format_numbers(values)
     top20.plot(kind='barh', color=get_N_HexCol(), width=0.85, y=chart, x='location', ax=graph.ax)
-
     graph.set_info()
     for i, country in enumerate(top20[chart]):
         graph.ax.text(country, i, " "+values[i], va='center')
     graph.ax.legend().set_visible(False)
     plt.yticks(fontweight='bold', color='black')
     plt.xticks(fontsize=10)
-    graph.ax.xaxis.set_major_formatter(mpl.ticker.FuncFormatter(lambda x, p: format(int(x), ',')))
+    formatter = FuncFormatter(cases)
+    graph.ax.xaxis.set_major_formatter(formatter)
     plt.show()
 
 def compare_countries(dataframe):
