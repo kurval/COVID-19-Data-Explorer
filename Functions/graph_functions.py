@@ -6,6 +6,7 @@ import numpy as np
 from Classes.classes import Graph
 from Functions.option_functions import choose_chart, choose_country, choose_time_period
 import colorsys
+import matplotlib as mpl
 
 stats = {'1':"total_cases", '2':"total_deaths", '3':"new_cases", '4':"new_deaths"}
 
@@ -17,6 +18,14 @@ def get_N_HexCol(N=20):
         rgb = map(lambda x: int(x * 255), colorsys.hsv_to_rgb(*rgb))
         hex_out.append('#%02x%02x%02x' % tuple(rgb))
     return hex_out
+
+def format_numbers(arr):
+    i = 0
+    for num in arr:
+        if len(num) > 7:
+            arr[i] = (num[:3] + ' M').replace(',', '.')
+        i += 1
+    return arr
 
 def show_most_cases(chart_num, df):
     '''
@@ -31,6 +40,7 @@ def show_most_cases(chart_num, df):
     graph = Graph('COVID-19 ' + stats_name[:-1] + ' rate per country', 'countries', stats_name)
     top20 = df.groupby('location')[[chart]].sum().sort_values([chart])[-21:-1].reset_index()
     values = top20[chart].apply("{:,}".format).to_numpy()
+    values = format_numbers(values)
     top20.plot(kind='barh', color=get_N_HexCol(), width=0.85, y=chart, x='location', ax=graph.ax)
 
     graph.set_info()
@@ -39,6 +49,7 @@ def show_most_cases(chart_num, df):
     graph.ax.legend().set_visible(False)
     plt.yticks(fontweight='bold', color='black')
     plt.xticks(fontsize=10)
+    graph.ax.xaxis.set_major_formatter(mpl.ticker.FuncFormatter(lambda x, p: format(int(x), ',')))
     plt.show()
 
 def compare_countries(dataframe):

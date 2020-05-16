@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 from datetime import datetime, timedelta
 import matplotlib.dates as mdates
+import matplotlib as mpl
 
 title_font = {'fontweight':'bold', 'fontsize':22}
 label_font = {'weight':'bold', 'fontsize': 15}
@@ -25,6 +26,7 @@ class Graph:
     def ajust_graph(self):
         plt.xticks(fontsize=10, rotation=50, ha="right")
         plt.yticks(fontsize=10)
+        self.ax.yaxis.set_major_formatter(mpl.ticker.FuncFormatter(lambda x, p: format(int(x), ',')))
         self.ax.xaxis.set_major_locator(mdates.WeekdayLocator())
         plt.legend(loc=2)
         plt.tight_layout()
