@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import matplotlib.pyplot as plt
+import matplotlib as mpl
 import pandas as pd
 import numpy as np
 from Classes.classes import Graph
@@ -29,10 +30,12 @@ def show_most_cases(chart_num, df):
     stats_name = chart.split(sep='_')[-1]
     graph = Graph('COVID-19 ' + stats_name[:-1] + ' rate per country', 'countries', stats_name)
     top20 = df.groupby('location')[[chart]].sum().sort_values([chart])[-21:-1].reset_index()
+    values = top20[chart].apply("{:,}".format).to_numpy()
     top20.plot(kind='barh', color=get_N_HexCol(), width=0.85, y=chart, x='location', ax=graph.ax)
+
     graph.set_info()
     for i, country in enumerate(top20[chart]):
-        graph.ax.text(country, i, " "+str(country), va='center')
+        graph.ax.text(country, i, " "+values[i], va='center')
     graph.ax.legend().set_visible(False)
     plt.yticks(fontweight='bold', color='black')
     plt.xticks(fontsize=10)

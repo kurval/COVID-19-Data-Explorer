@@ -2,6 +2,7 @@
 import datadotworld as dw
 from pandas.plotting import register_matplotlib_converters
 import pandas as pd
+import numpy as np
 from Functions.graph_functions import show_most_cases, compare_countries
 import timeit
 register_matplotlib_converters()
@@ -24,7 +25,7 @@ def main():
     print(f"Updated: {youngest}")
     show_most_cases('3', df)
     show_most_cases('4', df)
-    compare_countries(df)
+    #compare_countries(df)
 
 if __name__ == "__main__":
     main()
