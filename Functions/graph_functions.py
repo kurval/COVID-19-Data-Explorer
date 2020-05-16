@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 import pandas as pd
 import numpy as np
-from Classes.classes import Graph
+from Classes.classes import Graph, format_numbers
 from Functions.option_functions import choose_chart, choose_country, choose_time_period
 import colorsys
 import matplotlib as mpl
@@ -20,19 +20,6 @@ def get_N_HexCol(N=20):
         hex_out.append('#%02x%02x%02x' % tuple(rgb))
     return hex_out
 
-def format_numbers(arr):
-    i = 0
-    for num in arr:
-        if len(num) >= 8:
-            arr[i] = (num[:3] + ' M').replace(',', '.')
-        i += 1
-    return arr
-
-def cases(x, pos):
-    if x >= 1000000:
-        return '{:1.1f} M'.format(x*1e-6)
-    return '{:,}'.format(int(x), ',')
-
 def show_most_cases(chart_num, df):
     '''
     Shows 20 countries statistic of most cases/deaths
@@ -41,12 +28,12 @@ def show_most_cases(chart_num, df):
         param: chart name, dataframe
         type: str, dataframe object
     '''
+    formatter = FuncFormatter(format_numbers)
     chart = stats[chart_num]
     stats_name = chart.split(sep='_')[-1]
     graph = Graph('COVID-19 ' + stats_name[:-1] + ' rate per country', 'countries', stats_name)
     top20 = df.groupby('location')[[chart]].sum().sort_values([chart])[-21:-1].reset_index()
-    values = top20[chart].apply("{:,}".format).to_numpy()
-    values = format_numbers(values)
+    values = top20[chart].apply(formatter).to_numpy()
     top20.plot(kind='barh', color=get_N_HexCol(), width=0.85, y=chart, x='location', ax=graph.ax)
     graph.set_info()
     for i, country in enumerate(top20[chart]):
@@ -54,7 +41,6 @@ def show_most_cases(chart_num, df):
     graph.ax.legend().set_visible(False)
     plt.yticks(fontweight='bold', color='black')
     plt.xticks(fontsize=10)
-    formatter = FuncFormatter(cases)
     graph.ax.xaxis.set_major_formatter(formatter)
     plt.show()
 
