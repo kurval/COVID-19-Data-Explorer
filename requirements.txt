@@ -1,0 +1,5 @@
+datadotworld==1.7.0
+numpy==1.16.4
+streamlit==0.59.0
+pandas==0.24.2
+matplotlib==3.1.3
