@@ -54,7 +54,7 @@ def compare_countries(dataframe):
         param: dataframe
         type: dataframe object
     '''
-    df = dataframe.drop(dataframe.loc[dataframe['location'] == "Cote d'Ivoire"].index)
+    df = dataframe.drop(dataframe[dataframe['location'] == "Cote d'Ivoire"].index)
     countries = np.sort(df['location'].unique())
     df['location'] = df['location'].str.lower()
     youngest = max(df['date'])
