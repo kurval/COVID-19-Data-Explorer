@@ -6,6 +6,7 @@ import numpy as np
 from Functions.graph_functions import show_most_cases, compare_countries
 import timeit
 import streamlit as st
+import click
 register_matplotlib_converters()
 
 @st.cache
