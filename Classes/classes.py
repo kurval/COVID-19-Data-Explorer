@@ -18,11 +18,11 @@ def format_numbers(x, pos):
 class Graph:
     plt.style.use('ggplot')
     
-    def __init__(self, chart_name, ylabel, xlabel):
+    def __init__(self, chart_name, ylabel, xlabel, size):
         self.chart_name = chart_name
         self.ylabel = ylabel
         self.xlabel = xlabel
-        self.fig, self.ax = plt.subplots(num='COVID-19', figsize=(15,7))
+        self.fig, self.ax = plt.subplots(num='COVID-19', figsize=(size))
 
     def set_info(self):
         self.ax.set_title(self.chart_name, fontdict=title_font)

@@ -4,9 +4,9 @@ import matplotlib as mpl
 import pandas as pd
 import numpy as np
 from Classes.classes import Graph, format_numbers
-from Functions.option_functions import choose_chart, choose_country, choose_time_period
+from Functions.option_functions import choose_chart, choose_time_period
 import colorsys
-import matplotlib as mpl
+import streamlit as st
 from matplotlib.ticker import FuncFormatter
 
 stats = {'1':"total_cases", '2':"total_deaths", '3':"new_cases", '4':"new_deaths"}
@@ -31,9 +31,10 @@ def show_most_cases(chart_num, df):
     formatter = FuncFormatter(format_numbers)
     chart = stats[chart_num]
     stats_name = chart.split(sep='_')[-1]
-    graph = Graph('COVID-19 ' + stats_name[:-1] + ' rate per country', 'countries', stats_name)
+    graph = Graph('COVID-19 ' + stats_name[:-1] + ' rate per country', 'countries', stats_name, (13,5))
     top20 = df.groupby('location')[[chart]].sum().sort_values([chart])[-21:-1].reset_index()
     values = top20[chart].apply(formatter).to_numpy()
+    
     top20.plot(kind='barh', color=get_N_HexCol(), width=0.85, y=chart, x='location', ax=graph.ax)
     graph.set_info()
     for i, country in enumerate(top20[chart]):
@@ -42,7 +43,8 @@ def show_most_cases(chart_num, df):
     plt.yticks(fontweight='bold', color='black')
     plt.xticks(fontsize=10)
     graph.ax.xaxis.set_major_formatter(formatter)
-    plt.show()
+    plt.tight_layout()
+    st.pyplot()
 
 def compare_countries(dataframe):
     '''
@@ -58,23 +60,20 @@ def compare_countries(dataframe):
     countries = np.sort(df['location'].unique())
     df['location'] = df['location'].str.lower()
     youngest = max(df['date'])
-    stardate = choose_time_period(youngest)
     chart = stats[choose_chart()]
+    stardate = choose_time_period(youngest)
     ylabel = chart.split(sep='_')[-1]
-    new_graph = Graph(chart.replace('_', ' ').title(), ylabel, 'date')
+    new_graph = Graph(chart.replace('_', ' ').title(), ylabel, 'date', (15,7))
 
     new_graph.set_info()
-    print("\nOptions:\n\n".upper(), np.array2string(countries, max_line_width=150, separator=', ').replace("'", ''))
-    countries = np.char.lower(countries.astype(str))
-    new_country = []
-    while True:
-        new_country.append(choose_country(countries, new_country))
-        if new_country[-1] == '0':
-            break
-        new_df = df.loc[(df['location'] == new_country[-1]) & (df['date'] >= stardate)].reset_index()
+    countries = list(np.char.lower(countries.astype(str)))
+    st.sidebar.markdown("## Select countries")
+    options = st.sidebar.multiselect('', countries, default=['finland'])
+    for new_country in options:
+        new_df = df.loc[(df['location'] == new_country) & (df['date'] >= stardate)].reset_index()
         if chart == 'new_cases' or chart == 'new_deaths':
-            new_graph.ax.bar(new_df['date'], new_df[chart], align='edge', alpha=0.5, label=new_country[-1].title())
+            new_graph.ax.bar(new_df['date'], new_df[chart], align='edge', alpha=0.5, label=new_country.title())
         else:
-            new_graph.ax.plot(new_df['date'], new_df[chart], marker='.', label=new_country[-1].title(), linewidth=2, markersize=12)
+            new_graph.ax.plot(new_df['date'], new_df[chart], marker='.', label=new_country.title(), linewidth=2, markersize=12)
     new_graph.ajust_graph()
-    plt.show()
+    st.pyplot()
