@@ -7,6 +7,7 @@ from Functions.graph_functions import show_most_cases, compare_countries
 import timeit
 import streamlit as st
 import click
+from PIL import Image
 register_matplotlib_converters()
 
 @st.cache
@@ -26,7 +27,8 @@ def main():
     df = import_data()
     youngest = max(df['date'])
     st.markdown(f"*Updated: {youngest}*")
-    st.title("COVID-19 Statistics")
+    image = Image.open('./Images/header.png')
+    st.image(image, width=600)
     compare_countries(df)
     st.markdown('## Most cases')
     show_most_cases('3', df)
