@@ -8,7 +8,6 @@ def choose_chart():
 
         return: chart number ('1':total_cases, '2':total_deaths, '3':new_cases, '4':new_deaths,)
     '''
-    st.markdown("**Choose statistics below and use sidebar to select countries. You can compare countires by selecting multiple options.** *Click on the right corner of the fiqure to view fullscreen*")
     stats = {'Total cases':'1', 'Total deaths':'2', 'New cases':'3', 'New deaths':'4'}
     charts = ['Total cases', 'Total deaths', 'New cases', 'New deaths']
     chart = st.selectbox('', charts)

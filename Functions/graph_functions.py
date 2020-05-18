@@ -38,10 +38,10 @@ def show_most_cases(chart_num, df):
     top20.plot(kind='barh', color=get_N_HexCol(), width=0.85, y=chart, x='location', ax=graph.ax)
     graph.set_info()
     for i, country in enumerate(top20[chart]):
-        graph.ax.text(country, i, " "+values[i], va='center')
+        graph.ax.text(country, i, " "+values[i], va='center', fontsize=15)
     graph.ax.legend().set_visible(False)
-    plt.yticks(fontweight='bold', color='black')
-    plt.xticks(fontsize=10)
+    plt.yticks(fontsize=15, fontweight='bold', color='black')
+    plt.xticks(fontsize=15)
     graph.ax.xaxis.set_major_formatter(formatter)
     plt.tight_layout()
     st.pyplot()

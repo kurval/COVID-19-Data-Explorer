@@ -31,10 +31,10 @@ class Graph:
 
     def ajust_graph(self):
         formatter = FuncFormatter(format_numbers)
-        plt.xticks(fontsize=10, rotation=50, ha="right")
-        plt.yticks(fontsize=10)
+        plt.xticks(fontsize=15, rotation=50, ha="right")
+        plt.yticks(fontsize=15)
         self.ax.yaxis.set_major_formatter(formatter)
         self.ax.xaxis.set_major_locator(mdates.WeekdayLocator())
-        plt.legend(loc=2)
+        plt.legend(loc=2, fontsize=15)
         plt.tight_layout()
         plt.margins(x=0)
