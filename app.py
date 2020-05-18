@@ -37,6 +37,9 @@ def main():
     show_most_cases('3', df)
     st.markdown('## COVID-19 deaths: 20 worst-hit countries')
     show_most_cases('4', df)
+    st.info("by: V.Kurkela | source: [Github](https://github.com/kurval/COVID-19-Statistics) |\
+    data source: [Dataworld](https://data.world/markmarkoh/coronavirus-data) \
+    (orginally: [Ourworldindata](https://ourworldindata.org/coronavirus-source-data))")
 
 if __name__ == "__main__":
     main()
