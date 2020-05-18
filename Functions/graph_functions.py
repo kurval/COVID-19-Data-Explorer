@@ -66,11 +66,11 @@ def compare_countries(dataframe):
     ylabel = chart.split(sep='_')[-1]
     new_graph = Graph(chart.replace('_', ' ').title(), ylabel, 'date', (15,7))
     new_graph.set_info()
-    countries = list(np.char.lower(countries.astype(str)))
+    countries = list(countries)
     st.sidebar.markdown("## Select countries")
-    options = st.sidebar.multiselect('', countries, default=['finland'])
+    options = st.sidebar.multiselect('', countries, default=['Finland'])
     for new_country in options:
-        new_df = df.loc[(df['location'] == new_country) & (df['date'] >= stardate)].reset_index()
+        new_df = df.loc[(df['location'] == new_country.lower()) & (df['date'] >= stardate)].reset_index()
         if chart == 'new_cases' or chart == 'new_deaths':
             new_graph.ax.bar(new_df['date'], new_df[chart], align='edge', alpha=0.5, label=new_country.title())
         else:
