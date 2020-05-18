@@ -24,7 +24,8 @@ def import_data():
     return df
 
 def main():
-    df = import_data()
+    with st.spinner('Importing data. Please wait...'):
+        df = import_data()
     youngest = max(df['date'])
     image = Image.open('./Images/header.png')
     st.image(image, use_column_width=True, caption=f"Updated: {youngest}")
