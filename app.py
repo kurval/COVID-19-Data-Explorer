@@ -30,9 +30,9 @@ def main():
     image = Image.open('./Images/header.png')
     st.image(image, width=600)
     compare_countries(df)
-    st.markdown('## Most cases')
+    st.markdown('## COVID-19 cases: 20 worst-hit countries')
     show_most_cases('3', df)
-    st.markdown('## Most deaths')
+    st.markdown('## COVID-19 deaths: 20 worst-hit countries')
     show_most_cases('4', df)
 
 if __name__ == "__main__":
