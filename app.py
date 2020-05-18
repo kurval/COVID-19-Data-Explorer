@@ -32,7 +32,7 @@ def main():
     st.sidebar.markdown("**Choose statistics from the select box and use sidebar to select countries. \
     You can compare countries by selecting multiple options. \
     Adjust time period one to six months by dragging a slider or just clicking it. \
-    Click on the right corner of the fiqure to view fullscreen**")
+    Click on the right corner of the fiqure to view fullscreen.**")
     st.markdown('## COVID-19 cases: 20 worst-hit countries')
     show_most_cases('3', df)
     st.markdown('## COVID-19 deaths: 20 worst-hit countries')
