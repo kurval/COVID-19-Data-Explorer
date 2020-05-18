@@ -25,7 +25,7 @@ def import_data():
 def main():
     df = import_data()
     youngest = max(df['date'])
-    st.write(f"Updated: {youngest}")
+    st.markdown(f"*Updated: {youngest}*")
     st.title("COVID-19 Statistics")
     compare_countries(df)
     st.markdown('## Most cases')

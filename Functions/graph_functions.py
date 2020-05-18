@@ -61,10 +61,10 @@ def compare_countries(dataframe):
     df['location'] = df['location'].str.lower()
     youngest = max(df['date'])
     chart = stats[choose_chart()]
+    my_slot1 = st.empty()
     stardate = choose_time_period(youngest)
     ylabel = chart.split(sep='_')[-1]
     new_graph = Graph(chart.replace('_', ' ').title(), ylabel, 'date', (15,7))
-
     new_graph.set_info()
     countries = list(np.char.lower(countries.astype(str)))
     st.sidebar.markdown("## Select countries")
@@ -76,4 +76,4 @@ def compare_countries(dataframe):
         else:
             new_graph.ax.plot(new_df['date'], new_df[chart], marker='.', label=new_country.title(), linewidth=2, markersize=12)
     new_graph.ajust_graph()
-    st.pyplot()
+    my_slot1.pyplot()
