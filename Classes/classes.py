@@ -16,6 +16,18 @@ def format_numbers(x, pos):
     return '{:,}'.format(int(x), ',')
 
 class Graph:
+    '''
+    Class for plots
+        param: chart_name, ylabel, xlabel, size
+        type: str, str, str, (float, float)
+        
+        methods:
+        set_info()
+            sets plot title, ylabel and xlabel
+
+        ajust_graph():
+            sets yticks, xticks, legend and tight layout
+    '''
     plt.style.use('ggplot')
     
     def __init__(self, chart_name, ylabel, xlabel, size):
