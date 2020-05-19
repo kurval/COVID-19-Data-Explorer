@@ -10,7 +10,7 @@ import click
 from PIL import Image
 register_matplotlib_converters()
 
-@st.cache(show_spinner=False)
+@st.cache(ttl=3600*24, show_spinner=False)
 def import_data():
     '''
     Imports data from dataworld.
@@ -38,10 +38,8 @@ def main():
     Adjust time period one to six months by dragging the slider or just clicking it. \
     Click on the right corner of the fiqure to view fullscreen.**")
 
-    st.markdown('## COVID-19 cases: 20 worst-hit countries')
+    st.markdown('## COVID-19: 20 worst-hit countries')
     show_most_cases('3', df)
-
-    st.markdown('## COVID-19 deaths: 20 worst-hit countries')
     show_most_cases('4', df)
 
     st.info("by: V.Kurkela | source: [Github](https://github.com/kurval/COVID-19-Statistics) |\

@@ -20,7 +20,7 @@ def get_N_HexCol(N=20):
         hex_out.append('#%02x%02x%02x' % tuple(rgb))
     return hex_out
 
-@st.cache
+@st.cache(show_spinner=False)
 def get_top_values(df, chart):
     top20_values = df.groupby('location')[[chart]].sum().sort_values([chart])[-21:-1].reset_index()
     return top20_values
@@ -31,13 +31,8 @@ def get_countries(df):
     return countries
 
 @st.cache(show_spinner=False)
-def set_location_lower(df):
-    df['location'] = df['location'].str.lower()
-    return df['location']
-
-@st.cache(show_spinner=False)
 def get_location_values(df, new_country, startdate):
-    new_df = df.loc[(df['location'] == new_country.lower()) & (df['date'] >= startdate)].reset_index()
+    new_df = df.loc[(df['location'].str.lower() == new_country.lower()) & (df['date'] >= startdate)].reset_index()
     return new_df
 
 def show_most_cases(chart_num, df):
@@ -77,7 +72,6 @@ def compare_countries(dataframe):
     '''
     df = dataframe.drop(dataframe[dataframe['location'] == "Cote d'Ivoire"].index)
     countries = get_countries(df)
-    df['location'] = set_location_lower(df)
     youngest = max(df['date'])
     chart = stats[choose_chart()]
     # Reordering figure to show here
