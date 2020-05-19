@@ -21,6 +21,7 @@ def import_data():
         'markmarkoh/coronavirus-data', 
         'SELECT * FROM full_data')
     df = results.dataframe
+    df.drop(df[df['location'] == "Cote d'Ivoire"].index, inplace=True)
     return df
 
 def main():
@@ -38,7 +39,7 @@ def main():
     Adjust time period one to six months by dragging the slider or just clicking it. \
     Click on the right corner of the fiqure to view fullscreen.**")
 
-    st.markdown('## COVID-19: 20 worst-hit countries')
+    st.markdown('## COVID-19 cases and deaths in the worst-hit countries')
     show_most_cases('3', df)
     show_most_cases('4', df)
 

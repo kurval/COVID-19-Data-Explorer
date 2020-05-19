@@ -60,7 +60,7 @@ def show_most_cases(chart_num, df):
     plt.tight_layout()
     st.pyplot()
 
-def compare_countries(dataframe):
+def compare_countries(df):
     '''
     Allows user to choose time period of the graph 1 ,3 ,5 months.
     User can choose countries to graph from 210 countries.
@@ -70,7 +70,6 @@ def compare_countries(dataframe):
         param: dataframe
         type: dataframe object
     '''
-    df = dataframe.drop(dataframe[dataframe['location'] == "Cote d'Ivoire"].index)
     countries = get_countries(df)
     youngest = max(df['date'])
     chart = stats[choose_chart()]
