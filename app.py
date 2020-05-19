@@ -10,7 +10,7 @@ import click
 from PIL import Image
 register_matplotlib_converters()
 
-@st.cache(ttl=3600*24, show_spinner=False)
+@st.cache(how_spinner=False)
 def import_data():
     '''
     Imports data from dataworld.
