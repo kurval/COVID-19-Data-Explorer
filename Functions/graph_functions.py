@@ -20,6 +20,26 @@ def get_N_HexCol(N=20):
         hex_out.append('#%02x%02x%02x' % tuple(rgb))
     return hex_out
 
+@st.cache
+def get_top_values(df, chart):
+    top20_values = df.groupby('location')[[chart]].sum().sort_values([chart])[-21:-1].reset_index()
+    return top20_values
+
+@st.cache
+def get_countries(df):
+    countries = np.sort(df['location'].unique())
+    return countries
+
+@st.cache
+def set_location_lower(df):
+    df['location'] = df['location'].str.lower()
+    return df['location']
+
+@st.cache
+def get_location_values(df, new_country, startdate):
+    new_df = df.loc[(df['location'] == new_country.lower()) & (df['date'] >= startdate)].reset_index()
+    return new_df
+
 def show_most_cases(chart_num, df):
     '''
     Shows 20 countries statistic of most cases/deaths
@@ -32,9 +52,8 @@ def show_most_cases(chart_num, df):
     chart = stats[chart_num]
     stats_name = chart.split(sep='_')[-1]
     graph = Graph('COVID-19 ' + stats_name[:-1] + ' rate per country', 'countries', stats_name, (13,5))
-    top20 = df.groupby('location')[[chart]].sum().sort_values([chart])[-21:-1].reset_index()
+    top20 = get_top_values(df, chart)
     values = top20[chart].apply(formatter).to_numpy()
-    
     top20.plot(kind='barh', color=get_N_HexCol(), width=0.85, y=chart, x='location', ax=graph.ax)
     graph.set_info()
     for i, country in enumerate(top20[chart]):
@@ -57,23 +76,23 @@ def compare_countries(dataframe):
         type: dataframe object
     '''
     df = dataframe.drop(dataframe[dataframe['location'] == "Cote d'Ivoire"].index)
-    countries = np.sort(df['location'].unique())
-    df['location'] = df['location'].str.lower()
+    countries = get_countries(df)
+    df['location'] = set_location_lower(df)
     youngest = max(df['date'])
     chart = stats[choose_chart()]
     # Reordering figure to show here
-    my_slot1 = st.empty()
-    stardate = choose_time_period(youngest)
+    slot_for_graph = st.empty()
+    startdate = choose_time_period(youngest)
     ylabel = chart.split(sep='_')[-1]
     new_graph = Graph(chart.replace('_', ' ').title(), ylabel, 'date', (15,7))
     new_graph.set_info()
     st.sidebar.markdown("## Select countries")
     options = st.sidebar.multiselect('', list(countries), default=['Finland'])
     for new_country in options:
-        new_df = df.loc[(df['location'] == new_country.lower()) & (df['date'] >= stardate)].reset_index()
+        new_df = get_location_values(df, new_country, startdate)
         if chart == 'new_cases' or chart == 'new_deaths':
             new_graph.ax.bar(new_df['date'], new_df[chart], align='edge', alpha=0.5, label=new_country.title())
         else:
             new_graph.ax.plot(new_df['date'], new_df[chart], marker='.', label=new_country.title(), linewidth=2, markersize=12)
     new_graph.ajust_graph()
-    my_slot1.pyplot()
+    slot_for_graph.pyplot()
