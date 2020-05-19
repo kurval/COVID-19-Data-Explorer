@@ -25,17 +25,17 @@ def get_top_values(df, chart):
     top20_values = df.groupby('location')[[chart]].sum().sort_values([chart])[-21:-1].reset_index()
     return top20_values
 
-@st.cache
+@st.cache(show_spinner=False)
 def get_countries(df):
     countries = np.sort(df['location'].unique())
     return countries
 
-@st.cache
+@st.cache(show_spinner=False)
 def set_location_lower(df):
     df['location'] = df['location'].str.lower()
     return df['location']
 
-@st.cache
+@st.cache(show_spinner=False)
 def get_location_values(df, new_country, startdate):
     new_df = df.loc[(df['location'] == new_country.lower()) & (df['date'] >= startdate)].reset_index()
     return new_df
