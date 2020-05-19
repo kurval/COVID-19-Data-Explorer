@@ -10,7 +10,7 @@ import click
 from PIL import Image
 register_matplotlib_converters()
 
-@st.cache(how_spinner=False)
+@st.cache(show_spinner=False)
 def import_data():
     '''
     Imports data from dataworld.
@@ -24,7 +24,7 @@ def import_data():
     return df
 
 def main():
-    with st.spinner('Importing data. Please wait...'):
+    with st.spinner('Please wait...'):
         df = import_data()
 
     youngest = max(df['date'])
