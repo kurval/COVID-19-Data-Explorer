@@ -10,16 +10,20 @@ import click
 from PIL import Image
 register_matplotlib_converters()
 
+DATASET_ID = 'markmarkoh/coronavirus-data'
+QUERY = 'SELECT * FROM full_data'
+
 @st.cache(show_spinner=False)
 def import_data():
     '''
     Imports data from dataworld.
+    Query a dataset using the var = datadotworld.query('dataset_ID', 'query')
 
         return: dataframe object
     '''
     results = dw.query(
-        'markmarkoh/coronavirus-data', 
-        'SELECT * FROM full_data')
+        DATASET_ID,
+        QUERY)
     df = results.dataframe
     df.drop(df[df['location'] == "Cote d'Ivoire"].index, inplace=True)
     return df

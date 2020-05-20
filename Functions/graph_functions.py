@@ -12,6 +12,7 @@ from matplotlib.ticker import FuncFormatter
 stats = {'1':"total_cases", '2':"total_deaths", '3':"new_cases", '4':"new_deaths"}
 
 # Generates list of colors
+@st.cache(show_spinner=False)
 def get_N_HexCol(N=20):
     HSV_tuples = [(x * 1.0 / N, 0.5, 0.5) for x in range(N)]
     hex_out = []
@@ -33,6 +34,7 @@ def get_countries(df):
 @st.cache(show_spinner=False)
 def get_location_values(df, new_country, startdate):
     new_df = df.loc[(df['location'].str.lower() == new_country.lower()) & (df['date'] >= startdate)].reset_index()
+    new_df.sort_values(by=['date'], inplace=True)
     return new_df
 
 def show_most_cases(chart_num, df):
