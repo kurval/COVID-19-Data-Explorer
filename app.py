@@ -39,7 +39,8 @@ def main():
 
     compare_countries(df)
 
-    st.sidebar.markdown("**Choose statistics from the select box and use sidebar to select countries. \
+    st.sidebar.markdown("# Usage")
+    st.sidebar.info("**Choose statistics from the select box and use sidebar to select countries. \
     You can compare countries by selecting multiple options. \
     Adjust time period one to six months by dragging the slider or just clicking it. \
     Click on the right corner of the fiqure to view fullscreen.**")

@@ -81,8 +81,8 @@ def compare_countries(df):
     ylabel = chart.split(sep='_')[-1]
     new_graph = Graph(chart.replace('_', ' ').title(), ylabel, 'date', (15,7))
     new_graph.set_info()
-    st.sidebar.markdown("## Select countries")
-    options = st.sidebar.multiselect('', list(countries), default=['Finland'])
+    st.sidebar.markdown("# Select countries")
+    options = st.sidebar.multiselect('Countries:', list(countries), default=['Finland'])
     for new_country in options:
         new_df = get_location_values(df, new_country, startdate)
         if chart == 'new_cases' or chart == 'new_deaths':

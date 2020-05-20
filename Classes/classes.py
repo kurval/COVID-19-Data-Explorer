@@ -43,7 +43,7 @@ class Graph:
 
     def ajust_graph(self):
         formatter = FuncFormatter(format_numbers)
-        plt.xticks(fontsize=15, rotation=50, ha="right")
+        plt.xticks(fontsize=15, rotation=40, ha="right")
         plt.yticks(fontsize=15)
         self.ax.yaxis.set_major_formatter(formatter)
         self.ax.xaxis.set_major_locator(mdates.WeekdayLocator())
