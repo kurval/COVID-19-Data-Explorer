@@ -26,6 +26,7 @@ def import_data():
         QUERY)
     df = results.dataframe
     df.drop(df[df['location'] == "Cote d'Ivoire"].index, inplace=True)
+    df['date'] = pd.to_datetime(df['date'])
     return df
 
 def main():

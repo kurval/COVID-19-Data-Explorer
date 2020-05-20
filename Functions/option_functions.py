@@ -23,5 +23,5 @@ def choose_time_period(youngest):
         returntype: datetime object
     '''
     period = st.slider('Choose time period (months)', 1, 6, 1)
-    startdate = pd.to_datetime(youngest, format="%Y-%m-%d") - pd.DateOffset(months=period)
-    return startdate.date()
+    startdate = youngest - pd.DateOffset(months=period)
+    return startdate
