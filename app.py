@@ -13,7 +13,7 @@ register_matplotlib_converters()
 DATASET_ID = 'markmarkoh/coronavirus-data'
 QUERY = 'SELECT * FROM full_data'
 
-@st.cache(show_spinner=False)
+@st.cache(ttl=3600*24, show_spinner=False)
 def import_data():
     '''
     Imports data from dataworld.
@@ -35,7 +35,7 @@ def main():
 
     youngest = max(df['date'])
     image = Image.open('./Images/header.png')
-    st.image(image, use_column_width=True, caption=f"Updated: {youngest}")
+    st.image(image, use_column_width=True, caption=f"Updated: {youngest.strftime('%Y-%m-%d')}")
 
     compare_countries(df)
 
