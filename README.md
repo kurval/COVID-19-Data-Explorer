@@ -1,11 +1,17 @@
 # COVID-19-Statistics
-Try my app at: https://streamlit-corona-graph.herokuapp.com/  
-Compare corona statistics between different countries with updated data.
+My app is live at: https://streamlit-corona-graph.herokuapp.com/  
+
+# About
+Covid-19 Statistics app allows user to compare and explore different corona statistics from over 200 countries.
+This python based project was created with Streamlit’s open-source app framework.
+I used Alrair library for building interactive charts that are displayd with Vega-Lite.
 
 ## Using:
 * Streamlit
 * python3
-* pandas, matplotlib, numpy
+* altair, pandas, numpy
 * data.world's REST API
+
+Data is originally sourced from https://ourworldindata.org/coronavirus-source-data
 
 ![app_window](/Images/screenshot.png)
