@@ -1,5 +1,4 @@
 # COVID-19-Statistics
-My app is live at: https://streamlit-corona-graph.herokuapp.com/  
 
 # About
 Covid-19 Statistics app allows user to compare and explore different corona statistics from over 200 countries.
