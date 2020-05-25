@@ -1,93 +1,138 @@
 #!/usr/bin/env python3
-import matplotlib.pyplot as plt
-import matplotlib as mpl
 import pandas as pd
 import numpy as np
-from Classes.classes import Graph, format_numbers
-from Functions.option_functions import choose_chart, choose_time_period
-import colorsys
+from Functions.option_functions import choose_time_period
+from Functions.chart_configuration import set_tooltip, configure_label_bar_chart
 import streamlit as st
-from matplotlib.ticker import FuncFormatter
+import altair as alt
 
 stats = {'1':"total_cases", '2':"total_deaths", '3':"new_cases", '4':"new_deaths"}
 
-# Generates list of colors
 @st.cache(show_spinner=False)
-def get_N_HexCol(N=20):
-    HSV_tuples = [(x * 1.0 / N, 0.5, 0.5) for x in range(N)]
-    hex_out = []
-    for rgb in HSV_tuples:
-        rgb = map(lambda x: int(x * 255), colorsys.hsv_to_rgb(*rgb))
-        hex_out.append('#%02x%02x%02x' % tuple(rgb))
-    return hex_out
-
-@st.cache(show_spinner=False)
-def get_top_values(df, chart):
-    top20_values = df.groupby('location')[[chart]].sum().sort_values([chart])[-21:-1].reset_index()
+def get_top_values(df, label, date):
+    '''
+    Gets top20 sorted values from given chart and adds new date column.
+        param: dataframe, label(value), date(timestamp)
+        type: pd df object, str, datetime,  
+        return: new dataframe
+    '''
+    top20_values = df.groupby('countries')[[label]].sum().sort_values([label], ascending=False)[:20].reset_index()
+    top20_values['date'] = date
     return top20_values
 
-@st.cache(show_spinner=False)
-def get_countries(df):
-    countries = np.sort(df['location'].unique())
-    return countries
-
-@st.cache(show_spinner=False)
-def get_location_values(df, new_country, startdate):
-    new_df = df.loc[(df['location'].str.lower() == new_country.lower()) & (df['date'] >= startdate)].reset_index()
-    new_df.sort_values(by=['date'], inplace=True)
+@st.cache(allow_output_mutation=True, show_spinner=False)
+def get_values(df, startdate, chart_num):
+    '''
+    Gets all the date from selected time period.
+        param: dataframe, startdate, chart_num
+        type: pd df object, datetime, int
+        return: new dataframe
+    '''
+    if chart_num == 1:
+        new_df = df.loc[df['date'] >= startdate]
+    elif chart_num == 2:
+        new_df = df.loc[df['date'] <= startdate]
     return new_df
 
-def show_most_cases(chart_num, df):
+@st.cache(show_spinner=False)
+def modify_data(df):
     '''
-    Shows 20 countries statistic of most cases/deaths
-    Chart nums: '3':"new_cases", '4':"new_deaths"
+    Drops 'International' and 'World' columns.
+        param: dataframe
+        return: new dataframe
+    '''
+    new_df = df.drop('International', 1)
+    new_df = df.drop('World', 1)
+    return new_df
 
-        param: chart name, dataframe
-        type: str, dataframe object
+def show_most_cases(df1, df2):
     '''
-    formatter = FuncFormatter(format_numbers)
-    chart = stats[chart_num]
-    stats_name = chart.split(sep='_')[-1]
-    graph = Graph('COVID-19 ' + stats_name[:-1] + ' rate per country', 'countries', stats_name, (13,5))
-    top20 = get_top_values(df, chart)
-    values = top20[chart].apply(formatter).to_numpy()
-    top20.plot(kind='barh', color=get_N_HexCol(), width=0.85, y=chart, x='location', ax=graph.ax)
-    graph.set_info()
-    for i, country in enumerate(top20[chart]):
-        graph.ax.text(country, i, " "+values[i], va='center', fontsize=15)
-    graph.ax.legend().set_visible(False)
-    plt.yticks(fontsize=15, fontweight='bold', color='black')
-    plt.xticks(fontsize=15)
-    graph.ax.xaxis.set_major_formatter(formatter)
-    plt.tight_layout()
-    st.pyplot()
+    Creates labeled bar chart of 20 countries most cases and deaths
+        param: pd df, pd df
+        type: dataframe object
+    '''
+    df1 = modify_data(df1)
+    df2 = modify_data(df2)
+    youngest = max(df1['date'])
+    oldest = min(df1['date'])
+    slot_for_header = st.empty()
+    slot_for_date = st.empty()
+    startdate, period = choose_time_period(youngest, 2, oldest)
+    date = startdate.strftime('%Y-%m-%d')
+    slot_for_header.markdown('## COVID-19 cases and deaths in the worst-hit countries')
+    slot_for_date.markdown(f'***Date {date}***')
 
-def compare_countries(df):
+    chart1 = stats['3']
+    label1 = chart1.split(sep='_')[-1]
+
+    chart2 = stats['4']
+    label2 = chart2.split(sep='_')[-1]
+
+    new_df1 = get_values(df1, startdate, 2)
+    new_df2 = get_values(df2, startdate, 2)
+
+    long_format1 = new_df1.melt('date', var_name='countries', value_name=label1)
+    long_format2 = new_df2.melt('date', var_name='countries', value_name=label2)
+
+    top20_cases = get_top_values(long_format1, label1, date)
+    top20_deaths = get_top_values(long_format2, label2, date)
+
+    fig1 = configure_label_bar_chart(top20_cases, label1)
+    fig2 = configure_label_bar_chart(top20_deaths, label2)
+    
+    st.altair_chart(fig1, use_container_width=True)
+    st.altair_chart(fig2, use_container_width=True)
+
+def compare_countries(df, chart_num):
     '''
-    Allows user to choose time period of the graph 1 ,3 ,5 months.
-    User can choose countries to graph from 210 countries.
+    Allows user to choose time period and countries for the graph.
     User can also choose statistics type from 1=total_cases, 2=total_deaths, 3=new_cases, 4=new_deaths.
     Depending statistics type grap is bar graph (3,4) or line graph (1,2)
 
-        param: dataframe
-        type: dataframe object
+        param: dataframe, chart num
+        type: dataframe object, str
     '''
-    countries = get_countries(df)
+    countries = df.columns[1:]
     youngest = max(df['date'])
-    chart = stats[choose_chart()]
     # Reordering figure to show here
     slot_for_graph = st.empty()
-    startdate = choose_time_period(youngest)
-    ylabel = chart.split(sep='_')[-1]
-    new_graph = Graph(chart.replace('_', ' ').title(), ylabel, 'date', (15,7))
-    new_graph.set_info()
+    slot_for_checkbox = st.empty()
+
+    startdate, period = choose_time_period(youngest, 1)
     st.sidebar.markdown("# Select countries")
     options = st.sidebar.multiselect('Countries:', list(countries), default=['Finland'])
-    for new_country in options:
-        new_df = get_location_values(df, new_country, startdate)
-        if chart == 'new_cases' or chart == 'new_deaths':
-            new_graph.ax.bar(new_df['date'], new_df[chart], align='edge', alpha=0.5, label=new_country.title())
-        else:
-            new_graph.ax.plot(new_df['date'], new_df[chart], marker='.', label=new_country.title(), linewidth=2, markersize=12)
-    new_graph.ajust_graph()
-    slot_for_graph.pyplot()
+    options.insert(0, 'date')
+    new_df = df[options]
+    new_df = get_values(new_df, startdate, 1)
+
+    label = stats[chart_num].split(sep='_')[-1]
+    long_format = new_df.melt('date', var_name='countries', value_name=label)
+
+    if chart_num == '3' or chart_num == '4':
+        stack = slot_for_checkbox.checkbox("Stack values", value=True) if len(options) > 2 else False
+        bar_size = 15 if period == 1 else 7 if period == 2 else 5
+        chart = alt.Chart(long_format).mark_bar(opacity=0.7, size=bar_size).encode(
+            alt.X("date:T", title="Date"),
+            alt.Y(label + ':Q', stack=stack, title=label.title()),
+            color='countries:N',
+            tooltip=[alt.Tooltip('countries', title='country'),
+                alt.Tooltip('date'),
+                alt.Tooltip(label, format=",.0f")]
+        ).configure_axis(
+            labelFontSize=11,
+            titleFontSize=15,
+        ).configure_axisX(
+            labelAngle=-30
+        ).configure_legend(
+            titleFontSize=13,
+            labelFontSize=12,
+        ).properties(height=350).interactive()
+    else:
+        chart = alt.Chart(long_format).mark_line(interpolate='basis').encode(
+            x = alt.X("date:T", title="Date"),
+            y = alt.Y(label + ':Q', title=label.title()),
+            color='countries:N',
+        ).properties(height=350)
+        chart = set_tooltip(long_format, chart, label)
+
+    slot_for_graph.altair_chart(chart, use_container_width=True)

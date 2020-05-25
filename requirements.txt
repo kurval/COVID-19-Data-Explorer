@@ -1,7 +1,7 @@
-datadotworld==1.7.0
 pandas==1.0.3
-matplotlib==3.2.1
+altair==4.1.0
 click==7.1.2
-numpy==1.18.4
 streamlit==0.60.0
+numpy==1.18.4
+datadotworld==1.7.0
 Pillow==7.1.2
