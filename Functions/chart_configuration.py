@@ -82,7 +82,7 @@ def configure_label_bar_chart(data, label):
         baseline='middle',
         dx=3,  # Nudges text to right so it doesn't appear on top of the bar
     ).encode(
-        text=alt.Text(label, format=",.2s")
+        text='formatted'
     )
     
     fig = (bars + text).configure_axis(

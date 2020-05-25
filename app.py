@@ -25,6 +25,7 @@ def modify_data(df):
     df = df.rename(columns={'Date': 'date'})
     return df
 
+# Cache of one day
 @st.cache(ttl=3600*24, show_spinner=False)
 def import_data():
     '''
@@ -72,8 +73,8 @@ def main():
     st.sidebar.markdown("# Tips")
     st.sidebar.info("**Choose statistics from the select box and use sidebar to select countries. \
     You can compare countries by selecting multiple options. \
-    Adjust time period from one to six months by dragging the slider or just clicking it. \
-    Click on the right corner of the fiqure to view fullscreen.**")
+    Adjust time period by dragging the slider or just clicking it. \
+    You can save your chart by clicking from the three dots on the right corner of the fiqure**")
 
     show_most_cases(new_cases, new_deaths)
 

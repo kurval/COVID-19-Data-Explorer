@@ -8,15 +8,21 @@ import altair as alt
 
 stats = {'1':"total_cases", '2':"total_deaths", '3':"new_cases", '4':"new_deaths"}
 
+def format_numbers(x):
+    if x >= 1000000:
+        return '{:1.1f} M'.format(x*1e-6)
+    return '{:,}'.format(int(x), ',')
+
 @st.cache(show_spinner=False)
 def get_top_values(df, label, date):
     '''
-    Gets top20 sorted values from given chart and adds new date column.
+    Gets top20 sorted values from given chart and adds new date and formattes columns.
         param: dataframe, label(value), date(timestamp)
         type: pd df object, str, datetime,  
         return: new dataframe
     '''
     top20_values = df.groupby('countries')[[label]].sum().sort_values([label], ascending=False)[:20].reset_index()
+    top20_values['formatted'] = top20_values[label].apply(format_numbers)
     top20_values['date'] = date
     return top20_values
 
@@ -108,7 +114,14 @@ def compare_countries(df, chart_num):
     label = stats[chart_num].split(sep='_')[-1]
     long_format = new_df.melt('date', var_name='countries', value_name=label)
 
-    if chart_num == '3' or chart_num == '4':
+    if chart_num == '1' or chart_num == '2':
+        chart = alt.Chart(long_format).mark_line(interpolate='basis').encode(
+            x = alt.X("date:T", title="Date"),
+            y = alt.Y(label + ':Q', title=label.title()),
+            color='countries:N',
+        ).properties(height=350)
+        chart = set_tooltip(long_format, chart, label)
+    else:
         stack = slot_for_checkbox.checkbox("Stack values", value=True) if len(options) > 2 else False
         bar_size = 15 if period == 1 else 7 if period == 2 else 5
         chart = alt.Chart(long_format).mark_bar(opacity=0.7, size=bar_size).encode(
@@ -127,12 +140,5 @@ def compare_countries(df, chart_num):
             titleFontSize=13,
             labelFontSize=12,
         ).properties(height=350).interactive()
-    else:
-        chart = alt.Chart(long_format).mark_line(interpolate='basis').encode(
-            x = alt.X("date:T", title="Date"),
-            y = alt.Y(label + ':Q', title=label.title()),
-            color='countries:N',
-        ).properties(height=350)
-        chart = set_tooltip(long_format, chart, label)
 
     slot_for_graph.altair_chart(chart, use_container_width=True)
