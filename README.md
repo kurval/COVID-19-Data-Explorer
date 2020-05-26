@@ -1,4 +1,5 @@
 # COVID-19-Statistics
+App is live at: https://www.covid19dataexplorer.com/
 
 # About
 Covid-19 Statistics app allows user to compare and explore different corona statistics from over 200 countries.
