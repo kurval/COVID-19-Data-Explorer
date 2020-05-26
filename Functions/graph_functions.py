@@ -123,8 +123,8 @@ def compare_countries(df, chart_num):
         chart = set_tooltip(long_format, chart, label)
     else:
         stack = slot_for_checkbox.checkbox("Stack values", value=True) if len(options) > 2 else False
-        bar_size = 15 if period == 1 else 7 if period == 2 else 5
-        chart = alt.Chart(long_format).mark_bar(opacity=0.7, size=bar_size).encode(
+        bar_size = {'1':15, '2':7, '3':5, '4':4, '5':3, '6':2}
+        chart = alt.Chart(long_format).mark_bar(opacity=0.7, size=bar_size[str(period)]).encode(
             alt.X("date:T", title="Date"),
             alt.Y(label + ':Q', stack=stack, title=label.title()),
             color='countries:N',
