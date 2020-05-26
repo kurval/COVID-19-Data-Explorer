@@ -69,9 +69,10 @@ def main():
 
     chart = choose_chart()
     compare_countries(stats[chart], chart)
+    st.info("ℹ️ You can select countries from the sidebar on the left corner.")
 
     st.sidebar.markdown("# Tips")
-    st.sidebar.info("**Choose statistics from the select box and use sidebar to select countries. \
+    st.sidebar.info("**Choose statistics from the select box and use sidebar to select or deselect countries. \
     You can compare countries by selecting multiple options. \
     Adjust time period by dragging the slider or just clicking it. \
     You can save your chart by clicking from the three dots on the right corner of the fiqure.**")
