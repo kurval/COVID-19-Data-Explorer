@@ -83,8 +83,8 @@ def show_most_cases(df1, df2):
     top20_cases = get_top_values(long_format1, label1, date)
     top20_deaths = get_top_values(long_format2, label2, date)
 
-    fig1 = configure_label_bar_chart(top20_cases, label1)
-    fig2 = configure_label_bar_chart(top20_deaths, label2)
+    fig1 = configure_label_bar_chart(top20_cases, label1, 1)
+    fig2 = configure_label_bar_chart(top20_deaths, label2, 2)
     
     st.altair_chart(fig1, use_container_width=True)
     st.altair_chart(fig2, use_container_width=True)
