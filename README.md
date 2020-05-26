@@ -1,8 +1,8 @@
-# COVID-19-Statistics
+# Covid-19 Data Explorer
 App is live at: https://www.covid19dataexplorer.com/
 
 # About
-Covid-19 Statistics app allows user to compare and explore different corona statistics from over 200 countries.
+Covid-19 Data Explorer -app allows user to compare and explore different corona statistics from over 200 countries.
 This python based project was created with Streamlit’s open-source app framework.
 I used Alrair library for building interactive charts that are displayd with Vega-Lite.
 
