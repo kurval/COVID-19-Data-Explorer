@@ -59,7 +59,7 @@ def get_world_data(df):
 
 def show_most_cases(df1, df2):
     '''
-    Creates labeled bar chart of 20 countries most cases and deaths
+    Creates labeled bar charts of 20 countries most cases and deaths
         param: pd df, pd df
         type: dataframe object
     '''
@@ -71,14 +71,13 @@ def show_most_cases(df1, df2):
     slot_for_date = st.empty()
     startdate, period = choose_time_period(youngest, 2, oldest)
     date = startdate.strftime('%Y-%m-%d')
-    slot_for_header.markdown('## COVID-19: total cases and deaths in the worst-hit countries')
     slot_for_date.markdown(f'***Date {date}***')
 
     chart1 = stats['3']
-    label1 = chart1.split(sep='_')[-1]
+    label1 = chart1.replace('_', ' ')
 
     chart2 = stats['4']
-    label2 = chart2.split(sep='_')[-1]
+    label2 = chart2.replace('_', ' ')
 
     long_format1 = get_values(df1, startdate, 2, label1)
     long_format2 = get_values(df2, startdate, 2, label2)
@@ -112,7 +111,8 @@ def compare_countries(df, chart_num):
     options = st.sidebar.multiselect('Countries:', list(countries), default=['Finland'])
     options.insert(0, 'date')
     new_df = df[options]
-    label = stats[chart_num].split(sep='_')[-1]
+    
+    label = stats[chart_num].replace('_', ' ')
     long_format = get_values(new_df, startdate, 1, label)
 
     if chart_num == '1' or chart_num == '2':
@@ -145,14 +145,12 @@ def compare_countries(df, chart_num):
     slot_for_graph.altair_chart(chart, use_container_width=True)
 
 def show_world_scatter(df):
-    st.markdown('## COVID-19: new cases worldwide 🌐')
-    st.write('')
     world_data = get_world_data(df)
 
     cases_scale = max(world_data['World'])
     date_scale = max(world_data['date'])
     oldest = min(world_data['date'])
-    label = 'cases'
+    label = 'new cases'
     
     SCALEY=alt.Scale(domain=(0, cases_scale+10000))
     SCALEX=alt.Scale(domain=(oldest, (date_scale + pd.DateOffset(days=3))))

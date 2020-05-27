@@ -16,6 +16,10 @@ T_DEATHS = 'SELECT * FROM total_deaths'
 
 @st.cache(show_spinner=False)
 def modify_data(df):
+    '''
+    Reformat column names and set date column to datetime type.
+    Also converts all the other columns to numeric type(float).
+    '''
     df.fillna(0, inplace=True)
     cols = df.columns
     df[cols[1:]] = df[cols[1:]].apply(pd.to_numeric)
@@ -63,24 +67,33 @@ def main():
         new_cases, new_deaths, total_cases, total_deaths  = import_data()
     stats = {'1':total_cases, '2':total_deaths, '3':new_cases, '4':new_deaths}
 
+    # Header image with timestamp
     youngest = max(new_cases['date'])
     image = Image.open('./Images/header.png')
     st.image(image, use_column_width=True, caption=f"Updated: {youngest.strftime('%Y-%m-%d')}")
 
+    # Compare countries chart
     chart = choose_chart()
     compare_countries(stats[chart], chart)
     st.info("ℹ️ You can select countries from the sidebar on the left corner.")
 
+    # Sidebar info
     st.sidebar.markdown("# Tips")
     st.sidebar.info("**Choose statistics from the select box and use sidebar to select or deselect countries. \
     You can compare countries by selecting multiple options. \
-    Adjust time period by dragging the slider or just clicking it. \
-    You can save your chart by clicking from the three dots on the right corner of the fiqure.**")
+    Adjust time period by dragging the slider or just clicking it.\
+    Hover over each line/block to see the values.**")
 
+    # Worst-hit countries charts
+    st.markdown('## COVID-19: total cases and deaths in the worst-hit countries')
     show_most_cases(new_cases, new_deaths)
 
+    # World scatter plot
+    st.markdown('## COVID-19: new cases worldwide 🌐')
+    st.markdown("Hover over each circle to see the values")
     show_world_scatter(new_cases)
 
+    # Footer info
     st.info("by: V.Kurkela | source: [Github](https://github.com/kurval/COVID-19-Statistics) |\
     data source: [Dataworld](https://data.world/markmarkoh/coronavirus-data) \
     (orginally: [Ourworldindata](https://ourworldindata.org/coronavirus-source-data))")

@@ -63,9 +63,9 @@ def set_tooltip(long_format, line, label):
 def configure_label_bar_chart(data, label, key):
     '''
     Configurations for label bar chart.
-        param: dataframe, label(value)
-        type: pd df object, str
-        return: altair chart 
+        param: dataframe, label(value), key 1=most cases 2=most deaths
+        type: pd df object, str, int
+        return: altair chart
     '''
     margin = 100000 if key == 1 else 10000
     SCALE=alt.Scale(domain=(0, int(max(data[label])) + margin))
