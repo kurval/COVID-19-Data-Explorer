@@ -2,7 +2,7 @@
 import datadotworld as dw
 import pandas as pd
 import numpy as np
-from Functions.graph_functions import show_most_cases, compare_countries
+from Functions.graph_functions import show_most_cases, compare_countries, show_world_scatter
 from Functions.option_functions import choose_chart
 import streamlit as st
 import click
@@ -78,6 +78,8 @@ def main():
     You can save your chart by clicking from the three dots on the right corner of the fiqure.**")
 
     show_most_cases(new_cases, new_deaths)
+
+    show_world_scatter(new_cases)
 
     st.info("by: V.Kurkela | source: [Github](https://github.com/kurval/COVID-19-Statistics) |\
     data source: [Dataworld](https://data.world/markmarkoh/coronavirus-data) \
