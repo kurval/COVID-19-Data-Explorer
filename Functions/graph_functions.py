@@ -157,12 +157,13 @@ def show_world_scatter(df):
     SCALEY=alt.Scale(domain=(0, cases_scale+10000))
     SCALEX=alt.Scale(domain=(oldest, (date_scale + pd.DateOffset(days=3))))
     
-    base = alt.Chart(world_data).mark_circle(size=150, opacity=0.5, color='orange').transform_fold(
+    base = alt.Chart(world_data).mark_circle(size=150, opacity=0.5).transform_fold(
         fold=['World'],
         as_=['cases', 'y']
     ).encode(
         x= alt.X('date:T', scale=SCALEX, title='Date'),
         y= alt.Y('y:Q', scale=SCALEY, title=label.title()),
+        fill=alt.Color('World:Q'),
         tooltip=[alt.Tooltip('date'),
             alt.Tooltip('World', format=",.0f", title=label)]
     )
