@@ -73,10 +73,10 @@ def show_most_cases(df1, df2):
     date = startdate.strftime('%Y-%m-%d')
     slot_for_date.markdown(f'***Date {date}***')
 
-    chart1 = stats['3']
+    chart1 = stats['1']
     label1 = chart1.replace('_', ' ')
 
-    chart2 = stats['4']
+    chart2 = stats['2']
     label2 = chart2.replace('_', ' ')
 
     long_format1 = get_values(df1, startdate, 2, label1)
