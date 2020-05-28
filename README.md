@@ -6,6 +6,13 @@ Covid-19 Data Explorer -app allows user to compare and explore different corona 
 This python based project was created with Streamlit’s open-source app framework.
 I used Alrair library for building interactive charts that are displayd with Vega-Lite.
 
+# Statistics
+**These statistics includes:**
+* Total confirmed cases
+* Total deaths
+* New confirmed cases
+* New deaths
+
 ## Using:
 * Streamlit
 * python3
