@@ -48,8 +48,7 @@ def modify_data(df):
         param: dataframe
         return: new dataframe
     '''
-    new_df = df.drop('International', 1)
-    new_df = df.drop('World', 1)
+    new_df = df.drop(['International', 'World'], 1)
     return new_df
 
 @st.cache(show_spinner=False)
