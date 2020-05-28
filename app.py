@@ -85,11 +85,11 @@ def main():
     Hover over each line/block to see the values.**")
 
     # Worst-hit countries charts
-    st.markdown('## COVID-19: total cases and deaths in the worst-hit countries')
+    st.markdown('## COVID-19: total confirmed cases and deaths in the worst-hit countries')
     show_most_cases(new_cases, new_deaths)
 
     # World scatter plot
-    st.markdown('## COVID-19: new cases worldwide 🌐')
+    st.markdown('## COVID-19: new confirmed cases worldwide 🌐')
     st.markdown("Hover over each circle to see the values")
     show_world_scatter(new_cases)
 
