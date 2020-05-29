@@ -67,11 +67,12 @@ def configure_label_bar_chart(data, label, key):
         type: pd df object, str, int
         return: altair chart
     '''
-    margin = 100000 if key == 1 else 10000
+    margin = 100000 if key == '3' else 10000
     SCALE=alt.Scale(domain=(0, int(max(data[label])) + margin))
 
+    label_title = 'total cases' if key == 3 else 'total deaths'
     bars = alt.Chart(data).mark_bar().encode(
-        x= alt.X(label + ':Q', title=label.title(), scale=SCALE),
+        x= alt.X(label + ':Q', title=label_title.title(), scale=SCALE),
         y=alt.Y('countries:N', sort='-x', title='Countries'),
         color=alt.Color('countries:N', legend=None, scale=alt.Scale(range=get_N_HexCol())),
         tooltip=[alt.Tooltip('date:T'),

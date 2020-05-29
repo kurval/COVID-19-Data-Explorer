@@ -3,7 +3,7 @@ import datadotworld as dw
 import pandas as pd
 import numpy as np
 from Functions.graph_functions import show_most_cases, compare_countries, show_world_scatter
-from Functions.option_functions import choose_chart
+from Functions.option_functions import choose_chart, choose_time_period
 import streamlit as st
 import click
 from PIL import Image
@@ -15,7 +15,7 @@ T_CASES = 'SELECT * FROM total_cases'
 T_DEATHS = 'SELECT * FROM total_deaths'
 
 @st.cache(show_spinner=False)
-def modify_data(df):
+def format_data(df, label):
     '''
     Reformat column names and set date column to datetime type.
     Also converts all the other columns to numeric type(float).
@@ -27,7 +27,8 @@ def modify_data(df):
     df = df.rename(columns=lambda x: x.replace('_', ' '))
     df.columns = map(str.title, df.columns)
     df = df.rename(columns={'Date': 'date'})
-    return df
+    long_format = df.melt('date', var_name='countries', value_name=label)
+    return long_format
 
 # Cache for 12 hours
 @st.cache(ttl=3600*12, show_spinner=False)
@@ -56,10 +57,10 @@ def import_data():
         T_DEATHS)
     total_deaths = res_t_deaths.dataframe
 
-    new_cases = modify_data(new_cases)
-    new_deaths = modify_data(new_deaths)
-    total_cases = modify_data(total_cases)
-    total_deaths = modify_data(total_deaths)
+    new_cases = format_data(new_cases, 'new cases')
+    new_deaths = format_data(new_deaths, 'new deaths')
+    total_cases = format_data(total_cases, 'total cases')
+    total_deaths = format_data(total_deaths, 'total deaths')
     return new_cases, new_deaths, total_cases, total_deaths
 
 def main():
@@ -86,7 +87,12 @@ def main():
 
     # Worst-hit countries charts
     st.markdown('## COVID-19: total confirmed cases and deaths in the worst-hit countries')
-    show_most_cases(new_cases, new_deaths)
+    slot_for_date = st.empty()
+    startdate, period = choose_time_period(max(new_cases['date']), 2, min(new_cases['date']))
+    date = startdate.strftime('%Y-%m-%d')
+    slot_for_date.markdown(f'***Date {date}***')
+    show_most_cases(new_cases, startdate, '3')
+    show_most_cases(new_deaths, startdate, '4')
 
     # World scatter plot
     st.markdown('## COVID-19: new confirmed cases worldwide 🌐')
