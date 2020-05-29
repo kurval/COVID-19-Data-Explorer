@@ -17,13 +17,26 @@ T_DEATHS = 'SELECT * FROM total_deaths'
 
 labels = {'1':'total cases', '2':'total deaths', '3':'new cases', '4':'new deaths'}
 
+
+@st.cache(show_spinner=False)
+def modify_data(df, label):
+    '''
+    Creates new column with logarithmic scale.
+    '''
+    df['log_value'] = np.log(df[label], where=0<df[label], out=np.zeros_like(df[label]))
+    return df
+
 @st.cache(show_spinner=False)
 def format_data(df, label):
     '''
     Reformat column names and set date column to datetime type.
     Also converts all the other columns to numeric type(float).
+    Nan values filled with 0 or preceding values depens on chart type.
     '''
-    df.fillna(0, inplace=True)
+    if label == 'total cases' or label == 'total deaths':
+        df.fillna(method='ffill', inplace=True)
+    else:
+        df.fillna(0, inplace=True)
     cols = df.columns
     df[cols[1:]] = df[cols[1:]].apply(pd.to_numeric)
     df['date'] = pd.to_datetime(df['date'])
@@ -62,8 +75,13 @@ def import_data():
 
     new_cases = format_data(new_cases, labels['3'])
     new_deaths = format_data(new_deaths, labels['4'])
+
     total_cases = format_data(total_cases, labels['1'])
+    total_cases = modify_data(total_cases, labels['1'])
+
     total_deaths = format_data(total_deaths, labels['2'])
+    total_deaths = modify_data(total_deaths, labels['2'])
+    
     return new_cases, new_deaths, total_cases, total_deaths
 
 def main():
@@ -81,6 +99,9 @@ def main():
     df = stats[chart]
     countries = df['countries'].unique()
     youngest = max(df['date'])
+    log = False
+    if chart == '1' or chart == '2':
+        log = st.checkbox("Logarithmic scale", value=False)
     # Reordering figure to show here
     slot_for_graph = st.empty()
     slot_for_checkbox = st.empty()
@@ -88,7 +109,7 @@ def main():
     startdate, period = choose_time_period(youngest, 1)
     st.sidebar.markdown("# Select countries")
     options = st.sidebar.multiselect('Countries:', list(countries), default=['Finland'])
-    fig = compare_countries(df, labels[chart], startdate, options, period)
+    fig = compare_countries(df, labels[chart], startdate, options, period, log)
     slot_for_graph.altair_chart(fig, use_container_width=True)
 
     st.info("ℹ️ You can select countries from the sidebar on the left corner.")

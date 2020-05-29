@@ -41,7 +41,7 @@ def get_top_values(df, label, date):
 @st.cache(allow_output_mutation=True, show_spinner=False)
 def get_values(df, startdate, chart_num, label):
     '''
-    Gets all the date from selected time period.
+    Gets all the data from selected time period.
         param: dataframe, startdate, label
         type: pd df object, datetime, str
         return: new dataframe
@@ -55,7 +55,7 @@ def get_values(df, startdate, chart_num, label):
 @st.cache(show_spinner=False)
 def modify_data(df):
     '''
-    Drops 'International' and 'World' columns.
+    Filter out 'International' and 'World'.
         param: dataframe
         return: new dataframe
     '''
@@ -69,13 +69,6 @@ def get_world_data(df):
     '''
     new_df = df[(df['countries'] == 'World')]
     return new_df
-
-'''
-@st.cache(show_spinner=False)
-def get_log_scale(df, label):
-    df['log_value'] = np.log(df[label], where=0<df[label], out=np.zeros_like(df[label]))
-    return df
-'''
 
 def show_most_cases(df, startdate, label):
     '''
@@ -123,7 +116,7 @@ def show_most_cases(df, startdate, label):
 
     return fig
 
-def compare_countries(df, label, startdate, options, period):
+def compare_countries(df, label, startdate, options, period, log):
     '''
     Allows user to choose time period and countries for the graph.
     User can also choose statistics type from 1=total_cases, 2=total_deaths, 3=new_cases, 4=new_deaths.
@@ -136,17 +129,11 @@ def compare_countries(df, label, startdate, options, period):
     new_df = df.loc[df['countries'].isin(options)]
     new_df = get_values(new_df, startdate, 1, label)
 
+    y_value = 'log_value' if log else label
     if label == 'total cases' or label == 'total deaths':
-        '''
-        log = st.checkbox("Logarithmic scale", value=False)
-        if log:
-            long_format = get_log_scale(long_format, label)
-            label = 'log_value'
-        print(long_format.head())
-        '''
         chart = alt.Chart(new_df).mark_line(interpolate='basis').encode(
             x = alt.X("date:T", title="Date"),
-            y = alt.Y(label + ':Q', title=label.title()),
+            y = alt.Y(y_value + ':Q', title=label.title()),
             color='countries:N',
         ).properties(height=350)
         chart = set_tooltip(new_df, chart, label)
@@ -155,7 +142,7 @@ def compare_countries(df, label, startdate, options, period):
         bar_size = {'1':15, '2':7, '3':5, '4':4, '5':3, '6':2}
         chart = alt.Chart(new_df).mark_bar(opacity=0.7, size=bar_size[str(period)]).encode(
             alt.X("date:T", title="Date"),
-            alt.Y(label + ':Q', stack=stack, title=label.title()),
+            alt.Y(y_value + ':Q', stack=stack, title=label.title()),
             color='countries:N',
             tooltip=[alt.Tooltip('countries', title='country'),
                 alt.Tooltip('date'),
