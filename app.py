@@ -5,6 +5,7 @@ import numpy as np
 from Functions.graph_functions import show_most_cases, compare_countries, show_world_scatter
 from Functions.option_functions import choose_chart, choose_time_period
 import streamlit as st
+import altair as alt
 import click
 from PIL import Image
 
@@ -13,6 +14,8 @@ N_CASES = 'SELECT * FROM new_cases'
 N_DEATHS = 'SELECT * FROM new_deaths'
 T_CASES = 'SELECT * FROM total_cases'
 T_DEATHS = 'SELECT * FROM total_deaths'
+
+labels = {'1':'total cases', '2':'total deaths', '3':'new cases', '4':'new deaths'}
 
 @st.cache(show_spinner=False)
 def format_data(df, label):
@@ -57,10 +60,10 @@ def import_data():
         T_DEATHS)
     total_deaths = res_t_deaths.dataframe
 
-    new_cases = format_data(new_cases, 'new cases')
-    new_deaths = format_data(new_deaths, 'new deaths')
-    total_cases = format_data(total_cases, 'total cases')
-    total_deaths = format_data(total_deaths, 'total deaths')
+    new_cases = format_data(new_cases, labels['3'])
+    new_deaths = format_data(new_deaths, labels['4'])
+    total_cases = format_data(total_cases, labels['1'])
+    total_deaths = format_data(total_deaths, labels['2'])
     return new_cases, new_deaths, total_cases, total_deaths
 
 def main():
@@ -75,7 +78,19 @@ def main():
 
     # Compare countries chart
     chart = choose_chart()
-    compare_countries(stats[chart], chart)
+    df = stats[chart]
+    countries = df['countries'].unique()
+    youngest = max(df['date'])
+    # Reordering figure to show here
+    slot_for_graph = st.empty()
+    slot_for_checkbox = st.empty()
+
+    startdate, period = choose_time_period(youngest, 1)
+    st.sidebar.markdown("# Select countries")
+    options = st.sidebar.multiselect('Countries:', list(countries), default=['Finland'])
+    fig = compare_countries(df, labels[chart], startdate, options, period)
+    slot_for_graph.altair_chart(fig, use_container_width=True)
+
     st.info("ℹ️ You can select countries from the sidebar on the left corner.")
 
     # Sidebar info
@@ -91,13 +106,17 @@ def main():
     startdate, period = choose_time_period(max(new_cases['date']), 2, min(new_cases['date']))
     date = startdate.strftime('%Y-%m-%d')
     slot_for_date.markdown(f'***Date {date}***')
-    show_most_cases(new_cases, startdate, '3')
-    show_most_cases(new_deaths, startdate, '4')
+
+    fig1 = show_most_cases(new_cases, startdate, labels['3'])
+    st.altair_chart(fig1, use_container_width=True)
+    fig2 = show_most_cases(new_deaths, startdate, labels['4'])
+    st.altair_chart(fig2, use_container_width=True)
 
     # World scatter plot
     st.markdown('## COVID-19: new confirmed cases worldwide 🌐')
     st.markdown("Hover over each circle to see the values")
-    show_world_scatter(new_cases)
+    fig = show_world_scatter(new_cases, labels['3'])
+    st.altair_chart(fig, use_container_width=True)
 
     # Footer info
     st.info("by: V.Kurkela | source: [Github](https://github.com/kurval/COVID-19-Statistics) |\

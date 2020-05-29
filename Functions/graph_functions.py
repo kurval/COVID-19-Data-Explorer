@@ -2,11 +2,23 @@
 import pandas as pd
 import numpy as np
 from Functions.option_functions import choose_time_period
-from Functions.chart_configuration import set_tooltip, configure_label_bar_chart
+from Functions.chart_configuration import set_tooltip
 import streamlit as st
 import altair as alt
+import colorsys
+import random
 
-stats = {'1':"total_cases", '2':"total_deaths", '3':"new_cases", '4':"new_deaths"}
+@st.cache(show_spinner=False)
+def get_N_HexCol(N=20):
+    '''
+    Generates list of colors
+    '''
+    HSV_tuples = [(x * 1.0 / N, 0.6, 0.6) for x in range(N)]
+    hex_out = []
+    for rgb in HSV_tuples:
+        rgb = map(lambda x: int(x * 255), colorsys.hsv_to_rgb(*rgb))
+        hex_out.append('#%02x%02x%02x' % tuple(rgb))
+    return hex_out
 
 def format_numbers(x):
     if x >= 1000000:
@@ -30,8 +42,8 @@ def get_top_values(df, label, date):
 def get_values(df, startdate, chart_num, label):
     '''
     Gets all the date from selected time period.
-        param: dataframe, startdate, chart_num
-        type: pd df object, datetime, int
+        param: dataframe, startdate, label
+        type: pd df object, datetime, str
         return: new dataframe
     '''
     if chart_num == 1:
@@ -52,54 +64,79 @@ def modify_data(df):
 
 @st.cache(show_spinner=False)
 def get_world_data(df):
-    new_df = df[(df.countries == 'World')]
+    '''
+    Return only world data in new data frame
+    '''
+    new_df = df[(df['countries'] == 'World')]
     return new_df
+
 '''
 @st.cache(show_spinner=False)
 def get_log_scale(df, label):
     df['log_value'] = np.log(df[label], where=0<df[label], out=np.zeros_like(df[label]))
     return df
 '''
-def show_most_cases(df, startdate, stats_num):
+
+def show_most_cases(df, startdate, label):
     '''
     Creates labeled bar charts of 20 countries most cases and deaths
-        param: pd df, pd df
+        param: pd df, startdate, label
         type: dataframe object
     '''
     df = modify_data(df)
-    chart = stats[stats_num]
-    label = chart.replace('_', ' ')
     df = get_values(df, startdate, 2, label)
 
     top20_cases = get_top_values(df, label, startdate)
-    fig = configure_label_bar_chart(top20_cases, label, stats_num)
-    st.altair_chart(fig, use_container_width=True)
+    margin = 100000 if label == 'new cases' else 10000
+    SCALE=alt.Scale(domain=(0, int(max(top20_cases[label])) + margin))
 
-def compare_countries(df, chart_num):
+    label_title = 'total cases' if label == 'new cases' else 'total deaths'
+    bars = alt.Chart(top20_cases).mark_bar().encode(
+        x= alt.X(label + ':Q', title=label_title.title(), scale=SCALE),
+        y=alt.Y('countries:N', sort='-x', title='Countries'),
+        color=alt.Color('countries:N', legend=None, scale=alt.Scale(range=get_N_HexCol())),
+        tooltip=[alt.Tooltip('date:T'),
+            alt.Tooltip('countries', title='country'),
+            alt.Tooltip(label, format=",.0f")],
+    )
+
+    text = bars.mark_text(
+        fontSize=13,
+        align='left',
+        baseline='middle',
+        dx=3,  # Nudges text to right so it doesn't appear on top of the bar
+    ).encode(
+        text='formatted'
+    )
+    
+    fig = (bars + text).configure_axis(
+        labelFontSize=11,
+        titleFontSize=15,
+    ).configure_axisY(
+        labelFontSize=12,
+        labelFontWeight='bold'
+    ).configure_axisX(
+        labelAngle=-30
+    ).properties(
+        height=520
+    ).interactive()
+
+    return fig
+
+def compare_countries(df, label, startdate, options, period):
     '''
     Allows user to choose time period and countries for the graph.
     User can also choose statistics type from 1=total_cases, 2=total_deaths, 3=new_cases, 4=new_deaths.
     Depending statistics type grap is bar graph (3,4) or line graph (1,2)
 
-        param: dataframe, chart num
-        type: dataframe object, str
+        param: dataframe, label, startdate, options(countries), period
+        type: dataframe object, str, datetime, list(str), int 
     '''
-    countries = df['countries'].unique()
-    youngest = max(df['date'])
-    # Reordering figure to show here
-    slot_for_graph = st.empty()
-    slot_for_checkbox = st.empty()
-
-    startdate, period = choose_time_period(youngest, 1)
-    st.sidebar.markdown("# Select countries")
-    options = st.sidebar.multiselect('Countries:', list(countries), default=['Finland'])
-    new_df = df['date']
-    new_df = df.loc[df['countries'].isin(options)]
     
-    label = stats[chart_num].replace('_', ' ')
+    new_df = df.loc[df['countries'].isin(options)]
     new_df = get_values(new_df, startdate, 1, label)
 
-    if chart_num == '1' or chart_num == '2':
+    if label == 'total cases' or label == 'total deaths':
         '''
         log = st.checkbox("Logarithmic scale", value=False)
         if log:
@@ -133,15 +170,16 @@ def compare_countries(df, chart_num):
             labelFontSize=12,
         ).properties(height=350).interactive()
 
-    slot_for_graph.altair_chart(chart, use_container_width=True)
+    return chart
 
-def show_world_scatter(df):
-    label = 'new cases'
+def show_world_scatter(df, label):
+    '''
+    Creates scatter plot with LOESS lines
+    '''
     world_data = get_world_data(df)
     cases_scale = max(world_data[label])
     date_scale = max(world_data['date'])
     oldest = min(world_data['date'])
-    
     SCALEY=alt.Scale(domain=(0, cases_scale+10000))
     SCALEX=alt.Scale(domain=(oldest, (date_scale + pd.DateOffset(days=3))))
     
@@ -167,4 +205,4 @@ def show_world_scatter(df):
         labelAngle=-30
     ).properties(height=350).interactive()
 
-    st.altair_chart(chart, use_container_width=True)
+    return chart

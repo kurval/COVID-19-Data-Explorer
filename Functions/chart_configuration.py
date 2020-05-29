@@ -1,18 +1,5 @@
 import altair as alt
 import pandas as pd
-import streamlit as st
-import colorsys
-import random
-
-# Generates list of colors
-@st.cache(show_spinner=False)
-def get_N_HexCol(N=20):
-    HSV_tuples = [(x * 1.0 / N, 0.6, 0.6) for x in range(N)]
-    hex_out = []
-    for rgb in HSV_tuples:
-        rgb = map(lambda x: int(x * 255), colorsys.hsv_to_rgb(*rgb))
-        hex_out.append('#%02x%02x%02x' % tuple(rgb))
-    return hex_out
 
 def set_tooltip(long_format, line, label):
     '''
@@ -59,46 +46,3 @@ def set_tooltip(long_format, line, label):
         width=600, height=300
     )
     return chart
-
-def configure_label_bar_chart(data, label, key):
-    '''
-    Configurations for label bar chart.
-        param: dataframe, label(value), key 1=most cases 2=most deaths
-        type: pd df object, str, int
-        return: altair chart
-    '''
-    margin = 100000 if key == '3' else 10000
-    SCALE=alt.Scale(domain=(0, int(max(data[label])) + margin))
-
-    label_title = 'total cases' if key == 3 else 'total deaths'
-    bars = alt.Chart(data).mark_bar().encode(
-        x= alt.X(label + ':Q', title=label_title.title(), scale=SCALE),
-        y=alt.Y('countries:N', sort='-x', title='Countries'),
-        color=alt.Color('countries:N', legend=None, scale=alt.Scale(range=get_N_HexCol())),
-        tooltip=[alt.Tooltip('date:T'),
-            alt.Tooltip('countries', title='country'),
-            alt.Tooltip(label, format=",.0f")],
-    )
-
-    text = bars.mark_text(
-        fontSize=13,
-        align='left',
-        baseline='middle',
-        dx=3,  # Nudges text to right so it doesn't appear on top of the bar
-    ).encode(
-        text='formatted'
-    )
-    
-    fig = (bars + text).configure_axis(
-        labelFontSize=11,
-        titleFontSize=15,
-    ).configure_axisY(
-        labelFontSize=12,
-        labelFontWeight='bold'
-    ).configure_axisX(
-        labelAngle=-30
-    ).properties(
-        height=520
-    ).interactive()
-
-    return fig
