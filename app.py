@@ -100,16 +100,19 @@ def main():
     countries = df['countries'].unique()
     youngest = max(df['date'])
     log = False
-    if chart == '1' or chart == '2':
-        log = st.checkbox("Logarithmic scale", value=False)
+    stack = False
+    slot_for_checkbox = st.empty()
     # Reordering figure to show here
     slot_for_graph = st.empty()
-    slot_for_checkbox = st.empty()
 
     startdate, period = choose_time_period(youngest, 1)
     st.sidebar.markdown("# Select countries")
     options = st.sidebar.multiselect('Countries:', list(countries), default=['Finland'])
-    fig = compare_countries(df, labels[chart], startdate, options, period, log)
+    if chart == '1' or chart == '2':
+        log = slot_for_checkbox.checkbox("Logarithmic scale", value=False)
+    else:
+        stack = slot_for_checkbox.checkbox("Stack values", value=True) if len(options) >= 2 else False
+    fig = compare_countries(df, labels[chart], startdate, options, period, log, stack)
     slot_for_graph.altair_chart(fig, use_container_width=True)
 
     st.info("ℹ️ You can select countries from the sidebar on the left corner.")
