@@ -128,11 +128,11 @@ def compare_countries(df, label, startdate, options, period, log, stack):
     
     new_df = df.loc[df['countries'].isin(options)]
     new_df = get_values(new_df, startdate, 1, label)
-    y_value = 'log_value' if log else label
+    scale_type = 'log' if log else 'linear'
     if label == 'total cases' or label == 'total deaths':
         chart = alt.Chart(new_df).mark_line(interpolate='basis').encode(
             x = alt.X("date:T", title="Date"),
-            y = alt.Y(y_value + ':Q', title=label.title()),
+            y = alt.Y(label + ':Q', title=label.title(), scale=alt.Scale(type=scale_type), axis=alt.Axis(tickCount=4)),
             color='countries:N',
         ).properties(height=350)
         chart = set_tooltip(new_df, chart, label)
@@ -140,7 +140,7 @@ def compare_countries(df, label, startdate, options, period, log, stack):
         bar_size = {'1':15, '2':7, '3':5, '4':4, '5':3, '6':2}
         chart = alt.Chart(new_df).mark_bar(opacity=0.7, size=bar_size[str(period)]).encode(
             alt.X("date:T", title="Date"),
-            alt.Y(y_value + ':Q', stack=stack, title=label.title()),
+            alt.Y(label + ':Q', stack=stack, title=label.title()),
             color='countries:N',
             tooltip=[alt.Tooltip('countries', title='country'),
                 alt.Tooltip('date'),
