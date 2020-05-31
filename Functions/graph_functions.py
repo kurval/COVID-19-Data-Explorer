@@ -39,17 +39,19 @@ def get_top_values(df, label, date):
     return top20_values
 
 @st.cache(allow_output_mutation=True, show_spinner=False)
-def get_values(df, startdate, chart_num, label):
+def get_values_by_date(df, startdate, chart_num, label, log=False):
     '''
     Gets all the data from selected time period.
         param: dataframe, startdate, label
         type: pd df object, datetime, str
         return: new dataframe
     '''
-    if chart_num == 1:
-        new_df = df.loc[df['date'] >= startdate]
+    if chart_num == 1 and log:
+        new_df = df[(df['date'] >= startdate) & (df[label] > 0)]
+    elif chart_num == 1:
+        new_df = df[(df['date'] >= startdate)]
     elif chart_num == 2:
-        new_df = df.loc[df['date'] <= startdate]
+        new_df = df[df['date'] <= startdate]
     return new_df
 
 @st.cache(show_spinner=False)
@@ -70,6 +72,11 @@ def get_world_data(df):
     new_df = df[(df['countries'] == 'World')]
     return new_df
 
+@st.cache(show_spinner=False)
+def get_country_values(df, options):
+    new_df = df.loc[df['countries'].isin(options)]
+    return new_df
+
 def show_most_cases(df, startdate, label):
     '''
     Creates labeled bar charts of 20 countries most cases and deaths
@@ -77,7 +84,7 @@ def show_most_cases(df, startdate, label):
         type: dataframe object
     '''
     df = modify_data(df)
-    df = get_values(df, startdate, 2, label)
+    df = get_values_by_date(df, startdate, 2, label)
 
     top20_cases = get_top_values(df, label, startdate)
     margin = 100000 if label == 'new cases' else 10000
@@ -105,6 +112,7 @@ def show_most_cases(df, startdate, label):
     fig = (bars + text).configure_axis(
         labelFontSize=11,
         titleFontSize=15,
+        titleColor='grey'
     ).configure_axisY(
         labelFontSize=12,
         labelFontWeight='bold'
@@ -126,13 +134,15 @@ def compare_countries(df, label, startdate, options, period, log, stack):
         type: dataframe object, str, datetime, list(str), int 
     '''
     
-    new_df = df.loc[df['countries'].isin(options)]
-    new_df = get_values(new_df, startdate, 1, label)
+    new_df = get_country_values(df, options)
+    new_df = get_values_by_date(new_df, startdate, 1, label, log)
     scale_type = 'log' if log else 'linear'
+    scale_name = ' (logarithmic scale)' if log else ' (linear scale)'
+    grid = False if log else True
     if label == 'total cases' or label == 'total deaths':
         chart = alt.Chart(new_df).mark_line(interpolate='basis').encode(
             x = alt.X("date:T", title="Date"),
-            y = alt.Y(label + ':Q', title=label.title(), scale=alt.Scale(type=scale_type), axis=alt.Axis(tickCount=4)),
+            y = alt.Y(label + ':Q', title=label.title() + scale_name, scale=alt.Scale(type=scale_type), axis=alt.Axis(tickCount=5, grid=grid)),
             color='countries:N',
         ).properties(height=350)
         chart = set_tooltip(new_df, chart, label)
@@ -148,8 +158,9 @@ def compare_countries(df, label, startdate, options, period, log, stack):
         ).configure_axis(
             labelFontSize=11,
             titleFontSize=15,
+            titleColor='grey'
         ).configure_axisX(
-            labelAngle=-30
+            labelAngle=-30,
         ).configure_legend(
             titleFontSize=13,
             labelFontSize=12,
@@ -183,6 +194,7 @@ def show_world_scatter(df, label):
     chart = (base + loess).configure_axis(
         labelFontSize=11,
         titleFontSize=15,
+        titleColor='grey'
     ).configure_legend(
         titleFontSize=13,
         labelFontSize=12,

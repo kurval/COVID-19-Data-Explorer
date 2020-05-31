@@ -37,8 +37,11 @@ def set_tooltip(long_format, line, label):
     ).configure_axis(
         labelFontSize=11,
         titleFontSize=15,
+        titleColor='grey'
     ).configure_axisX(
-        labelAngle=-30
+        labelAngle=-30,
+    ).configure_axisY(
+        ticks=False
     ).configure_legend(
         titleFontSize=13,
         labelFontSize=12,
