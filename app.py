@@ -25,6 +25,7 @@ def format_data(df, label):
     Nan values filled with 0 or preceding values depens on chart type.
     Return long format of dataframe that Altair support.
     '''
+    df = df.sort_values(['date'])
     if label == 'total cases' or label == 'total deaths':
         df.fillna(method='ffill', inplace=True)
     else:
@@ -69,7 +70,7 @@ def import_data():
     new_deaths = format_data(new_deaths, labels['4'])
     total_cases = format_data(total_cases, labels['1'])
     total_deaths = format_data(total_deaths, labels['2'])
-    
+
     return new_cases, new_deaths, total_cases, total_deaths
 
 def main():

@@ -33,7 +33,8 @@ def get_top_values(df, label, date):
         type: pd df object, str, datetime,  
         return: new dataframe
     '''
-    top20_values = df.groupby('countries').sum().sort_values([label], ascending=False)[:20].reset_index()
+    top20_values = df.groupby('countries').sum().reset_index()
+    top20_values = top20_values.sort_values([label], ascending=False)[:20]
     top20_values['formatted'] = top20_values[label].apply(format_numbers)
     top20_values['date'] = date
     return top20_values
@@ -83,13 +84,12 @@ def show_most_cases(df, startdate, label):
         param: pd df, startdate, label
         type: dataframe object
     '''
-    df = modify_data(df)
-    df = get_values_by_date(df, startdate, 2, label)
+    new_df = modify_data(df)
+    new_df = get_values_by_date(new_df, startdate, 2, label)
 
-    top20_cases = get_top_values(df, label, startdate)
+    top20_cases = get_top_values(new_df, label, startdate)
     margin = 100000 if label == 'new cases' else 10000
     SCALE=alt.Scale(domain=(0, int(max(top20_cases[label])) + margin))
-
     label_title = 'total cases' if label == 'new cases' else 'total deaths'
     bars = alt.Chart(top20_cases).mark_bar().encode(
         x= alt.X(label + ':Q', title=label_title.title(), scale=SCALE),
@@ -111,7 +111,7 @@ def show_most_cases(df, startdate, label):
     
     fig = (bars + text).configure_axis(
         labelFontSize=11,
-        titleFontSize=15,
+        titleFontSize=13,
         titleColor='grey'
     ).configure_axisY(
         labelFontSize=12,
@@ -142,7 +142,7 @@ def compare_countries(df, label, startdate, options, period, log, stack):
     if label == 'total cases' or label == 'total deaths':
         chart = alt.Chart(new_df).mark_line(interpolate='basis').encode(
             x = alt.X("date:T", title="Date"),
-            y = alt.Y(label + ':Q', title=label.title() + scale_name, scale=alt.Scale(type=scale_type), axis=alt.Axis(tickCount=5, grid=grid)),
+            y = alt.Y(label + ':Q', title=label.title() + scale_name, scale=alt.Scale(type=scale_type), axis=alt.Axis(tickCount=5, grid=grid, ticks=grid)),
             color='countries:N',
         ).properties(height=350)
         chart = set_tooltip(new_df, chart, label)
@@ -157,7 +157,7 @@ def compare_countries(df, label, startdate, options, period, log, stack):
                 alt.Tooltip(label, format=",.0f")]
         ).configure_axis(
             labelFontSize=11,
-            titleFontSize=15,
+            titleFontSize=13,
             titleColor='grey'
         ).configure_axisX(
             labelAngle=-30,
@@ -193,7 +193,7 @@ def show_world_scatter(df, label):
     loess = base + base.transform_loess('date', 'y').mark_line(size=4)
     chart = (base + loess).configure_axis(
         labelFontSize=11,
-        titleFontSize=15,
+        titleFontSize=13,
         titleColor='grey'
     ).configure_legend(
         titleFontSize=13,
