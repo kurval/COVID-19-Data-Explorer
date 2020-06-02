@@ -88,11 +88,10 @@ def show_most_cases(df, startdate, label):
     new_df = get_values_by_date(new_df, startdate, 2, label)
 
     top20_cases = get_top_values(new_df, label, startdate)
-    margin = 100000 if label == 'new_cases' else 10000
+    margin = max(top20_cases[label]) / 10
     SCALE=alt.Scale(domain=(0, int(max(top20_cases[label])) + margin))
-    label_title = 'total_cases' if label == 'new_cases' else 'total_deaths'
     bars = alt.Chart(top20_cases).mark_bar().encode(
-        x= alt.X(label + ':Q', title=label_title.title(), scale=SCALE),
+        x= alt.X(label + ':Q', title=label.replace('_', ' ').title(), scale=SCALE),
         y=alt.Y('location:N', sort='-x', title='Countries'),
         color=alt.Color('location:N', legend=None, scale=alt.Scale(range=get_N_HexCol())),
         tooltip=[alt.Tooltip('date:T'),

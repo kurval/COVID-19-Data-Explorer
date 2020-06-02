@@ -23,8 +23,8 @@ QUERY = 'SELECT  iso_code, \
         population \
         FROM owid_covid_data'
 
-# Cache for 12 hours
-@st.cache(ttl=3600*12, show_spinner=False)
+# Cache for 6 hours
+@st.cache(ttl=3600*6, show_spinner=False)
 def import_data():
     '''
     Imports data from dataworld.
@@ -40,7 +40,7 @@ def import_data():
 def main():
     with st.spinner('Please wait...'):
         df  = import_data()
-    labels = {'1':'total_cases', '2':'total_deaths', '3':'new_cases', '4':'new_deaths'}
+    labels = {'1':'total_cases', '2':'total_deaths', '3':'new_cases', '4':'new_deaths', '5':'new_cases_per_million', '6':'new_deaths_per_million'}
 
     # Header image with timestamp
     youngest = max(df['date'])
@@ -76,17 +76,19 @@ def main():
     Adjust time period by dragging the slider or just clicking it.\
     Hover over each line/block to see the values.**")
 
-
     # Worst-hit countries charts
     st.markdown('## COVID-19: total confirmed cases and deaths in the worst-hit countries')
+    rate_m = st.checkbox('Per one million of population', value=False)
+    label1 = labels['5'] if rate_m else labels['3']
+    label2 = labels['6'] if rate_m else labels['4']
     slot_for_date = st.empty()
     startdate, period = choose_time_period(max(df['date']), 2, min(df['date']))
     date = startdate.strftime('%Y-%m-%d')
     slot_for_date.markdown(f'***Date {date}***')
 
-    fig1 = show_most_cases(df, startdate, labels['3'])
+    fig1 = show_most_cases(df, startdate, label1)
     st.altair_chart(fig1, use_container_width=True)
-    fig2 = show_most_cases(df, startdate, labels['4'])
+    fig2 = show_most_cases(df, startdate, label2)
     st.altair_chart(fig2, use_container_width=True)
 
     # World scatter plot
