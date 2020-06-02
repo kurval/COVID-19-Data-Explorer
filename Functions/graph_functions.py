@@ -24,8 +24,8 @@ def format_numbers(x):
     if x >= 1000000:
         return '{:1.1f} M'.format(x*1e-6)
     elif x < 1:
-        return '{:,.4f}'.format(x, ',')
-    return '{:,}'.format(int(x), ',')
+        return '{:,.4f}'.format(x)
+    return '{:,}'.format(int(x))
 
 @st.cache(show_spinner=False)
 def get_top_values(df, label, date):
