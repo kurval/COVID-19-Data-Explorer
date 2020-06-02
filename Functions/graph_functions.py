@@ -25,7 +25,7 @@ def format_numbers(x):
         return '{:1.1f} M'.format(x*1e-6)
     elif x == 0 or x >= 1:
         return '{:,}'.format(int(x))
-    return '{:,.3f}'.format(x)
+    return '{:.3f}'.format(x)
     
 
 @st.cache(show_spinner=False)
