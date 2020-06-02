@@ -23,9 +23,10 @@ def get_N_HexCol(N=20):
 def format_numbers(x):
     if x >= 1000000:
         return '{:1.1f} M'.format(x*1e-6)
-    elif x < 1:
-        return '{:,.4f}'.format(x)
-    return '{:,}'.format(int(x))
+    elif x == 0 or x >= 1:
+        return '{:,}'.format(int(x))
+    return '{:,.3f}'.format(x)
+    
 
 @st.cache(show_spinner=False)
 def get_top_values(df, label, date):
