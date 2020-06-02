@@ -23,6 +23,8 @@ def get_N_HexCol(N=20):
 def format_numbers(x):
     if x >= 1000000:
         return '{:1.1f} M'.format(x*1e-6)
+    elif x < 1:
+        return '{:,.4f}'.format(x, ',')
     return '{:,}'.format(int(x), ',')
 
 @st.cache(show_spinner=False)
@@ -88,7 +90,7 @@ def show_most_cases(df, startdate, label):
     new_df = get_values_by_date(new_df, startdate, 2, label)
 
     top20_cases = get_top_values(new_df, label, startdate)
-    margin = max(top20_cases[label]) / 10
+    margin = max(top20_cases[label]) / 10 if max(top20_cases[label]) > 2 else 1
     SCALE=alt.Scale(domain=(0, int(max(top20_cases[label])) + margin))
     label_title = 'total cases' if label == 'new_cases' or label == 'new_cases_per_million' else 'total deaths'
     bars = alt.Chart(top20_cases).mark_bar().encode(
@@ -97,7 +99,7 @@ def show_most_cases(df, startdate, label):
         color=alt.Color('location:N', legend=None, scale=alt.Scale(range=get_N_HexCol())),
         tooltip=[alt.Tooltip('date:T'),
             alt.Tooltip('location', title='country'),
-            alt.Tooltip(label, format=",.0f", title=label_title)],
+            alt.Tooltip('formatted', title=label_title)],
     )
 
     text = bars.mark_text(
