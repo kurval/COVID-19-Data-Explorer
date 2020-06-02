@@ -33,7 +33,7 @@ def get_top_values(df, label, date):
         type: pd df object, str, datetime,  
         return: new dataframe
     '''
-    top20_values = df.groupby('countries').sum().reset_index()
+    top20_values = df.groupby('location').sum().reset_index()
     top20_values = top20_values.sort_values([label], ascending=False)[:20]
     top20_values['formatted'] = top20_values[label].apply(format_numbers)
     top20_values['date'] = date
@@ -62,7 +62,7 @@ def modify_data(df):
         param: dataframe
         return: new dataframe
     '''
-    new_df = df[(df.countries != 'World') & (df.countries !='International')]
+    new_df = df[(df.location != 'World') & (df.location !='International')]
     return new_df
 
 @st.cache(show_spinner=False)
@@ -70,12 +70,12 @@ def get_world_data(df):
     '''
     Return only world data in new data frame
     '''
-    new_df = df[(df['countries'] == 'World')]
+    new_df = df[(df['location'] == 'World')]
     return new_df
 
 @st.cache(show_spinner=False)
 def get_country_values(df, options):
-    new_df = df.loc[df['countries'].isin(options)]
+    new_df = df.loc[df['location'].isin(options)]
     return new_df
 
 def show_most_cases(df, startdate, label):
@@ -88,16 +88,16 @@ def show_most_cases(df, startdate, label):
     new_df = get_values_by_date(new_df, startdate, 2, label)
 
     top20_cases = get_top_values(new_df, label, startdate)
-    margin = 100000 if label == 'new cases' else 10000
+    margin = 100000 if label == 'new_cases' else 10000
     SCALE=alt.Scale(domain=(0, int(max(top20_cases[label])) + margin))
-    label_title = 'total cases' if label == 'new cases' else 'total deaths'
+    label_title = 'total_cases' if label == 'new_cases' else 'total_deaths'
     bars = alt.Chart(top20_cases).mark_bar().encode(
         x= alt.X(label + ':Q', title=label_title.title(), scale=SCALE),
-        y=alt.Y('countries:N', sort='-x', title='Countries'),
-        color=alt.Color('countries:N', legend=None, scale=alt.Scale(range=get_N_HexCol())),
+        y=alt.Y('location:N', sort='-x', title='Countries'),
+        color=alt.Color('location:N', legend=None, scale=alt.Scale(range=get_N_HexCol())),
         tooltip=[alt.Tooltip('date:T'),
-            alt.Tooltip('countries', title='country'),
-            alt.Tooltip(label, format=",.0f")],
+            alt.Tooltip('location', title='country'),
+            alt.Tooltip(label, format=",.0f", title=label.replace('_', ' '))],
     )
 
     text = bars.mark_text(
@@ -139,22 +139,22 @@ def compare_countries(df, label, startdate, options, period, log, stack):
     scale_type = 'log' if log else 'linear'
     scale_name = ' (logarithmic scale)' if log else ' (linear scale)'
     grid = False if log else True
-    if label == 'total cases' or label == 'total deaths':
+    if label == 'total_cases' or label == 'total_deaths':
         chart = alt.Chart(new_df).mark_line(interpolate='basis').encode(
             x = alt.X("date:T", title="Date"),
-            y = alt.Y(label + ':Q', title=label.title() + scale_name, scale=alt.Scale(type=scale_type), axis=alt.Axis(tickCount=5, grid=grid, ticks=grid)),
-            color='countries:N',
+            y = alt.Y(label + ':Q', title=label.replace('_', ' ').title() + scale_name, scale=alt.Scale(type=scale_type), axis=alt.Axis(tickCount=5, grid=grid, ticks=grid)),
+            color='location:N',
         ).properties(height=350)
         chart = set_tooltip(new_df, chart, label)
     else:
         bar_size = {'1':15, '2':7, '3':5, '4':4, '5':3, '6':2}
         chart = alt.Chart(new_df).mark_bar(opacity=0.7, size=bar_size[str(period)]).encode(
             alt.X("date:T", title="Date"),
-            alt.Y(label + ':Q', stack=stack, title=label.title()),
-            color='countries:N',
-            tooltip=[alt.Tooltip('countries', title='country'),
+            alt.Y(label + ':Q', stack=stack, title=label.replace('_', ' ').title()),
+            color='location:N',
+            tooltip=[alt.Tooltip('location', title='country'),
                 alt.Tooltip('date'),
-                alt.Tooltip(label, format=",.0f")]
+                alt.Tooltip(label, format=",.0f", title=label.replace('_', ' '))]
         ).configure_axis(
             labelFontSize=11,
             titleFontSize=13,
@@ -184,10 +184,10 @@ def show_world_scatter(df, label):
         as_=['cases', 'y']
     ).encode(
         x= alt.X('date:T', scale=SCALEX, title='Date'),
-        y= alt.Y('y:Q', scale=SCALEY, title=label.title()),
-        fill=alt.Color(label + ':Q'),
+        y= alt.Y('y:Q', scale=SCALEY, title=label.replace('_', ' ').title()),
+        fill=alt.Color(label + ':Q', legend=alt.Legend(title=label.replace('_', ' '))),
         tooltip=[alt.Tooltip('date'),
-            alt.Tooltip(label, format=",.0f", title=label)]
+            alt.Tooltip(label, format=",.0f", title=label.replace('_', ' '))]
     )
 
     loess = base + base.transform_loess('date', 'y').mark_line(size=4)

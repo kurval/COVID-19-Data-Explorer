@@ -9,35 +9,19 @@ import altair as alt
 import click
 from PIL import Image
 
-DATASET_ID = 'markmarkoh/coronavirus-data'
-N_CASES = 'SELECT * FROM new_cases'
-N_DEATHS = 'SELECT * FROM new_deaths'
-T_CASES = 'SELECT * FROM total_cases'
-T_DEATHS = 'SELECT * FROM total_deaths'
+DATASET_ID = 'vale123/covid-19-complete-dataset'
 
-labels = {'1':'total cases', '2':'total deaths', '3':'new cases', '4':'new deaths'}
-
-@st.cache(show_spinner=False)
-def format_data(df, label):
-    '''
-    Reformat column names and set date column to datetime type.
-    Also converts all the other columns to numeric type(float).
-    Nan values filled with 0 or preceding values depens on chart type.
-    Return long format of dataframe that Altair support.
-    '''
-    df = df.sort_values(['date'])
-    if label == 'total cases' or label == 'total deaths':
-        df.fillna(method='ffill', inplace=True)
-    else:
-        df.fillna(0, inplace=True)
-    cols = df.columns
-    df[cols[1:]] = df[cols[1:]].apply(pd.to_numeric)
-    df['date'] = pd.to_datetime(df['date'])
-    df = df.rename(columns=lambda x: x.replace('_', ' '))
-    df.columns = map(str.title, df.columns)
-    df = df.rename(columns={'Date': 'date'})
-    long_format = df.melt('date', var_name='countries', value_name=label)
-    return long_format
+QUERY = 'SELECT  iso_code, \
+        location, \
+        date, \
+        total_cases, \
+        total_deaths, \
+        new_cases, \
+        new_deaths, \
+        new_cases_per_million, \
+        new_deaths_per_million, \
+        population \
+        FROM owid_covid_data'
 
 # Cache for 12 hours
 @st.cache(ttl=3600*12, show_spinner=False)
@@ -46,47 +30,26 @@ def import_data():
     Imports data from dataworld.
     Query a dataset using the var = datadotworld.query('dataset_ID', 'query')
     '''
-    res_n_cases = dw.query(
+    result = dw.query(
         DATASET_ID,
-        N_CASES)
-    new_cases = res_n_cases.dataframe
-
-    res_n_deaths = dw.query(
-        DATASET_ID, 
-        N_DEATHS)
-    new_deaths = res_n_deaths.dataframe
-
-    res_t_cases = dw.query(
-        DATASET_ID, 
-        T_CASES)
-    total_cases = res_t_cases.dataframe
-
-    res_t_deaths = dw.query(
-        DATASET_ID,
-        T_DEATHS)
-    total_deaths = res_t_deaths.dataframe
-
-    new_cases = format_data(new_cases, labels['3'])
-    new_deaths = format_data(new_deaths, labels['4'])
-    total_cases = format_data(total_cases, labels['1'])
-    total_deaths = format_data(total_deaths, labels['2'])
-
-    return new_cases, new_deaths, total_cases, total_deaths
+        QUERY)
+    df = result.dataframe
+    df['date'] = pd.to_datetime(df['date'])
+    return df
 
 def main():
     with st.spinner('Please wait...'):
-        new_cases, new_deaths, total_cases, total_deaths  = import_data()
-    stats = {'1':total_cases, '2':total_deaths, '3':new_cases, '4':new_deaths}
+        df  = import_data()
+    labels = {'1':'total_cases', '2':'total_deaths', '3':'new_cases', '4':'new_deaths'}
 
     # Header image with timestamp
-    youngest = max(new_cases['date'])
+    youngest = max(df['date'])
     image = Image.open('./Images/header.png')
     st.image(image, use_column_width=True, caption=f"Updated: {youngest.strftime('%Y-%m-%d')}")
 
     # Compare countries chart
     chart = choose_chart()
-    df = stats[chart]
-    countries = df['countries'].unique()
+    countries = df['location'].unique()
     youngest = max(df['date'])
     log = False
     stack = False
@@ -113,27 +76,28 @@ def main():
     Adjust time period by dragging the slider or just clicking it.\
     Hover over each line/block to see the values.**")
 
+
     # Worst-hit countries charts
     st.markdown('## COVID-19: total confirmed cases and deaths in the worst-hit countries')
     slot_for_date = st.empty()
-    startdate, period = choose_time_period(max(new_cases['date']), 2, min(new_cases['date']))
+    startdate, period = choose_time_period(max(df['date']), 2, min(df['date']))
     date = startdate.strftime('%Y-%m-%d')
     slot_for_date.markdown(f'***Date {date}***')
 
-    fig1 = show_most_cases(new_cases, startdate, labels['3'])
+    fig1 = show_most_cases(df, startdate, labels['3'])
     st.altair_chart(fig1, use_container_width=True)
-    fig2 = show_most_cases(new_deaths, startdate, labels['4'])
+    fig2 = show_most_cases(df, startdate, labels['4'])
     st.altair_chart(fig2, use_container_width=True)
 
     # World scatter plot
     st.markdown('## COVID-19: new confirmed cases worldwide 🌐')
     st.markdown("Hover over each circle to see the values")
-    fig = show_world_scatter(new_cases, labels['3'])
+    fig = show_world_scatter(df, labels['3'])
     st.altair_chart(fig, use_container_width=True)
 
     # Footer info
     st.info("by: V.Kurkela | source: [Github](https://github.com/kurval/COVID-19-Statistics) |\
-    data source: [Dataworld](https://data.world/markmarkoh/coronavirus-data) \
+    data source: [Dataworld](https://data.world/vale123/covid-19-complete-dataset) \
     (orginally: [Ourworldindata](https://ourworldindata.org/coronavirus-source-data))")
 
 if __name__ == "__main__":
