@@ -10,10 +10,10 @@ I used Alrair library for building interactive charts that are displayd with Veg
 **These statistics includes:**
 * Total confirmed cases
 * Total deaths
+* Total cases per million  
+* Total deaths per million
 * New confirmed cases
 * New deaths
-* New cases per million  
-* New deaths per million
 
 ## Using:
 * Streamlit
