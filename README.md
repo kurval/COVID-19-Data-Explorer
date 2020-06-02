@@ -12,6 +12,8 @@ I used Alrair library for building interactive charts that are displayd with Veg
 * Total deaths
 * New confirmed cases
 * New deaths
+* New cases per million  
+* New deaths per million
 
 ## Using:
 * Streamlit
