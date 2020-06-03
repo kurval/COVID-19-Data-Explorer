@@ -26,7 +26,7 @@ def choose_time_period(youngest, oldest, key):
         end_date = youngest
         start_date = oldest
         num_months = (end_date.year - start_date.year) * 12 + (end_date.month - start_date.month)
-        period = st.slider('Choose time period (months)', 1, num_months, 3)
+        period = st.slider('Choose time period (months)', 1, num_months, 6)
         startdate = youngest - pd.DateOffset(months=period)
     elif key == 2:
         days = (oldest - youngest).days

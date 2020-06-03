@@ -150,8 +150,9 @@ def compare_countries(df, label, startdate, options, period, log, stack):
         ).properties(height=350)
         chart = set_tooltip(new_df, chart, label)
     else:
-        bar_size = {'1':15, '2':7, '3':5, '4':4, '5':3, '6':2}
-        chart = alt.Chart(new_df).mark_bar(opacity=0.7, size=bar_size[str(period)]).encode(
+        bar_scale = {'1':15, '2':7, '3':5, '4':4, '5':3, '6':2}
+        bar_size = 1 if period > 6 else bar_scale[str(period)]
+        chart = alt.Chart(new_df).mark_bar(opacity=0.7, size=bar_size).encode(
             alt.X("date:T", title="Date"),
             alt.Y(label + ':Q', stack=stack, title=label.replace('_', ' ').title()),
             color='location:N',
