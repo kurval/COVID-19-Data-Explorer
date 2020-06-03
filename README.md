@@ -4,7 +4,7 @@ App is live at: https://www.covid19dataexplorer.com/
 # About
 Covid-19 Data Explorer -app allows user to compare and explore different corona statistics from over 200 countries.
 This python based project was created with Streamlit’s open-source app framework.
-Using Alrair library for building interactive charts that are displayd with Vega-Lite.
+Using Alrair library for building interactive charts that are displayd with Vega-Lite. Data is **updated daily**.
 
 # Statistics
 **These statistics includes:**
