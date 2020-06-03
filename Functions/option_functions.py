@@ -13,17 +13,20 @@ def choose_chart():
     chart = st.selectbox('', charts)
     return stats[chart]
 
-def choose_time_period(youngest, key, oldest=None,):
+def choose_time_period(youngest, oldest, key):
     '''
     Allowing user to choose time period
 
-        param: youngest (newest date), slider key, oldest (oldest date),
-        type: datetime.date object
+        param: youngest (newest date), oldest (oldest date), slider key
+        type: datetime.date object, int
         return: startdate (youngest - time period), time period
         returntype: datetime object, int
     '''
     if key == 1:
-        period = st.slider('Choose time period (months)', 1, 6, 3)
+        end_date = youngest
+        start_date = oldest
+        num_months = (end_date.year - start_date.year) * 12 + (end_date.month - start_date.month)
+        period = st.slider('Choose time period (months)', 1, num_months, 3)
         startdate = youngest - pd.DateOffset(months=period)
     elif key == 2:
         days = (oldest - youngest).days

@@ -45,11 +45,13 @@ def main():
 
     # Header image with timestamp
     youngest = max(df['date'])
+    oldest = min(df['date'])
     current = dt.today()
     image = Image.open('./Images/header.png')
     st.image(image, use_column_width=True, caption=f"Updated: {youngest.strftime('%Y-%m-%d')}")
     if (current - datetime.date(youngest)).days > 1:
        st.warning("You can update data by clicking on the righ corner Clear cache 'C' and then Rerun 'R'")
+    
     # Compare countries chart
     chart = choose_chart()
     countries = df['location'].unique()
@@ -59,7 +61,7 @@ def main():
     # Reordering figure to show here
     slot_for_graph = st.empty()
 
-    startdate, period = choose_time_period(youngest, 1)
+    startdate, period = choose_time_period(youngest, oldest, 1)
     st.sidebar.markdown("# Select countries")
     options = st.sidebar.multiselect('Countries:', list(countries), default=['Finland'])
     if chart == '1' or chart == '2':
@@ -84,7 +86,7 @@ def main():
     label1 = labels['5'] if rate_m else labels['3']
     label2 = labels['6'] if rate_m else labels['4']
     slot_for_date = st.empty()
-    startdate, period = choose_time_period(max(df['date']), 2, min(df['date']))
+    startdate, period = choose_time_period(youngest, oldest, 2)
     date = startdate.strftime('%Y-%m-%d')
     slot_for_date.markdown(f'***Date {date}***')
 
