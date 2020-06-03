@@ -8,8 +8,9 @@ def set_tooltip(long_format, line, label):
         type: pd df object, altair object, str
         return: altair chart
     '''
-    nearest = alt.selection(type='single', nearest=True, on='mouseover',
-                            fields=['date'], empty='none')
+    nearest = alt.selection(
+        type='single', nearest=True, on='mouseover',
+        fields=['date'], empty='none')
 
     selectors = alt.Chart(long_format).mark_point().encode(
         x='date:T',
