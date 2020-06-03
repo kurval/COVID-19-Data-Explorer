@@ -7,12 +7,13 @@ from Functions.option_functions import choose_chart, choose_time_period
 import streamlit as st
 import altair as alt
 import click
+from datetime import datetime
+from datetime import date as dt
 from PIL import Image
 
 DATASET_ID = 'vale123/covid-19-complete-dataset'
 
-QUERY = 'SELECT  iso_code, \
-        location, \
+QUERY = 'SELECT  location, \
         date, \
         total_cases, \
         total_deaths, \
@@ -44,13 +45,14 @@ def main():
 
     # Header image with timestamp
     youngest = max(df['date'])
+    current = dt.today()
     image = Image.open('./Images/header.png')
     st.image(image, use_column_width=True, caption=f"Updated: {youngest.strftime('%Y-%m-%d')}")
-
+    if (current - datetime.date(youngest)).days > 1:
+       st.warning("You can update data by clicking on the righ corner Clear cache 'C' and then Rerun 'R'")
     # Compare countries chart
     chart = choose_chart()
     countries = df['location'].unique()
-    youngest = max(df['date'])
     log = False
     stack = False
     slot_for_checkbox = st.empty()

@@ -29,17 +29,17 @@ def format_numbers(x):
     
 
 @st.cache(show_spinner=False)
-def get_top_values(df, label, date):
+def get_top_values(df, label, userdate):
     '''
     Gets top20 sorted values from given chart and adds new date and formattes columns.
-        param: dataframe, label(value), date(timestamp)
+        param: dataframe, label(value), userdate(timestamp)
         type: pd df object, str, datetime,  
         return: new dataframe
     '''
     top20_values = df.groupby('location').sum().reset_index()
     top20_values = top20_values.sort_values([label], ascending=False)[:20]
     top20_values['formatted'] = top20_values[label].apply(format_numbers)
-    top20_values['date'] = date
+    top20_values['date'] = userdate
     return top20_values
 
 @st.cache(allow_output_mutation=True, show_spinner=False)
@@ -146,7 +146,7 @@ def compare_countries(df, label, startdate, options, period, log, stack):
         chart = alt.Chart(new_df).mark_line(interpolate='basis').encode(
             x = alt.X("date:T", title="Date"),
             y = alt.Y(label + ':Q', title=label.replace('_', ' ').title() + scale_name, scale=alt.Scale(type=scale_type), axis=alt.Axis(tickCount=5, grid=grid, ticks=grid)),
-            color='location:N',
+            color=alt.Color('location:N', legend=alt.Legend(title='countries')),
         ).properties(height=350)
         chart = set_tooltip(new_df, chart, label)
     else:
