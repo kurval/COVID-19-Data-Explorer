@@ -81,7 +81,7 @@ def main():
     **Hover over** each line/block to see the values.")
 
     st.sidebar.markdown("# About")
-    st.sidebar.info("**This project mission** is to transform COVID-19 data into understandable and shareable visuals.\
+    st.sidebar.info("**This project's mission** is to transform COVID-19 data into understandable and shareable visuals.\
     Data also needs to be reliable and up-to-date throughout the duration of the COVID-19 pandemic.\
     This app is maintained by [*Valtteri Kurkela*](https://github.com/kurval) and data is sourced from [**Our World in Data**](https://ourworldindata.org/coronavirus).")
 
