@@ -83,7 +83,7 @@ def main():
     st.sidebar.markdown("# About")
     st.sidebar.info("**This project mission** is to transform COVID-19 data into understandable and shareable visuals.\
     Data also needs to be reliable and up-to-date throughout the duration of the COVID-19 pandemic.\
-    This app is maintained by [***Valtteri Kurkela***](https://github.com/kurval) and data is sourced from [***Our World in Data***](https://ourworldindata.org/coronavirus).")
+    This app is maintained by [*Valtteri Kurkela*](https://github.com/kurval) and data is sourced from [**Our World in Data**](https://ourworldindata.org/coronavirus).")
 
     # Worst-hit countries charts
     st.markdown('## COVID-19: total confirmed cases and deaths in the worst-hit countries')
