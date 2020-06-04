@@ -45,6 +45,6 @@ def set_tooltip(long_format, line, label):
         titleFontSize=13,
         labelFontSize=12,
     ).properties(
-        width=600, height=300
+        width=600, height=350
     )
     return chart
