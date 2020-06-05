@@ -44,7 +44,5 @@ def set_tooltip(long_format, line, label):
     ).configure_legend(
         titleFontSize=13,
         labelFontSize=12,
-    ).properties(
-        width=600, height=350
-    )
+    ).properties(height=350)
     return chart

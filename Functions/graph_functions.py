@@ -147,7 +147,7 @@ def compare_countries(df, label, startdate, options, period, log, stack):
             x = alt.X("date:T", title="Date"),
             y = alt.Y(label + ':Q', title=label.replace('_', ' ').title() + scale_name, scale=alt.Scale(type=scale_type), axis=alt.Axis(tickCount=5, grid=grid, ticks=grid)),
             color=alt.Color('location:N', legend=alt.Legend(title='countries')),
-        ).properties(height=350)
+        )
         chart = set_tooltip(new_df, chart, label)
     else:
         bar_scale = {'1':15, '2':7, '3':5, '4':4, '5':3, '6':2}
