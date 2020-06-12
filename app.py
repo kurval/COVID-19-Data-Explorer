@@ -13,16 +13,16 @@ from PIL import Image
 
 DATASET_ID = 'vale123/covid-19-complete-dataset'
 
-QUERY = 'SELECT  location, \
+QUERY = "SELECT location, \
         date, \
         total_cases, \
         total_deaths, \
         new_cases, \
         new_deaths, \
         new_cases_per_million, \
-        new_deaths_per_million, \
-        population \
-        FROM owid_covid_data'
+        new_deaths_per_million \
+        FROM owid_covid_data \
+        WHERE location != 'International'"
 
 # Cache for 6 hours
 @st.cache(ttl=3600*6, show_spinner=False)
@@ -36,6 +36,8 @@ def import_data():
         QUERY)
     df = result.dataframe
     df['date'] = pd.to_datetime(df['date'])
+    floats = df.select_dtypes(include=['float64']).columns.tolist()
+    df[floats] = df[floats].astype('float32')
     return df
 
 def main():
@@ -95,10 +97,10 @@ def main():
     date = startdate.strftime('%Y-%m-%d')
     slot_for_date.markdown(f'***Date {date}***')
 
-    fig1 = show_most_cases(df, startdate, label1)
-    st.altair_chart(fig1, use_container_width=True)
-    fig2 = show_most_cases(df, startdate, label2)
-    st.altair_chart(fig2, use_container_width=True)
+    fig = show_most_cases(df, startdate, label1)
+    st.altair_chart(fig, use_container_width=True)
+    fig = show_most_cases(df, startdate, label2)
+    st.altair_chart(fig, use_container_width=True)
 
     # World scatter plot
     st.markdown('## COVID-19: new confirmed cases worldwide 🌐')

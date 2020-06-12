@@ -65,7 +65,7 @@ def modify_data(df):
         param: dataframe
         return: new dataframe
     '''
-    new_df = df[(df.location != 'World') & (df.location !='International')]
+    new_df = df[df.location != 'World']
     return new_df
 
 @st.cache(show_spinner=False)
