@@ -40,6 +40,7 @@ def get_top_values(df, label, userdate):
     top20_values = top20_values.sort_values([label], ascending=False)[:20]
     top20_values['formatted'] = top20_values[label].apply(format_numbers)
     top20_values['date'] = userdate
+    top20_values = top20_values[['date', 'location', 'formatted', label]]
     return top20_values
 
 @st.cache(allow_output_mutation=True, show_spinner=False)
@@ -61,7 +62,7 @@ def get_values_by_date(df, startdate, chart_num, label, log=False):
 @st.cache(show_spinner=False)
 def modify_data(df):
     '''
-    Filter out 'International' and 'World'.
+    Filter out 'World' values.
         param: dataframe
         return: new dataframe
     '''
@@ -69,16 +70,18 @@ def modify_data(df):
     return new_df
 
 @st.cache(show_spinner=False)
-def get_world_data(df):
+def get_world_data(df, label):
     '''
     Return only world data in new data frame
     '''
     new_df = df[(df['location'] == 'World')]
+    new_df = new_df[['date', label]]
     return new_df
 
 @st.cache(show_spinner=False)
-def get_country_values(df, options):
+def get_country_values(df, options, label):
     new_df = df.loc[df['location'].isin(options)]
+    new_df = new_df[['date', 'location', label]]
     return new_df
 
 def show_most_cases(df, startdate, label):
@@ -107,7 +110,7 @@ def show_most_cases(df, startdate, label):
         fontSize=13,
         align='left',
         baseline='middle',
-        dx=3,  # Nudges text to right so it doesn't appear on top of the bar
+        dx=3,
     ).encode(
         text='formatted'
     )
@@ -137,7 +140,7 @@ def compare_countries(df, label, startdate, options, period, log, stack):
         type: dataframe object, str, datetime, list(str), int 
     '''
     
-    new_df = get_country_values(df, options)
+    new_df = get_country_values(df, options, label)
     new_df = get_values_by_date(new_df, startdate, 1, label, log)
     scale_type = 'log' if log else 'linear'
     scale_name = ' (logarithmic scale)' if log else ' (linear scale)'
@@ -176,7 +179,7 @@ def show_world_scatter(df, label):
     '''
     Creates scatter plot with LOESS lines
     '''
-    world_data = get_world_data(df)
+    world_data = get_world_data(df, label)
     cases_scale = max(world_data[label])
     date_scale = max(world_data['date'])
     oldest = min(world_data['date'])
