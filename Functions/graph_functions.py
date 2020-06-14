@@ -84,6 +84,7 @@ def get_country_values(df, options, label):
     new_df = new_df[['date', 'location', label]]
     return new_df
 
+@st.cache(show_spinner=False)
 def get_continent_values(df, label):
     new_df = df.groupby(['date','continent']).sum().reset_index()
     new_df = new_df[['date', 'continent', label]]
