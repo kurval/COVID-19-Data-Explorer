@@ -84,12 +84,10 @@ def get_country_values(df, options, label):
     new_df = new_df[['date', 'location', label]]
     return new_df
 
-@st.cache(show_spinner=False)
 def get_continent_values(df, label):
-    new_df = df.groupby(['date', 'continent', label]).sum().reset_index()
+    new_df = df.groupby(['date','continent']).sum().reset_index()
     new_df = new_df[['date', 'continent', label]]
     return new_df
-
 
 def show_most_cases(df, startdate, label):
     '''
@@ -228,12 +226,12 @@ def continent_cases(df, label):
         alt.datum.location != 'World'
     ).mark_area().encode(
         x=alt.X('date:T', title='Date'),
-        y=alt.Y('sum(new_cases):Q', title=None),
+        y=alt.Y(label+':Q', title=None),
         color='continent:N',
         row=alt.Row('continent:N', title=label.replace('_', ' ').title()),
         tooltip=[alt.Tooltip('date:T'),
             alt.Tooltip('continent', title='continent'),
-            alt.Tooltip('sum(new_cases):Q', title=label.replace('_', ' '))],
+            alt.Tooltip(label+':Q', format=",.0f", title=label.replace('_', ' '))],
     ).configure_header(
         titleColor='grey',
         titleFontSize=13,
