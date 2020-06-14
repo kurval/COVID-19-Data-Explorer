@@ -2,7 +2,7 @@
 import datadotworld as dw
 import pandas as pd
 import numpy as np
-from Functions.graph_functions import show_most_cases, compare_countries, show_world_scatter
+from Functions.graph_functions import show_most_cases, compare_countries, show_world_scatter, continent_cases
 from Functions.option_functions import choose_chart, choose_time_period
 import streamlit as st
 import altair as alt
@@ -13,7 +13,8 @@ from PIL import Image
 
 DATASET_ID = 'vale123/covid-19-complete-dataset'
 
-QUERY = "SELECT location, \
+QUERY = "SELECT continent, \
+        location, \
         date, \
         total_cases, \
         total_deaths, \
@@ -100,6 +101,12 @@ def main():
     fig = show_most_cases(df, startdate, label1)
     st.altair_chart(fig, use_container_width=True)
     fig = show_most_cases(df, startdate, label2)
+    st.altair_chart(fig, use_container_width=True)
+
+    # Cases by continent
+    st.markdown('## COVID-19: new confirmed cases by continent')
+    st.markdown("Hover over each area to see the values")
+    fig = continent_cases(df, labels['3'])
     st.altair_chart(fig, use_container_width=True)
 
     # World scatter plot

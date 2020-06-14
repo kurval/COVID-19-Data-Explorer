@@ -84,6 +84,13 @@ def get_country_values(df, options, label):
     new_df = new_df[['date', 'location', label]]
     return new_df
 
+@st.cache(show_spinner=False)
+def get_continent_values(df, label):
+    new_df = df.groupby(['date', 'continent', label]).sum().reset_index()
+    new_df = new_df[['date', 'continent', label]]
+    return new_df
+
+
 def show_most_cases(df, startdate, label):
     '''
     Creates labeled bar charts of 20 countries most cases and deaths
@@ -208,5 +215,38 @@ def show_world_scatter(df, label):
     ).configure_axisX(
         labelAngle=-30
     ).properties(height=350).interactive()
+
+    return chart
+
+def continent_cases(df, label):
+    '''
+    Creates chart of new cases of each continents
+    '''
+    new_df = modify_data(df)
+    new_df = get_continent_values(df, label)
+    chart = alt.Chart(new_df).transform_filter(
+        alt.datum.location != 'World'
+    ).mark_area().encode(
+        x=alt.X('date:T', title='Date'),
+        y=alt.Y('sum(new_cases):Q', title=None),
+        color='continent:N',
+        row=alt.Row('continent:N', title=label.replace('_', ' ').title()),
+        tooltip=[alt.Tooltip('date:T'),
+            alt.Tooltip('continent', title='continent'),
+            alt.Tooltip('sum(new_cases):Q', title=label.replace('_', ' '))],
+    ).configure_header(
+        titleColor='grey',
+        titleFontSize=13,
+        labelFontSize=12,
+    ).configure_axis(
+        labelFontSize=11,
+        titleFontSize=13,
+        titleColor='grey'
+    ).configure_axisX(
+        labelAngle=-30,
+    ).configure_legend(
+        titleFontSize=13,
+        labelFontSize=12,
+    ).properties(height=60).resolve_scale(y='independent').interactive()
 
     return chart
