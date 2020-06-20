@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import datadotworld as dw
 import pandas as pd
-import numpy as np
 from Functions.graph_functions import show_most_cases, compare_countries, show_world_scatter, continent_cases
 from Functions.option_functions import choose_chart, choose_time_period
 import streamlit as st
@@ -43,8 +42,14 @@ def import_data():
 
 def main():
     with st.spinner('Please wait...'):
-        df  = import_data()
-    labels = {'1':'total_cases', '2':'total_deaths', '3':'new_cases', '4':'new_deaths', '5':'new_cases_per_million', '6':'new_deaths_per_million'}
+        df = import_data()
+        
+    labels = {'1':'total_cases',
+              '2':'total_deaths',
+              '3':'new_cases',
+              '4':'new_deaths',
+              '5':'new_cases_per_million',
+              '6':'new_deaths_per_million'}
 
     # Header image with timestamp
     youngest = max(df['date'])
@@ -74,22 +79,31 @@ def main():
     fig = compare_countries(df, labels[chart], startdate, options, period, log, stack)
     slot_for_graph.altair_chart(fig, use_container_width=True)
 
-    st.info("ℹ️ You can select countries from the sidebar on the left corner.")
+    st.info("""
+    ℹ️ You can select countries from the sidebar on the left corner.
+    """)
 
     # Sidebar info
     st.sidebar.markdown("# Tips")
-    st.sidebar.info("**Choose statistics** from the select box and use sidebar to select or deselect countries. \
-    **Compare countries** by selecting multiple options. \
-    **Adjust time period** by dragging the slider or just clicking it.\
-    **Hover over** each line/block to see the values.")
+    st.sidebar.info("""
+    **Choose statistics** from the select box and use sidebar to select or deselect countries.
+    **Compare countries** by selecting multiple options.
+    **Adjust time period** by dragging the slider or just clicking it.
+    **Hover over** each line/block to see the values.
+    """)
 
     st.sidebar.markdown("# About")
-    st.sidebar.info("**This project's mission** is to transform COVID-19 data into understandable and shareable visuals.\
-    Data also needs to be reliable and up-to-date throughout the duration of the COVID-19 pandemic.\
-    This app is maintained by [*Valtteri Kurkela*](https://github.com/kurval) and data is sourced from [**Our World in Data**](https://ourworldindata.org/coronavirus).")
+    st.sidebar.info("""
+    **This project's mission** is to transform COVID-19 data into understandable and shareable visuals.
+    Data also needs to be reliable and up-to-date throughout the duration of the COVID-19 pandemic.
+    This app is maintained by [*Valtteri Kurkela*](https://github.com/kurval) and 
+    data is sourced from [**Our World in Data**](https://ourworldindata.org/coronavirus).
+    """)
 
     # Worst-hit countries charts
-    st.markdown('## COVID-19: total confirmed cases and deaths in the worst-hit countries')
+    st.markdown("""
+    ## COVID-19: total confirmed cases and deaths in the worst-hit countries
+    """)
     rate_m = st.checkbox('Per one million of population', value=False)
     label1 = labels['5'] if rate_m else labels['3']
     label2 = labels['6'] if rate_m else labels['4']
@@ -104,21 +118,27 @@ def main():
     st.altair_chart(fig, use_container_width=True)
 
     # Cases by continent
-    st.markdown('## COVID-19: new confirmed cases by continent')
-    st.markdown("Hover over each area to see the values")
+    st.markdown("""
+    ## COVID-19: new confirmed cases by continent\n
+    Hover over each area to see the values
+    """)
     fig = continent_cases(df, labels['3'])
     st.altair_chart(fig, use_container_width=True)
 
     # World scatter plot
-    st.markdown('## COVID-19: new confirmed cases worldwide 🌐')
-    st.markdown("Hover over each circle to see the values")
+    st.markdown("""
+    ## COVID-19: new confirmed cases worldwide 🌐\n
+    Hover over each circle to see the values
+    """)
     fig = show_world_scatter(df, labels['3'])
     st.altair_chart(fig, use_container_width=True)
 
     # Footer info
-    st.info("by: V.Kurkela | source: [Github](https://github.com/kurval/COVID-19-Statistics) |\
-    data source: [Dataworld](https://data.world/vale123/covid-19-complete-dataset) \
-    (orginally: [Ourworldindata](https://ourworldindata.org/coronavirus-source-data))")
+    st.info("""
+    by: V.Kurkela | source: [Github](https://github.com/kurval/COVID-19-Statistics) |
+    data source: [Dataworld](https://data.world/vale123/covid-19-complete-dataset)
+    (orginally: [Ourworldindata](https://ourworldindata.org/coronavirus-source-data))
+    """)
 
 if __name__ == "__main__":
     main()
