@@ -16,9 +16,8 @@ Using Alrair library for building interactive charts that are displayd with Vega
 * New deaths
 
 ## Using:
-* Streamlit
 * python3
-* altair, pandas, numpy
+* streamlit, altair, pandas
 * data.world's REST API
 
 Data is originally sourced from: https://ourworldindata.org/coronavirus-source-data  
