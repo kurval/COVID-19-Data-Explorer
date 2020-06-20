@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 import pandas as pd
-from Functions.option_functions import choose_time_period
-from Functions.chart_configuration import set_tooltip
 import streamlit as st
 import altair as alt
 import colorsys
 import random
+from Functions.chart_configuration import set_tooltip
 
 @st.cache(show_spinner=False)
 def get_N_HexCol(N=20):
@@ -120,7 +119,7 @@ def show_most_cases(df, startdate, label):
         text='formatted'
     )
     
-    fig = (bars + text).configure_axis(
+    chart = (bars + text).configure_axis(
         labelFontSize=11,
         titleFontSize=13,
         titleColor='grey'
@@ -133,7 +132,7 @@ def show_most_cases(df, startdate, label):
         height=520
     ).interactive()
 
-    return fig
+    return chart
 
 def compare_countries(df, label, startdate, options, period, log, stack):
     '''
