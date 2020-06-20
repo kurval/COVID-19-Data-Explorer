@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import pandas as pd
-import numpy as np
 from Functions.option_functions import choose_time_period
 from Functions.chart_configuration import set_tooltip
 import streamlit as st
