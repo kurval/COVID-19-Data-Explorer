@@ -10,17 +10,17 @@ from Functions.option_functions import choose_chart, choose_time_period
 
 DATASET_ID = 'vale123/covid-19-complete-dataset'
 
-QUERY = "SELECT continent, \
-        location, \
-        date, \
-        total_cases, \
-        total_deaths, \
-        new_cases, \
-        new_deaths, \
-        new_cases_per_million, \
-        new_deaths_per_million \
-        FROM owid_covid_data \
-        WHERE location != 'International'"
+QUERY = """SELECT continent,
+        location,
+        date,
+        total_cases,
+        total_deaths,
+        new_cases,
+        new_deaths,
+        new_cases_per_million,
+        new_deaths_per_million
+        FROM owid_covid_data
+        WHERE location != 'International'"""
 
 # Cache for 6 hours
 @st.cache(ttl=3600*6, show_spinner=False)
