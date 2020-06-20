@@ -3,7 +3,6 @@ import datadotworld as dw
 import pandas as pd
 import streamlit as st
 import altair as alt
-import click
 from PIL import Image
 from Functions.graph_functions import show_most_cases, compare_countries, show_world_scatter, continent_cases
 from Functions.option_functions import choose_chart, choose_time_period
