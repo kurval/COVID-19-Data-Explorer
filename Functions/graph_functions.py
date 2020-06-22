@@ -107,7 +107,7 @@ def show_most_cases(df, startdate, label):
         color=alt.Color('location:N', legend=None, scale=alt.Scale(range=get_N_HexCol())),
         tooltip=[alt.Tooltip('date:T'),
             alt.Tooltip('location', title='country'),
-            alt.Tooltip('formatted', title=label_title)],
+            alt.Tooltip(label+':Q', format=",.0f", title=label_title)],
     )
 
     text = bars.mark_text(
