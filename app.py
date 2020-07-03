@@ -48,6 +48,13 @@ def main():
               '5':'new_cases_per_million',
               '6':'new_deaths_per_million'}
 
+    st.sidebar.markdown("# Choose statistics")
+    graph = st.sidebar.radio("Chart:",
+                            ("Country compare",
+                            "Worst hit countries",
+                            "Cases by continent",
+                            "Cases worldwide"))
+
     # Header image with timestamp
     youngest = max(df['date'])
     oldest = min(df['date'])
@@ -55,77 +62,99 @@ def main():
     st.image(image, use_column_width=True, caption=f"Updated: {youngest.strftime('%Y-%m-%d')}")
     
     # Compare countries chart
-    chart = choose_chart()
-    countries = df['location'].unique()
-    log = False
-    stack = False
-    slot_for_checkbox = st.empty()
-    # Reordering figure to show here
-    slot_for_graph = st.empty()
+    if (graph == "Country compare"):
+        chart = choose_chart()
+        countries = df['location'].unique()
+        log = False
+        stack = False
+        slot_for_checkbox = st.empty()
+        # Reordering figure to show here
+        slot_for_graph = st.empty()
 
-    startdate, period = choose_time_period(youngest, oldest, 1)
-    st.sidebar.markdown("# Select countries")
-    options = st.sidebar.multiselect('Countries:', list(countries), default=['Finland'])
-    if chart == '1' or chart == '2':
-        log = slot_for_checkbox.checkbox("Logarithmic scale", value=False)
-    else:
-        stack = slot_for_checkbox.checkbox("Stack values", value=True) if len(options) >= 2 else False
-    fig = compare_countries(df, labels[chart], startdate, options, period, log, stack)
-    slot_for_graph.altair_chart(fig, use_container_width=True)
+        startdate, period = choose_time_period(youngest, oldest, 1)
+        st.sidebar.markdown("# Select countries")
+        options = st.sidebar.multiselect('Countries:', list(countries), default=['Finland'])
+        if chart == '1' or chart == '2':
+            log = slot_for_checkbox.checkbox("Logarithmic scale", value=False)
+        else:
+            stack = slot_for_checkbox.checkbox("Stack values", value=True) if len(options) >= 2 else False
+        fig = compare_countries(df, labels[chart], startdate, options, period, log, stack)
+        slot_for_graph.altair_chart(fig, use_container_width=True)
 
-    st.info("""
-    ℹ️ You can select countries from the sidebar on the left corner.
-    """)
+    # Worst-hit countries charts
+    if (graph == "Worst hit countries"):
+        st.markdown("""
+        ## COVID-19: total confirmed cases and deaths in the worst-hit countries
+        """)
+        rate_m = st.checkbox('Per one million of population', value=False)
+        label1 = labels['5'] if rate_m else labels['3']
+        label2 = labels['6'] if rate_m else labels['4']
+        slot_for_date = st.empty()
+        startdate, period = choose_time_period(youngest, oldest, 2)
+        date = startdate.strftime('%Y-%m-%d')
+        slot_for_date.markdown(f'***Date {date}***')
 
-    # Sidebar info
+        fig = show_most_cases(df, startdate, label1)
+        st.altair_chart(fig, use_container_width=True)
+        fig = show_most_cases(df, startdate, label2)
+        st.altair_chart(fig, use_container_width=True)
+
+    # Cases by continent
+    if (graph == "Cases by continent"):
+        st.markdown("""
+        ## COVID-19: new confirmed cases by continent\n
+        Hover over each area to see the values
+        """)
+        fig = continent_cases(df, labels['3'])
+        st.altair_chart(fig, use_container_width=True)
+
+    # World scatter plot
+    if (graph == "Cases worldwide"):
+        st.markdown("""
+        ## COVID-19: new confirmed cases worldwide 🌐\n
+        Hover over each circle to see the values
+        """)
+        fig = show_world_scatter(df, labels['3'])
+        st.altair_chart(fig, use_container_width=True)
+
+    ##Tips info text
     st.sidebar.markdown("# Tips")
-    st.sidebar.info("""
-    **Choose statistics** from the select box and use sidebar to select or deselect countries.
-    **Compare countries** by selecting multiple options.
-    **Adjust time period** by dragging the slider or just clicking it.
-    **Hover over** each line/block to see the values.
-    """)
+    if (graph == "Country compare"):
+        info_text = """
+        **Use sidebar** to select or deselect countries.\n
+        **Compare countries** by selecting multiple options.\n
+        **Choose the type of the statistics** from the select box.\n
+        **Adjust time period** by dragging the slider or just clicking it.\n
+        **Hover over** each line/block to see the values.
+        """
+    elif (graph == "Worst hit countries"):
+        info_text = """
+        **Adjust time period** by dragging the slider or just clicking it.\n
+        **By clicking the checkbox** you can see the values per one million of population.\n
+        **Hover over** each line/block to see the values.
+        """
+    elif (graph == "Cases by continent"):
+        info_text = """
+        **Hover over** each line/block to see the values.
+        """
+    elif (graph == "Cases worldwide"):
+        info_text = """
+        **Hover over** each area to see the values.
+        """
+    st.sidebar.info(info_text)
 
+    #About info text
     st.sidebar.markdown("# About")
     st.sidebar.info("""
     **This project's mission** is to transform COVID-19 data into understandable and shareable visuals.
-    Data also needs to be reliable and up-to-date throughout the duration of the COVID-19 pandemic.
+    Data also needs to be reliable and up-to-date throughout the duration of the COVID-19 pandemic.\n
     This app is maintained by [*Valtteri Kurkela*](https://github.com/kurval) and 
     data is sourced from [**Our World in Data**](https://ourworldindata.org/coronavirus).
     """)
 
-    # Worst-hit countries charts
-    st.markdown("""
-    ## COVID-19: total confirmed cases and deaths in the worst-hit countries
+    st.info("""
+    ℹ️ You can select different statistics from the sidebar on the left corner.
     """)
-    rate_m = st.checkbox('Per one million of population', value=False)
-    label1 = labels['5'] if rate_m else labels['3']
-    label2 = labels['6'] if rate_m else labels['4']
-    slot_for_date = st.empty()
-    startdate, period = choose_time_period(youngest, oldest, 2)
-    date = startdate.strftime('%Y-%m-%d')
-    slot_for_date.markdown(f'***Date {date}***')
-
-    fig = show_most_cases(df, startdate, label1)
-    st.altair_chart(fig, use_container_width=True)
-    fig = show_most_cases(df, startdate, label2)
-    st.altair_chart(fig, use_container_width=True)
-
-    # Cases by continent
-    st.markdown("""
-    ## COVID-19: new confirmed cases by continent\n
-    Hover over each area to see the values
-    """)
-    fig = continent_cases(df, labels['3'])
-    st.altair_chart(fig, use_container_width=True)
-
-    # World scatter plot
-    st.markdown("""
-    ## COVID-19: new confirmed cases worldwide 🌐\n
-    Hover over each circle to see the values
-    """)
-    fig = show_world_scatter(df, labels['3'])
-    st.altair_chart(fig, use_container_width=True)
 
     # Footer info
     st.info("""
