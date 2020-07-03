@@ -51,7 +51,7 @@ def main():
     st.sidebar.markdown("# Choose statistics")
     graph = st.sidebar.radio("Chart:",
                             ("Country compare",
-                            "Worst hit countries",
+                            "Worst-hit countries",
                             "Cases by continent",
                             "Cases worldwide"))
 
@@ -82,7 +82,7 @@ def main():
         slot_for_graph.altair_chart(fig, use_container_width=True)
 
     # Worst-hit countries charts
-    if (graph == "Worst hit countries"):
+    if (graph == "Worst-hit countries"):
         st.markdown("""
         ## COVID-19: total confirmed cases and deaths in the worst-hit countries
         """)
@@ -127,7 +127,7 @@ def main():
         **Adjust time period** by dragging the slider or just clicking it.\n
         **Hover over** each line/block to see the values.
         """
-    elif (graph == "Worst hit countries"):
+    elif (graph == "Worst-hit countries"):
         info_text = """
         **Adjust time period** by dragging the slider or just clicking it.\n
         **By clicking the checkbox** you can see the values per one million of population.\n
@@ -157,8 +157,8 @@ def main():
     """)
 
     # Footer info
-    st.info("""
-    by: V.Kurkela | source: [Github](https://github.com/kurval/COVID-19-Statistics) |
+    st.markdown("""
+    by: *V.Kurkela* | source: [Github](https://github.com/kurval/COVID-19-Statistics) |
     data source: [Dataworld](https://data.world/vale123/covid-19-complete-dataset)
     (orginally: [Ourworldindata](https://ourworldindata.org/coronavirus-source-data))
     """)
