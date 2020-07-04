@@ -42,19 +42,20 @@ def main():
     with st.spinner('Please wait...'):
         df = import_data()
         
-    labels = {'1':'total_cases',
-              '2':'total_deaths',
-              '3':'new_cases',
-              '4':'new_deaths',
-              '5':'new_cases_per_million',
-              '6':'new_deaths_per_million'}
+    labels = {
+    '1':'total_cases',
+    '2':'total_deaths',
+    '3':'new_cases',
+    '4':'new_deaths',
+    '5':'new_cases_per_million',
+    '6':'new_deaths_per_million'}
 
     st.sidebar.markdown("# Choose statistics")
     graph = st.sidebar.radio("Chart:",
-                            ("Country compare",
-                            "Worst-hit countries",
-                            "Cases by continent",
-                            "Cases worldwide"))
+    ("Country compare",
+    "Worst-hit countries",
+    "Cases by continent",
+    "Cases worldwide"))
 
     # Header image with timestamp
     youngest = max(df['date'])
