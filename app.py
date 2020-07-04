@@ -3,7 +3,6 @@ import datadotworld as dw
 import pandas as pd
 import streamlit as st
 import altair as alt
-import click
 from PIL import Image
 from Functions.graph_functions import show_most_cases, compare_countries, show_world_scatter, continent_cases
 from Functions.option_functions import choose_chart, choose_time_period
@@ -122,7 +121,7 @@ def main():
     st.sidebar.markdown("# Tips")
     if (graph == "Country compare"):
         info_text = """
-        **Use sidebar** to select or deselect countries.\n
+        **Use the sidebar** to select or deselect countries.\n
         **Compare countries** by selecting multiple options.\n
         **Choose the type of the statistics** from the select box.\n
         **Adjust time period** by dragging the slider or just clicking it.\n
@@ -155,6 +154,11 @@ def main():
 
     st.info("""
     ℹ️ You can select different statistics from the sidebar on the left corner.
+    """)
+
+    st.warning("""
+    ⚠️ You will notice massive 'negative' cases for UK 2020-07-03. 
+    This is because UK Gov't are undergoing major historical revision of its cases time series.
     """)
 
     # Footer info
