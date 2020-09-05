@@ -20,7 +20,7 @@ Using Alrair library for building interactive charts that are displayd with Vega
 * streamlit, altair, pandas
 * data.world's REST API
 
-Here is information how Install and configure data.world using pip:  
+Here is information how to install and configure data.world using pip:  
 https://datadotworld.github.io/data.world-py/python.html
 
 Data is originally sourced from: https://ourworldindata.org/coronavirus-source-data  
