@@ -9,7 +9,7 @@ def choose_chart():
     '''
     stats = {'Total cases':'1', 'Total deaths':'2', 'New cases':'3', 'New deaths':'4'}
     charts = ['Total cases', 'Total deaths', 'New cases', 'New deaths']
-    chart = st.selectbox('Choose statistics:', charts)
+    chart = st.selectbox('Choose data type:', charts)
     return stats[chart]
 
 def choose_chart_type():
