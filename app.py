@@ -33,7 +33,8 @@ def import_data():
     '''
     result = dw.query(
         DATASET_ID,
-        QUERY)
+        QUERY
+    )
     df = result.dataframe
     df['date'] = pd.to_datetime(df['date'])
     floats = df.select_dtypes(include=['float64']).columns.tolist()
@@ -42,32 +43,39 @@ def import_data():
 
 def main():
     st.beta_set_page_config(
-    page_title="COVID-19 STATISTICS", 
-    page_icon=":globe_with_meridians:")
+        page_title="COVID-19 STATISTICS", 
+        page_icon=":globe_with_meridians:"
+    )
 
     with st.spinner('Please wait...'):
         df = import_data()
         
     labels = {
-    '1':'total_cases',
-    '2':'total_deaths',
-    '3':'new_cases',
-    '4':'new_deaths',
-    '5':'new_cases_per_million',
-    '6':'new_deaths_per_million'}
+        '1':'total_cases',
+        '2':'total_deaths',
+        '3':'new_cases',
+        '4':'new_deaths',
+        '5':'new_cases_per_million',
+        '6':'new_deaths_per_million'
+    }
 
     st.sidebar.markdown("# Choose statistics")
     graph = st.sidebar.radio("Chart:",
-    ("Country compare",
-    "Worst-hit countries",
-    "Cases by continent",
-    "Cases worldwide"))
+        ("Country compare",
+        "Worst-hit countries",
+        "Cases by continent",
+        "Cases worldwide")
+    )
 
     # Header image with timestamp
     youngest = max(df['date'])
     oldest = min(df['date'])
     image = Image.open('./Images/header.png')
-    st.image(image, use_column_width=True, caption=f"Updated: {youngest.strftime('%Y-%m-%d')}")
+    st.image(
+        image, 
+        use_column_width=True, 
+        caption=f"Updated: {youngest.strftime('%Y-%m-%d')}"
+    )
     
     # Compare countries chart
     if (graph == "Country compare"):
@@ -82,11 +90,21 @@ def main():
 
         startdate, period = choose_time_period(youngest, oldest, 1)
         st.sidebar.markdown("# Select countries")
-        options = st.sidebar.multiselect('Countries:', list(countries), default=['Finland'])
+        options = st.sidebar.multiselect(
+                'Countries:', 
+                list(countries), 
+                default=['Finland']
+        )
         if chart_type == '1':
-            log = slot_for_checkbox.checkbox("Logarithmic scale", value=False)
+            log = slot_for_checkbox.checkbox(
+                "Logarithmic scale", 
+                value=False
+            )
         else:
-            stack = slot_for_checkbox.checkbox("Stack values", value=True) if len(options) >= 2 else False
+            stack = slot_for_checkbox.checkbox(
+                "Stack values", 
+                value=True
+            ) if len(options) > 1 else False
         fig = compare_countries(df, labels[chart], chart_type, startdate, options, period, log, stack)
         slot_for_graph.altair_chart(fig, use_container_width=True)
 
