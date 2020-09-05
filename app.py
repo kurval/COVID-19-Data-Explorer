@@ -6,7 +6,7 @@ import altair as alt
 import click
 from PIL import Image
 from Functions.graph_functions import show_most_cases, compare_countries, show_world_scatter, continent_cases
-from Functions.option_functions import choose_chart, choose_time_period
+from Functions.option_functions import choose_chart,choose_chart_type, choose_time_period
 
 DATASET_ID = 'vale123/covid-19-complete-dataset'
 
@@ -72,6 +72,7 @@ def main():
     # Compare countries chart
     if (graph == "Country compare"):
         chart = choose_chart()
+        chart_type = choose_chart_type()
         countries = df['location'].unique()
         log = False
         stack = False
@@ -82,11 +83,11 @@ def main():
         startdate, period = choose_time_period(youngest, oldest, 1)
         st.sidebar.markdown("# Select countries")
         options = st.sidebar.multiselect('Countries:', list(countries), default=['Finland'])
-        if chart == '1' or chart == '2':
+        if chart_type == '1':
             log = slot_for_checkbox.checkbox("Logarithmic scale", value=False)
         else:
             stack = slot_for_checkbox.checkbox("Stack values", value=True) if len(options) >= 2 else False
-        fig = compare_countries(df, labels[chart], startdate, options, period, log, stack)
+        fig = compare_countries(df, labels[chart], chart_type, startdate, options, period, log, stack)
         slot_for_graph.altair_chart(fig, use_container_width=True)
 
     # Worst-hit countries charts

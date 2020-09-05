@@ -134,7 +134,7 @@ def show_most_cases(df, startdate, label):
 
     return chart
 
-def compare_countries(df, label, startdate, options, period, log, stack):
+def compare_countries(df, label, chart_type, startdate, options, period, log, stack):
     '''
     Allows user to choose time period and countries for the graph.
     User can also choose statistics type from 1=total_cases, 2=total_deaths, 3=new_cases, 4=new_deaths.
@@ -149,7 +149,7 @@ def compare_countries(df, label, startdate, options, period, log, stack):
     scale_type = 'log' if log else 'linear'
     scale_name = ' (logarithmic scale)' if log else ' (linear scale)'
     grid = False if log else True
-    if label == 'total_cases' or label == 'total_deaths':
+    if chart_type == '1':
         chart = alt.Chart(new_df).mark_line(interpolate='basis').encode(
             x = alt.X("date:T", title="Date"),
             y = alt.Y(label + ':Q', title=label.replace('_', ' ').title() + scale_name, scale=alt.Scale(type=scale_type), axis=alt.Axis(tickCount=5, grid=grid, ticks=grid)),

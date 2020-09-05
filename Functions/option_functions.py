@@ -5,12 +5,23 @@ def choose_chart():
     '''
     Allowing user to choose data type
 
-        return: chart number ('1':total_cases, '2':total_deaths, '3':new_cases, '4':new_deaths,)
+        return: chart number ('1':total_cases, '2':total_deaths, '3':new_cases, '4':new_deaths)
     '''
     stats = {'Total cases':'1', 'Total deaths':'2', 'New cases':'3', 'New deaths':'4'}
     charts = ['Total cases', 'Total deaths', 'New cases', 'New deaths']
-    chart = st.selectbox('', charts)
+    chart = st.selectbox('Choose statistics:', charts)
     return stats[chart]
+
+def choose_chart_type():
+    '''
+    Allowing user to choose chart
+
+        return: chart type number ('1':line_chart, '2':bar_chart)
+    '''
+    chart_types = {'Line chart':'1', 'Bar chart':'2', }
+    charts = ['Line chart', 'Bar chart']
+    chart = st.selectbox('Choose chart type:', charts)
+    return chart_types[chart]
 
 def choose_time_period(youngest, oldest, key):
     '''
