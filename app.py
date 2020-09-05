@@ -160,11 +160,6 @@ def main():
     ℹ️ You can select different statistics from the sidebar on the left corner.
     """)
 
-    st.warning("""
-    ⚠️ You will notice massive 'negative' cases for UK 2020-07-03. 
-    This is because UK Gov't are undergoing major historical revision of its cases time series.
-    """)
-
     # Footer info
     st.markdown("""
     by: *V.Kurkela* | source: [Github](https://github.com/kurval/COVID-19-Statistics) |

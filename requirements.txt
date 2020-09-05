@@ -1,6 +1,6 @@
-pandas==1.0.5
 altair==4.1.0
+streamlit==0.66.0
 datadotworld==1.7.0
 click==7.1.2
-streamlit==0.62.1
+pandas==1.1.1
 Pillow==7.2.0
