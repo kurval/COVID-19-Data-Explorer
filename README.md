@@ -15,13 +15,19 @@ Using Alrair library for building interactive charts that are displayd with Vega
 * New confirmed cases
 * New deaths
 
-## Using:
+# Using:
 * python3
 * streamlit, altair, pandas
 * data.world's REST API
 
-Here is information how to install and configure data.world using pip:  
-https://datadotworld.github.io/data.world-py/python.html
+# Running with Docker
+You can run this app with Dockerfile  
+Build the container:  
+```docker build -t st-app .```
+And run it:  
+```docker run -p 8501:8501 --name st-app -it --rm st-app```  
+Container is now available on:  
+```http://<your docker-machine ip>:8501/```  
 
 Data is originally sourced from: https://ourworldindata.org/coronavirus-source-data  
 More information about this dataset: https://github.com/owid/covid-19-data/tree/master/public/data

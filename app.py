@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 import datadotworld as dw
 import pandas as pd
 import streamlit as st
