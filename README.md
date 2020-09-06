@@ -21,11 +21,14 @@ Using Alrair library for building interactive charts that are displayd with Vega
 * data.world's REST API
 
 # Running with Docker
-You can run this app with Dockerfile  
+You can run this app with Dockerfile   
+
 Build the container:  
-```docker build -t st-app .```
+```docker build -t st-app .```  
+
 And run it:  
 ```docker run -p 8501:8501 --name st-app -it --rm st-app```  
+
 Container is now available on:  
 ```http://<your docker-machine ip>:8501/```  
 
