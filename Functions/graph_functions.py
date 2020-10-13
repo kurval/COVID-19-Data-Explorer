@@ -5,6 +5,7 @@ import altair as alt
 import colorsys
 import random
 from Functions.chart_configuration import set_tooltip
+from Functions.option_functions import choose_time_period
 
 @st.cache(show_spinner=False)
 def get_N_HexCol(N=20):
@@ -247,3 +248,33 @@ def continent_cases(df, label):
     ).properties(height=60).resolve_scale(y='independent').interactive()
 
     return chart
+
+def show_chart(df, chart, youngest, oldest):
+    '''
+    Shows worst hit countries char depending chart type:
+    '1' = Total cases
+    '2' = Total deaths
+    '''
+    
+    labels = {
+        '1':'new_cases',
+        '2':'new_deaths',
+    }
+    
+    if (chart == '1'):
+        st.markdown("""
+        ## COVID-19: total confirmed cases in the worst-hit countries
+        """)
+    else:
+        st.markdown("""
+        ## COVID-19: total deaths in the worst-hit countries
+        """)
+    rate_m = st.checkbox('Per one million of population', value=False)
+    label = '_'.join([labels[chart], "per_million"]) if rate_m else labels[chart]
+    slot_for_date = st.empty()
+    startdate, period = choose_time_period(youngest, oldest, 2)
+    date = startdate.strftime('%Y-%m-%d')
+    slot_for_date.markdown(f'***Date {date}***')
+
+    fig = show_most_cases(df, startdate, label)
+    st.altair_chart(fig, use_container_width=True)

@@ -1,7 +1,7 @@
 import pandas as pd
 import streamlit as st
 
-def choose_chart():
+def choose_chart1():
     '''
     Allowing user to choose data type
 
@@ -9,6 +9,17 @@ def choose_chart():
     '''
     stats = {'Total cases':'1', 'Total deaths':'2', 'New cases':'3', 'New deaths':'4'}
     charts = ['Total cases', 'Total deaths', 'New cases', 'New deaths']
+    chart = st.selectbox('Choose data type:', charts)
+    return stats[chart]
+
+def choose_chart2():
+    '''
+    Allowing user to choose data type
+
+        return: chart number ('1':total_cases, '2':total_deaths)
+    '''
+    stats = {'Total cases':'1', 'Total deaths':'2'}
+    charts = ['Total cases', 'Total deaths']
     chart = st.selectbox('Choose data type:', charts)
     return stats[chart]
 

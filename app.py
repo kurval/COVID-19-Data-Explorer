@@ -5,8 +5,8 @@ import streamlit as st
 import altair as alt
 import click
 from PIL import Image
-from Functions.graph_functions import show_most_cases, compare_countries, show_world_scatter, continent_cases
-from Functions.option_functions import choose_chart,choose_chart_type, choose_time_period
+from Functions.graph_functions import show_most_cases, compare_countries, show_world_scatter, continent_cases, show_chart
+from Functions.option_functions import choose_chart1, choose_chart2, choose_chart_type, choose_time_period
 
 DATASET_ID = 'vale123/covid-19-complete-dataset'
 
@@ -79,7 +79,7 @@ def main():
     
     # Compare countries chart
     if (graph == "Country compare"):
-        chart = choose_chart()
+        chart = choose_chart1()
         chart_type = choose_chart_type()
         countries = df['location'].unique()
         log = False
@@ -110,21 +110,8 @@ def main():
 
     # Worst-hit countries charts
     if (graph == "Worst-hit countries"):
-        st.markdown("""
-        ## COVID-19: total confirmed cases and deaths in the worst-hit countries
-        """)
-        rate_m = st.checkbox('Per one million of population', value=False)
-        label1 = labels['5'] if rate_m else labels['3']
-        label2 = labels['6'] if rate_m else labels['4']
-        slot_for_date = st.empty()
-        startdate, period = choose_time_period(youngest, oldest, 2)
-        date = startdate.strftime('%Y-%m-%d')
-        slot_for_date.markdown(f'***Date {date}***')
-
-        fig = show_most_cases(df, startdate, label1)
-        st.altair_chart(fig, use_container_width=True)
-        fig = show_most_cases(df, startdate, label2)
-        st.altair_chart(fig, use_container_width=True)
+        chart = choose_chart2()
+        show_chart(df, chart, youngest, oldest)
 
     # Cases by continent
     if (graph == "Cases by continent"):
