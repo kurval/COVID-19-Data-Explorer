@@ -5,7 +5,7 @@ import altair as alt
 import colorsys
 import random
 from Functions.chart_configuration import set_tooltip
-from Functions.option_functions import choose_time_period
+from Functions.option_functions import choose_time_period, choose_chart_type
 
 @st.cache(show_spinner=False)
 def get_N_HexCol(N=20):
@@ -89,7 +89,7 @@ def get_continent_values(df, label):
     new_df = new_df[['date', 'continent', label]]
     return new_df
 
-def show_most_cases(df, startdate, label):
+def get_most_cases_chart(df, startdate, label):
     '''
     Creates labeled bar charts of 20 countries most cases and deaths
         param: pd df, startdate, label
@@ -135,7 +135,7 @@ def show_most_cases(df, startdate, label):
 
     return chart
 
-def compare_countries(df, label, chart_type, startdate, options, period, log, stack):
+def get_compare_countries_chart(df, label, chart_type, startdate, options, period, log, stack):
     '''
     Allows user to choose time period and countries for the graph.
     User can also choose statistics type from 1=total_cases, 2=total_deaths, 3=new_cases, 4=new_deaths.
@@ -249,13 +249,13 @@ def continent_cases(df, label):
 
     return chart
 
-def show_chart(df, chart, youngest, oldest):
+def show_worst_hit_chart(df, chart, youngest, oldest):
     '''
     Shows worst hit countries char depending chart type:
     '1' = Total cases
     '2' = Total deaths
     '''
-    
+
     labels = {
         '1':'new_cases',
         '2':'new_deaths',
@@ -276,5 +276,41 @@ def show_chart(df, chart, youngest, oldest):
     date = startdate.strftime('%Y-%m-%d')
     slot_for_date.markdown(f'***Date {date}***')
 
-    fig = show_most_cases(df, startdate, label)
+    fig = get_most_cases_chart(df, startdate, label)
     st.altair_chart(fig, use_container_width=True)
+
+def show_compare_chart(df, chart, youngest, oldest):
+
+    labels = {
+        '1':'total_cases',
+        '2':'total_deaths',
+        '3':'new_cases',
+        '4':'new_deaths',
+    }
+    chart_type = choose_chart_type()
+    countries = df['location'].unique()
+    log = False
+    stack = False
+    slot_for_checkbox = st.empty()
+    # Reordering figure to show here
+    slot_for_graph = st.empty()
+
+    startdate, period = choose_time_period(youngest, oldest, 1)
+    st.sidebar.markdown("# Select countries")
+    options = st.sidebar.multiselect(
+            'Countries:', 
+            list(countries), 
+            default=['Finland']
+    )
+    if chart_type == '1':
+        log = slot_for_checkbox.checkbox(
+            "Logarithmic scale", 
+            value=False
+        )
+    else:
+        stack = slot_for_checkbox.checkbox(
+            "Stack values", 
+            value=True
+        ) if len(options) > 1 else False
+    fig = get_compare_countries_chart(df, labels[chart], chart_type, startdate, options, period, log, stack)
+    slot_for_graph.altair_chart(fig, use_container_width=True)

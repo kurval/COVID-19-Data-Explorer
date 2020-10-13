@@ -5,7 +5,7 @@ import streamlit as st
 import altair as alt
 import click
 from PIL import Image
-from Functions.graph_functions import show_most_cases, compare_countries, show_world_scatter, continent_cases, show_chart
+from Functions.graph_functions import show_world_scatter, continent_cases, show_worst_hit_chart, show_compare_chart
 from Functions.option_functions import choose_chart1, choose_chart2, choose_chart_type, choose_time_period
 
 DATASET_ID = 'vale123/covid-19-complete-dataset'
@@ -49,15 +49,6 @@ def main():
 
     with st.spinner('Please wait...'):
         df = import_data()
-        
-    labels = {
-        '1':'total_cases',
-        '2':'total_deaths',
-        '3':'new_cases',
-        '4':'new_deaths',
-        '5':'new_cases_per_million',
-        '6':'new_deaths_per_million'
-    }
 
     st.sidebar.markdown("# Choose statistics")
     graph = st.sidebar.radio("Chart:",
@@ -80,38 +71,12 @@ def main():
     # Compare countries chart
     if (graph == "Country compare"):
         chart = choose_chart1()
-        chart_type = choose_chart_type()
-        countries = df['location'].unique()
-        log = False
-        stack = False
-        slot_for_checkbox = st.empty()
-        # Reordering figure to show here
-        slot_for_graph = st.empty()
-
-        startdate, period = choose_time_period(youngest, oldest, 1)
-        st.sidebar.markdown("# Select countries")
-        options = st.sidebar.multiselect(
-                'Countries:', 
-                list(countries), 
-                default=['Finland']
-        )
-        if chart_type == '1':
-            log = slot_for_checkbox.checkbox(
-                "Logarithmic scale", 
-                value=False
-            )
-        else:
-            stack = slot_for_checkbox.checkbox(
-                "Stack values", 
-                value=True
-            ) if len(options) > 1 else False
-        fig = compare_countries(df, labels[chart], chart_type, startdate, options, period, log, stack)
-        slot_for_graph.altair_chart(fig, use_container_width=True)
+        show_compare_chart(df, chart, youngest, oldest)
 
     # Worst-hit countries charts
     if (graph == "Worst-hit countries"):
         chart = choose_chart2()
-        show_chart(df, chart, youngest, oldest)
+        show_worst_hit_chart(df, chart, youngest, oldest)
 
     # Cases by continent
     if (graph == "Cases by continent"):
@@ -119,7 +84,7 @@ def main():
         ## COVID-19: new confirmed cases by continent\n
         Hover over each area to see the values
         """)
-        fig = continent_cases(df, labels['3'])
+        fig = continent_cases(df, 'new_cases')
         st.altair_chart(fig, use_container_width=True)
 
     # World scatter plot
@@ -128,7 +93,7 @@ def main():
         ## COVID-19: new confirmed cases worldwide 🌐\n
         Hover over each circle to see the values
         """)
-        fig = show_world_scatter(df, labels['3'])
+        fig = show_world_scatter(df, 'new_cases')
         st.altair_chart(fig, use_container_width=True)
 
     ##Tips info text
