@@ -6,7 +6,7 @@ import altair as alt
 import click
 from PIL import Image
 from Functions.graph_functions import show_world_scatter, continent_cases, show_worst_hit_chart, show_compare_chart
-from Functions.option_functions import choose_chart1, choose_chart2, choose_chart_type, choose_time_period
+from Functions.option_functions import choose_chart1, choose_chart_type, choose_time_period
 from Functions.ui_elements import world_cases
 
 DATASET_ID = 'vale123/covid-19-complete-dataset'
@@ -53,8 +53,6 @@ def main():
 
     youngest = max(df['date'])
     oldest = min(df['date'])
-    num_cases = df[(df['date'] == youngest) & (df['location'] == 'World')]
-    world_cases(num_cases)
 
     image = Image.open('./Images/covid_logo.png')
     st.sidebar.image(
@@ -73,13 +71,14 @@ def main():
     
     # Compare countries chart
     if (graph == "Country compare"):
+        num_cases = df[(df['date'] == youngest) & (df['location'] == 'World')]
+        world_cases(num_cases)
         chart = choose_chart1()
         show_compare_chart(df, chart, youngest, oldest)
 
     # Worst-hit countries charts
     if (graph == "Worst-hit countries"):
-        chart = choose_chart2()
-        show_worst_hit_chart(df, chart, youngest, oldest)
+        show_worst_hit_chart(df, youngest, oldest)
 
     # Cases by continent
     if (graph == "Cases by continent"):
