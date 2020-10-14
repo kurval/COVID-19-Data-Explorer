@@ -51,7 +51,6 @@ def main():
     with st.spinner('Please wait...'):
         df = import_data()
 
-    # Header image with timestamp
     youngest = max(df['date'])
     oldest = min(df['date'])
     num_cases = df[(df['date'] == youngest) & (df['location'] == 'World')]
