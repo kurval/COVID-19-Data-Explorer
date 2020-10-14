@@ -7,6 +7,7 @@ import click
 from PIL import Image
 from Functions.graph_functions import show_world_scatter, continent_cases, show_worst_hit_chart, show_compare_chart
 from Functions.option_functions import choose_chart1, choose_chart2, choose_chart_type, choose_time_period
+from Functions.ui_elements import world_cases
 
 DATASET_ID = 'vale123/covid-19-complete-dataset'
 
@@ -50,22 +51,25 @@ def main():
     with st.spinner('Please wait...'):
         df = import_data()
 
+    # Header image with timestamp
+    youngest = max(df['date'])
+    oldest = min(df['date'])
+    num_cases = df[(df['date'] == youngest) & (df['location'] == 'World')]
+    world_cases(num_cases)
+
+    image = Image.open('./Images/covid_logo.png')
+    st.sidebar.image(
+        image, 
+        use_column_width=True,
+        caption=f"Updated: {youngest.strftime('%Y-%m-%d')}"
+    )
+
     st.sidebar.markdown("# Choose statistics")
     graph = st.sidebar.radio("Chart:",
         ("Country compare",
         "Worst-hit countries",
         "Cases by continent",
         "Cases worldwide")
-    )
-
-    # Header image with timestamp
-    youngest = max(df['date'])
-    oldest = min(df['date'])
-    image = Image.open('./Images/header.png')
-    st.image(
-        image, 
-        use_column_width=True, 
-        caption=f"Updated: {youngest.strftime('%Y-%m-%d')}"
     )
     
     # Compare countries chart

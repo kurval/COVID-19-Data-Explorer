@@ -300,7 +300,7 @@ def show_compare_chart(df, chart, youngest, oldest):
     options = st.sidebar.multiselect(
             'Countries:', 
             list(countries), 
-            default=['Finland']
+            default=['World']
     )
     if chart_type == '1':
         log = slot_for_checkbox.checkbox(
