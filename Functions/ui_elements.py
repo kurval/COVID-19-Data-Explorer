@@ -12,8 +12,8 @@ def world_cases(num_cases):
         f"<td style='{_cell_style} + background-color:red;'> Total Deaths 🌐<p style='{_text_style}'>Worldwide</p></td>"
         "</tr>"
         f"<tr style='border: 2px solid {_border_color}'> "
-        f"<td style='border-right: 2px solid {_border_color}; border-spacing: 10px; {_number_format}' > {int(num_cases['total_cases']):,}</td> "
-        f"<td style='{_number_format}'> {int(num_cases['total_deaths']):,} </td>"
+        f"<td style='border-right: 2px solid {_border_color}; border-spacing: 10px; {_number_format}' > {float(num_cases['total_cases']):,.0f}</td> "
+        f"<td style='{_number_format}'> {float(num_cases['total_deaths']):,.0f} </td>"
         "</tr>"
         "</table>"
         "<br>",
