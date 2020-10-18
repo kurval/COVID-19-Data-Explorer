@@ -19,6 +19,13 @@ class CompareCountries(unittest.TestCase):
             EC.presence_of_element_located(attr)
         )
         return element
+    
+    def checkChart(self):
+        driver = self.driver
+        chart = WebDriverWait(driver, 10).until(
+            EC.visibility_of_element_located((By.CLASS_NAME, 'marks'))
+        )
+        self.assertTrue(chart)
 
     def test_check_cases_text(self):
         driver = self.driver
@@ -33,16 +40,13 @@ class CompareCountries(unittest.TestCase):
     def test_chart_is_visible(self):
         time.sleep(1)
         driver = self.driver
-        chart = WebDriverWait(driver, 10).until(
-            EC.visibility_of_element_located((By.CLASS_NAME, 'marks'))
-        )
-        self.assertTrue(chart)
+        self.checkChart()
     
     def test_log_scale(self):
         driver = self.driver
         checkbox = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[5]/div/label/span'))
         checkbox.click()
-        self.test_chart_is_visible()
+        self.checkChart()
     
     def test_data_type(self):
         driver = self.driver
@@ -50,7 +54,7 @@ class CompareCountries(unittest.TestCase):
         data_types.click()
         total_deaths = self.getElement((By.ID, 'bui-10'))
         total_deaths.click()
-        self.test_chart_is_visible()
+        self.checkChart()
     
     def test_chart_type(self):
         driver = self.driver
@@ -58,14 +62,14 @@ class CompareCountries(unittest.TestCase):
         chart_types.click()
         bar_chart = self.getElement((By.ID, 'bui-10'))
         bar_chart.click()
-        self.test_chart_is_visible()
+        self.checkChart()
 
     def test_slider(self):
         driver = self.driver
         slider = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[7]/div/div/div[1]/div/div'))
         action_chains = ActionChains(driver)
         action_chains.click_and_hold(slider).move_by_offset(-40, 0).release().perform()
-        self.test_chart_is_visible()
+        self.checkChart()
 
     def tearDown(self):
         self.driver.close()
