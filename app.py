@@ -38,6 +38,7 @@ def import_data():
     )
     df = result.dataframe
     df['date'] = pd.to_datetime(df['date'])
+    df[['total_cases', 'total_deaths']] = df[['total_cases', 'total_deaths']].apply(pd.to_numeric)
     floats = df.select_dtypes(include=['float64']).columns.tolist()
     df[floats] = df[floats].astype('float32')
     return df
