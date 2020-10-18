@@ -34,15 +34,12 @@ class WorstHitCountries(unittest.TestCase):
             EC.visibility_of_element_located((By.CLASS_NAME, 'marks'))
         )
         self.assertTrue(chart)
-    
-    def checkText(self, expected, text):
-        self.assertEqual(expected, text)
 
     def test_move_to_most_cases(self):
         driver = self.driver
         self.movePage()
         cases = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[2]/div/h2'))
-        self.checkText("COVID-19: total confirmed cases in the worst-hit countries", cases.text)
+        self.assertEqual("COVID-19: total confirmed cases in the worst-hit countries", cases.text)
         self.checkChart()
     
     def test_data_type(self):
@@ -54,7 +51,7 @@ class WorstHitCountries(unittest.TestCase):
         total_deaths.click()
         time.sleep(1)
         deaths = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[2]/div/h2'))
-        self.checkText("COVID-19: total deaths in the worst-hit countries", deaths.text)
+        self.assertEqual("COVID-19: total deaths in the worst-hit countries", deaths.text)
         self.checkChart()
 
     def test_per_million(self):
