@@ -33,7 +33,7 @@ class WorstHitCountries(unittest.TestCase):
         chart = WebDriverWait(driver, 10).until(
             EC.visibility_of_element_located((By.CLASS_NAME, 'marks'))
         )
-        self.assertTrue(chart)
+        self.assertTrue(chart.is_displayed())
 
     def test_move_to_most_cases(self):
         driver = self.driver

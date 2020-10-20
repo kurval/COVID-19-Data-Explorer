@@ -25,7 +25,7 @@ class CompareCountries(unittest.TestCase):
         chart = WebDriverWait(driver, 10).until(
             EC.visibility_of_element_located((By.CLASS_NAME, 'marks'))
         )
-        self.assertTrue(chart)
+        self.assertTrue(chart.is_displayed())
 
     def test_check_cases_text(self):
         driver = self.driver
