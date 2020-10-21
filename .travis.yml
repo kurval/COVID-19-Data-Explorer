@@ -16,6 +16,7 @@ python:
 install:
   - pip install -r requirements.txt
 script:
+  - mkdir ~/.streamlit && touch ~/.streamlit/config.toml
   - streamlit config show > ~/.streamlit/config.toml
   - sed -i -e 's/baseUrlPath = ""/baseUrlPath = "http:\/\/covid19dataexplorer.com\/dev"/g' ~/.streamlit/config.toml
   - streamlit run app.py
