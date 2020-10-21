@@ -13,7 +13,7 @@ class WorstHitCountries(unittest.TestCase):
     def setUp(self):
         warnings.filterwarnings(action="ignore", message="unclosed", category=ResourceWarning)
         self.driver = webdriver.Chrome()
-        self.driver.get("http://localhost:8501/")
+        self.driver.get("http://10.30.1.136:8501")
 
     def getElement(self, attr):
         driver = self.driver
