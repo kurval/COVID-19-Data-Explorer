@@ -11,7 +11,7 @@ class CompareCountries(unittest.TestCase):
 
     def setUp(self):
         self.driver = webdriver.Chrome()
-        self.driver.get("http://10.30.1.136:8501")
+        self.driver.get("http://localhost:8501/http://covid19dataexplorer.com/dev")
 
     def getElement(self, attr):
         driver = self.driver
