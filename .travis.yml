@@ -2,7 +2,7 @@ language: python
 
 before-install:
   - wget http://chromedriver.storage.googleapis.com/2.24/chromedriver_mac64.zip
-  - unzip chromedriver_mac64.zip -d /home/travis/virtualenv/python2.7.12/bin/
+  - unzip ~/chromedriver_mac64.zip -d ~/
   - export CHROME_BIN=chromium-browser
 
 python:
