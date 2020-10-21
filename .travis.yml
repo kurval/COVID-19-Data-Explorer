@@ -1,9 +1,15 @@
 language: python
 
+addons:
+  chrome: stable
+
 before-install:
-  - wget http://chromedriver.storage.googleapis.com/2.24/chromedriver_mac64.zip
+  - wget -N https://chromedriver.storage.googleapis.com/86.0.4240.22/chromedriver_mac64.zip -P ~/
   - unzip ~/chromedriver_mac64.zip -d ~/
-  - export CHROME_BIN=chromium-browser
+  - rm ~/chromedriver_mac64.zip
+  - sudo mv -f ~/chromedriver /usr/local/share/
+  - sudo chmod +x /usr/local/share/chromedriver
+  - sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver
 
 python:
   - "3.7"
