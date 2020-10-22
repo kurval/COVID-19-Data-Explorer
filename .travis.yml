@@ -1,10 +1,12 @@
 language: python
 
-sudo: required
+python:
+  - "3.7"
+
 addons:
   chrome: stable
 
-before-install:
+install:
   - wget -N https://chromedriver.storage.googleapis.com/86.0.4240.22/chromedriver_mac64.zip -P ~/
   - unzip ~/chromedriver_mac64.zip -d ~/
   - rm ~/chromedriver_mac64.zip
@@ -12,11 +14,8 @@ before-install:
   - sudo chmod +x /usr/local/share/chromedriver
   - sudo chmod 755 /usr/local/bin/
   - sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver
-
-python:
-  - "3.7"
-install:
   - pip install -r requirements.txt
+
 script:
   - mkdir ~/.streamlit && touch ~/.streamlit/config.toml
   - streamlit config show > ~/.streamlit/config.toml
