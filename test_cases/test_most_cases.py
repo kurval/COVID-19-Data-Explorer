@@ -16,6 +16,7 @@ class WorstHitCountries(unittest.TestCase):
     def setUp(self):
         warnings.filterwarnings(action="ignore", message="unclosed", category=ResourceWarning)
         chrome_options = webdriver.chrome.options.Options()
+        chrome_options.add_argument('--no-sandbox')
         self.driver = webdriver.Chrome(options=chrome_options)
         self.driver.get("http://localhost:8501/http://covid19dataexplorer.com/dev")
 
