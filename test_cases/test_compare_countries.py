@@ -16,6 +16,7 @@ class CompareCountries(unittest.TestCase):
         chrome_options = webdriver.chrome.options.Options()
         chrome_options.add_argument('--no-sandbox')
         chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--window-size=1920,1080")
         chrome_options.add_argument('--disable-dev-shm-usage')
         self.driver = webdriver.Chrome(options=chrome_options)
         self.driver.get("http://localhost:8501/http://covid19dataexplorer.com/dev")
