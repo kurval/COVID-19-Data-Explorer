@@ -23,6 +23,7 @@ class WorstHitCountries(unittest.TestCase):
         chrome_options.add_argument('--disable-gpu')
         chrome_options.add_argument('--disable-dev-shm-usage')
         self.driver = webdriver.Chrome(options=chrome_options)
+        self.driver.implicitly_wait(30)
         self.driver.get("http://localhost:8501/http://covid19dataexplorer.com/dev")
 
     def getElement(self, attr):
