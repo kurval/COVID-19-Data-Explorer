@@ -1,5 +1,7 @@
 import unittest
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
@@ -15,14 +17,15 @@ class CompareCountries(unittest.TestCase):
 
     def getElement(self, attr):
         driver = self.driver
-        element = WebDriverWait(driver, 10).until(
+        ignored_exceptions = (NoSuchElementException, StaleElementReferenceException)
+        element = WebDriverWait(driver, 15,ignored_exceptions=ignored_exceptions).until(
             EC.presence_of_element_located(attr)
         )
         return element
     
     def checkChart(self):
         driver = self.driver
-        chart = WebDriverWait(driver, 10).until(
+        chart = WebDriverWait(driver, 15).until(
             EC.visibility_of_element_located((By.CLASS_NAME, 'marks'))
         )
         self.assertTrue(chart.is_displayed())
