@@ -21,7 +21,6 @@ class WorstHitCountries(unittest.TestCase):
         options.add_argument("--disable-dev-shm-usage")
         options.add_argument("--no-sandbox")
         options.add_experimental_option("prefs",{"download.default_directory":"/databricks/driver"})
-        driver = webdriver.Chrome(chrome_options=options)
         self.driver = webdriver.Chrome(options=chrome_options)
         self.driver.get("http://localhost:8501/http://covid19dataexplorer.com/dev")
 
