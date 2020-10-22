@@ -8,7 +8,7 @@ python -m unittest discover -s test_cases &
 p2_pid=$!
 
 # sleep for X seconds
-sleep 120
+sleep 360
 
 # Kill the python process
 kill $p1_pid
