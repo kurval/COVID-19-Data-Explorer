@@ -12,7 +12,7 @@ import time
 class CompareCountries(unittest.TestCase):
 
     def setUp(self):
-        self.driver = webdriver.Chrome('/usr/local/bin/chromedriver')
+        self.driver = webdriver.Chrome()
         self.driver.get("http://localhost:8501/http://covid19dataexplorer.com/dev")
 
     def getElement(self, attr):
