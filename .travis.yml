@@ -20,3 +20,6 @@ script:
   - streamlit config show > ~/.streamlit/config.toml
   - sed -i -e 's/baseUrlPath = ""/baseUrlPath = "http:\/\/covid19dataexplorer.com\/dev"/g' ~/.streamlit/config.toml
   - bash run.sh
+
+notifications:
+    email: false
