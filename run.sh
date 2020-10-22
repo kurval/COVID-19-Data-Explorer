@@ -4,7 +4,7 @@
 streamlit run app.py &
 p1_pid=$!
 sleep 20
-python3 -m unittest discover -s test_cases &
+python -m unittest discover &
 p2_pid=$!
 
 # sleep for X seconds
