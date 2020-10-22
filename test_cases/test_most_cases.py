@@ -7,6 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver import ActionChains
+from selenium.webdriver.chrome.options import Options
 import time
 import warnings
 
@@ -14,7 +15,8 @@ class WorstHitCountries(unittest.TestCase):
 
     def setUp(self):
         warnings.filterwarnings(action="ignore", message="unclosed", category=ResourceWarning)
-        self.driver = webdriver.Chrome("/usr/local/bin/chromedriver")
+        chrome_options = webdriver.chrome.options.Options()
+        self.driver = webdriver.Chrome(options=chrome_options)
         self.driver.get("http://localhost:8501/http://covid19dataexplorer.com/dev")
 
     def getElement(self, attr):
