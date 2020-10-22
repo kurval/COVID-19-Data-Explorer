@@ -9,6 +9,7 @@ before-install:
   - rm ~/chromedriver_mac64.zip
   - sudo mv -f ~/chromedriver /usr/local/share/
   - sudo chmod +x /usr/local/share/chromedriver
+  - sudo chmod 755 /usr/local/bin/
   - sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver
 
 python:
