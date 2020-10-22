@@ -14,7 +14,7 @@ class WorstHitCountries(unittest.TestCase):
 
     def setUp(self):
         warnings.filterwarnings(action="ignore", message="unclosed", category=ResourceWarning)
-        self.driver = webdriver.Chrome(executable_path='/usr/local/bin/')
+        self.driver = webdriver.Chrome(executable_path='/usr/local/bin/chromedriver')
         self.driver.get("http://localhost:8501/http://covid19dataexplorer.com/dev")
 
     def getElement(self, attr):
