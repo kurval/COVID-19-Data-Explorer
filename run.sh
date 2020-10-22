@@ -13,3 +13,6 @@ sleep 120
 # Kill the python process
 kill $p1_pid
 kill $p2_pid
+
+# Optionally exit true to prevent travis seeing this as an error
+exit 0

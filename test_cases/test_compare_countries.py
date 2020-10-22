@@ -7,12 +7,15 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver import ActionChains
+from selenium.webdriver.chrome.options import Options
 import time
 
 class CompareCountries(unittest.TestCase):
 
     def setUp(self):
-        self.driver = webdriver.Chrome(executable_path='/usr/local/bin/chromedriver')
+        options = Options()
+        options.headless = True
+        self.driver = webdriver.Chrome("/usr/local/bin/chromedriver", chrome_options=options)
         self.driver.get("http://localhost:8501/http://covid19dataexplorer.com/dev")
 
     def getElement(self, attr):
