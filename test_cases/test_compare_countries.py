@@ -17,22 +17,21 @@ class CompareCountries(unittest.TestCase):
         options.add_argument('-headless')
         options.add_argument("-width=1920")
         options.add_argument("-height=1080")
+        ignored_exceptions = (NoSuchElementException, StaleElementReferenceException)
         self.driver = webdriver.Firefox(executable_path='/usr/local/bin/geckodriver', options=options)
+        self.wait = wait = WebDriverWait(self.driver, 15, ignored_exceptions=ignored_exceptions)
         self.driver.get("http://localhost:8501/covid19dataexplorer.com/dev")
 
     def getElement(self, attr):
         driver = self.driver
-        ignored_exceptions = (NoSuchElementException, StaleElementReferenceException)
-        element = WebDriverWait(driver, 15,ignored_exceptions=ignored_exceptions).until(
-            EC.presence_of_element_located(attr)
-        )
+        wait = self.wait
+        element = wait.until(EC.presence_of_element_located(attr))
         return element
     
     def checkChart(self):
         driver = self.driver
-        chart = WebDriverWait(driver, 15).until(
-            EC.visibility_of_element_located((By.CLASS_NAME, 'marks'))
-        )
+        wait = self.wait
+        chart = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, 'marks')))
         self.assertTrue(chart.is_displayed())
 
     def test_check_cases_text(self):
