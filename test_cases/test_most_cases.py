@@ -31,8 +31,9 @@ class WorstHitCountries(unittest.TestCase):
 
     def movePage(self):
         wait = self.wait
-        button = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[1]/div[1]/div[2]/div[1]/div[3]/div/div/label[2]/div[1]/div')))
-        button.click()
+        button = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[1]/div[1]/div[2]/div[1]/div[3]/div/div/label[2]/div[1]/div'))
+        action_chains = ActionChains(self.driver)
+        action_chains.move_to_element(button).click().perform()
         time.sleep(2)
         
     def checkChart(self):

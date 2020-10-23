@@ -4,7 +4,7 @@
 streamlit run app.py &
 p1_pid=$!
 sleep 20
-python -m unittest tests.CompareCountries.test_log_scale
+python -m unittest test_cases
 p2_pid=$!
 
 # Kill streamlit process
