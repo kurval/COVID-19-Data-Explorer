@@ -2,7 +2,7 @@ import unittest
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
-from selenium.webdriver.support import WebDriverWait
+from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -19,9 +19,9 @@ class WorstHitCountries(unittest.TestCase):
         options.add_argument('-headless')
         options.add_argument("-width=1920")
         options.add_argument("-height=1080")
-        ignored_exceptions = (NoSuchElementException, StaleElementReferenceException)
+        # ignored_exceptions = (NoSuchElementException, StaleElementReferenceException)
         self.driver = webdriver.Firefox(executable_path='/usr/local/bin/geckodriver', options=options)
-        self.wait = WebDriverWait(self.driver, 15, ignored_exceptions=ignored_exceptions)
+        self.wait = WebDriverWait(self.driver, 10)
         self.driver.get("http://localhost:8501/covid19dataexplorer.com/dev")
 
     def getElement(self, attr):
@@ -38,7 +38,7 @@ class WorstHitCountries(unittest.TestCase):
         
     def checkChart(self):
         driver = self.driver
-        wait = WebDriverWait(self.driver, 10)
+        wait = self.wait
         chart = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, 'marks')))
         self.assertTrue(chart.is_displayed())
 

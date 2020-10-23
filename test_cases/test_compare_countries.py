@@ -17,9 +17,9 @@ class CompareCountries(unittest.TestCase):
         options.add_argument('-headless')
         options.add_argument("-width=1920")
         options.add_argument("-height=1080")
-        ignored_exceptions = (NoSuchElementException, StaleElementReferenceException)
+        # ignored_exceptions = (NoSuchElementException, StaleElementReferenceException)
         self.driver = webdriver.Firefox(executable_path='/usr/local/bin/geckodriver', options=options)
-        self.wait = WebDriverWait(self.driver, 15, ignored_exceptions=ignored_exceptions)
+        self.wait = WebDriverWait(self.driver, 10)
         self.driver.get("http://localhost:8501/covid19dataexplorer.com/dev")
 
     def getElement(self, attr):
