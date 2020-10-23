@@ -35,13 +35,13 @@ class CompareCountries(unittest.TestCase):
         self.assertTrue(chart.is_displayed())
 
     def test_check_cases_text(self):
-        driver = self.driver
-        cases = self.getElement((By.ID, 'cases'))
+        wait = WebDriverWait(self.driver, 20)
+        cases = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#cases")))
         self.assertIn("Confirmed Cases", cases.text)
 
     def test_check_deaths_text(self):
-        driver = self.driver
-        deaths = self.getElement((By.ID, 'deaths'))
+        wait = WebDriverWait(self.driver, 20)
+        deaths = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#deaths")))
         self.assertIn("Total Deaths", deaths.text)
 
     def test_chart_is_visible(self):
@@ -51,8 +51,7 @@ class CompareCountries(unittest.TestCase):
     
     def test_log_scale(self):
         driver = self.driver
-        wait = self.wait
-        checkbox = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[5]/div/label/span')))
+        checkbox = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[5]/div/label/span'))
         checkbox.click()
         self.checkChart()
     
