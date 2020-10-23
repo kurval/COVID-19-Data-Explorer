@@ -48,8 +48,9 @@ class CompareCountries(unittest.TestCase):
     
     def test_log_scale(self):
         wait = self.wait
-        checkbox = wait.until(EC.invisibility_of_element_located((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[5]/div/label/span')))
-        checkbox.click()
+        action_chains = ActionChains(self.driver)
+        checkbox = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[5]/div/label/span'))
+        action_chains.move_to_element(checkbox).click().perform()
         self.checkChart()
     
     def test_data_type(self):
