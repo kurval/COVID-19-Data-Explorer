@@ -21,7 +21,7 @@ install:
 script:
   - mkdir ~/.streamlit && touch ~/.streamlit/config.toml
   - streamlit config show > ~/.streamlit/config.toml
-  - sed -i -e 's/baseUrlPath = ""/baseUrlPath = "http:\/\/covid19dataexplorer.com\/dev"/g' ~/.streamlit/config.toml
+  - sed -i -e 's/baseUrlPath = ""/baseUrlPath = "covid19dataexplorer.com\/dev"/g' ~/.streamlit/config.toml
   - bash run.sh
 
 notifications:
