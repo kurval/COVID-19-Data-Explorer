@@ -21,7 +21,7 @@ class WorstHitCountries(unittest.TestCase):
         options.add_argument("-height=1080")
         ignored_exceptions = (NoSuchElementException, StaleElementReferenceException)
         self.driver = webdriver.Firefox(executable_path='/usr/local/bin/geckodriver', options=options)
-        self.wait = WebDriverWait(self.driver, 10, ignored_exceptions)
+        self.wait = WebDriverWait(self.driver, 20, ignored_exceptions=ignored_exceptions)
         self.driver.get("http://localhost:8501/covid19dataexplorer.com/dev")
 
     def getElement(self, attr):
