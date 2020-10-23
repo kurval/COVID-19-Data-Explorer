@@ -2,7 +2,7 @@ import unittest
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -38,8 +38,8 @@ class WorstHitCountries(unittest.TestCase):
         
     def checkChart(self):
         driver = self.driver
-        wait = self.wait
-        chart = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CLASS_NAME, 'marks')))
+        wait = WebDriverWait(self.driver, 10)
+        chart = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, 'marks')))
         self.assertTrue(chart.is_displayed())
 
     def test_move_to_most_cases(self):
