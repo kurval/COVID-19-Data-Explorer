@@ -62,8 +62,9 @@ class WorstHitCountries(unittest.TestCase):
     def test_per_million(self):
         wait = self.wait
         self.movePage()
-        check_box = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[5]/div/label/span')))
-        check_box.click()
+        check_box = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[5]/div/label/span'))
+        action_chains = ActionChains(self.driver)
+        action_chains.move_to_element(check_box).click().perform()
         self.checkChart()
 
     def test_slider(self):
