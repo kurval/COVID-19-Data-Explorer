@@ -1,8 +1,5 @@
-dist: xenial
 addons:
-  chrome: stable
-before_install:
-  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+  firefox: latest
 
 language: python
 
@@ -11,12 +8,12 @@ python:
 
 install:
   - pip install -r requirements.txt
-  - wget -N https://chromedriver.storage.googleapis.com/86.0.4240.22/chromedriver_linux64.zip -P ~/
-  - unzip ~/chromedriver_linux64.zip -d ~/
-  - rm ~/chromedriver_linux64.zip
-  - sudo mv -f ~/chromedriver /usr/local/share/
-  - sudo chmod +x /usr/local/share/chromedriver
-  - sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver
+  - wget -N https://github.com/mozilla/geckodriver/releases/download/v0.27.0/geckodriver-v0.27.0-linux64.tar.gz -P ~/
+  - tar -xzf ~/geckodriver-v0.27.0-linux64.tar.gz -C ~/
+  - rm ~/geckodriver-v0.27.0-linux64.tar.gz
+  - sudo mv -f ~/geckodriver /usr/local/share
+  - sudo chmod +x /usr/local/share/geckodriver
+  - sudo ln -s /usr/local/share/geckodriver /usr/local/bin/geckodriver
 
 script:
   - mkdir ~/.streamlit && touch ~/.streamlit/config.toml

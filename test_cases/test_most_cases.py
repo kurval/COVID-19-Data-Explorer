@@ -7,7 +7,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver import ActionChains
-from selenium.webdriver.chrome.options import Options
 import time
 import warnings
 
@@ -15,14 +14,7 @@ class WorstHitCountries(unittest.TestCase):
 
     def setUp(self):
         warnings.filterwarnings(action="ignore", message="unclosed", category=ResourceWarning)
-        chrome_options = webdriver.chrome.options.Options()
-        chrome_options.add_argument('--no-sandbox')
-        chrome_options.add_argument("--headless")
-        chrome_options.add_argument("--window-size=1920,1080")
-        chrome_options.add_argument('--start-maximized')
-        chrome_options.add_argument('--disable-gpu')
-        chrome_options.add_argument('--disable-dev-shm-usage')
-        self.driver = webdriver.Chrome(options=chrome_options)
+        self.driver = webdriver.Firefox()
         self.driver.get("http://localhost:8501/http://covid19dataexplorer.com/dev")
 
     def getElement(self, attr):
