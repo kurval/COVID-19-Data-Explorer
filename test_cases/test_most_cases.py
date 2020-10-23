@@ -19,38 +19,33 @@ class WorstHitCountries(unittest.TestCase):
         options.add_argument('-headless')
         options.add_argument("-width=1920")
         options.add_argument("-height=1080")
-        # ignored_exceptions = (NoSuchElementException, StaleElementReferenceException)
+        ignored_exceptions = (NoSuchElementException, StaleElementReferenceException)
         self.driver = webdriver.Firefox(executable_path='/usr/local/bin/geckodriver', options=options)
-        self.wait = WebDriverWait(self.driver, 10)
+        self.wait = WebDriverWait(self.driver, 10, ignored_exceptions)
         self.driver.get("http://localhost:8501/covid19dataexplorer.com/dev")
 
     def getElement(self, attr):
-        driver = self.driver
         wait = self.wait
         element = wait.until(EC.presence_of_element_located(attr))
         return element
 
     def movePage(self):
-        driver = self.driver
         button = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[1]/div[1]/div[2]/div[1]/div[3]/div/div/label[2]/div[1]/div'))
         button.click()
         time.sleep(2)
         
     def checkChart(self):
-        driver = self.driver
         wait = self.wait
         chart = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, 'marks')))
         self.assertTrue(chart.is_displayed())
 
     def test_move_to_most_cases(self):
-        driver = self.driver
         self.movePage()
         cases = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[2]/div/h2'))
         self.assertEqual("COVID-19: total confirmed cases in the worst-hit countries", cases.text)
         self.checkChart()
     
     def test_data_type(self):
-        driver = self.driver
         self.movePage()
         data_types = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[3]/div/div/div/div[1]'))
         data_types.click()
@@ -62,18 +57,16 @@ class WorstHitCountries(unittest.TestCase):
         self.checkChart()
 
     def test_per_million(self):
-        driver = self.driver
         self.movePage()
         check_box = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[5]/div/label/span'))
         check_box.click()
         self.checkChart()
 
     def test_slider(self):
-        driver = self.driver
         self.movePage()
         time.sleep(1)
         slider = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[7]/div/div/div[1]/div'))
-        action_chains = ActionChains(driver)
+        action_chains = ActionChains(self.driver)
         action_chains.click_and_hold(slider).move_by_offset(-40, 0).release().perform()
         self.checkChart()
 

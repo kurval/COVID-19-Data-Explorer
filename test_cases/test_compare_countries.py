@@ -17,19 +17,17 @@ class CompareCountries(unittest.TestCase):
         options.add_argument('-headless')
         options.add_argument("-width=1920")
         options.add_argument("-height=1080")
-        # ignored_exceptions = (NoSuchElementException, StaleElementReferenceException)
+        ignored_exceptions = (NoSuchElementException, StaleElementReferenceException)
         self.driver = webdriver.Firefox(executable_path='/usr/local/bin/geckodriver', options=options)
-        self.wait = WebDriverWait(self.driver, 10)
+        self.wait = WebDriverWait(self.driver, 10, ignored_exceptions)
         self.driver.get("http://localhost:8501/covid19dataexplorer.com/dev")
 
     def getElement(self, attr):
-        driver = self.driver
         wait = self.wait
         element = wait.until(EC.presence_of_element_located(attr))
         return element
     
     def checkChart(self):
-        driver = self.driver
         wait = self.wait
         chart = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, 'marks')))
         self.assertTrue(chart.is_displayed())
@@ -46,17 +44,14 @@ class CompareCountries(unittest.TestCase):
 
     def test_chart_is_visible(self):
         time.sleep(1)
-        driver = self.driver
         self.checkChart()
     
     def test_log_scale(self):
-        driver = self.driver
         checkbox = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[5]/div/label/span'))
         checkbox.click()
         self.checkChart()
     
     def test_data_type(self):
-        driver = self.driver
         data_types = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[3]/div/div/div/div[1]'))
         data_types.click()
         total_deaths = self.getElement((By.ID, 'bui-10'))
@@ -64,7 +59,6 @@ class CompareCountries(unittest.TestCase):
         self.checkChart()
     
     def test_chart_type(self):
-        driver = self.driver
         chart_types = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[4]/div/div/div/div[1]'))
         chart_types.click()
         bar_chart = self.getElement((By.ID, 'bui-10'))
@@ -72,9 +66,8 @@ class CompareCountries(unittest.TestCase):
         self.checkChart()
 
     def test_slider(self):
-        driver = self.driver
         slider = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[7]/div/div/div[1]/div/div'))
-        action_chains = ActionChains(driver)
+        action_chains = ActionChains(self.driver)
         action_chains.click_and_hold(slider).move_by_offset(-40, 0).release().perform()
         self.checkChart()
 
