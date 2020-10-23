@@ -15,6 +15,8 @@ class CompareCountries(unittest.TestCase):
     def setUp(self):
         options = Options()
         options.add_argument('-headless')
+        options.add_argument("-width=1920")
+        options.add_argument("-height=1080")
         self.driver = webdriver.Firefox(options=options)
         self.driver.get("http://localhost:8501/http://covid19dataexplorer.com/dev")
 
