@@ -51,7 +51,8 @@ class CompareCountries(unittest.TestCase):
     
     def test_log_scale(self):
         driver = self.driver
-        checkbox = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[5]/div/label/span'))
+        wait = self.wait
+        checkbox = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[5]/div/label/span')))
         checkbox.click()
         self.checkChart()
     
