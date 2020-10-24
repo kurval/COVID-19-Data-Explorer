@@ -34,10 +34,13 @@ class WorstHitCountries(unittest.TestCase):
         element = wait.until(EC.element_to_be_clickable(attr))
         return element
 
+    def moveAndClick(self, element):
+        action_chains = ActionChains(self.driver)
+        action_chains.move_to_element(element).click().perform()
+
     def movePage(self):
         button = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[1]/div[1]/div[2]/div[1]/div[3]/div/div/label[2]/div[1]/div'))
-        action_chains = ActionChains(self.driver)
-        action_chains.move_to_element(button).click().perform()
+        moveAndClick(button)
         time.sleep(2)
         
     def checkChart(self):
@@ -55,16 +58,14 @@ class WorstHitCountries(unittest.TestCase):
         self.movePage()
         data_types = self.getClickElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[3]/div/div/div/div[1]'))
         data_types.click()
-        action_chains = ActionChains(self.driver)
         total_deaths = self.getElement((By.ID, 'bui-10'))
-        action_chains.move_to_element(total_deaths).click().perform()
+        moveAndClick(total_deaths)
         self.checkChart()
 
     def test_per_million(self):
         self.movePage()
         check_box = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[5]/div/label/span'))
-        action_chains = ActionChains(self.driver)
-        action_chains.move_to_element(check_box).click().perform()
+        moveAndClick(check_box)
         self.checkChart()
 
     def test_slider(self):

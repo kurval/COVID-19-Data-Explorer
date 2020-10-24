@@ -26,6 +26,10 @@ class CompareCountries(unittest.TestCase):
         wait = self.wait
         element = wait.until(EC.presence_of_element_located(attr))
         return element
+
+    def moveAndClick(self, element):
+        action_chains = ActionChains(self.driver)
+        action_chains.move_to_element(element).click().perform()
     
     def getClickElement(self, attr):
         wait = self.wait
@@ -50,25 +54,22 @@ class CompareCountries(unittest.TestCase):
         self.checkChart()
     
     def test_log_scale(self):
-        action_chains = ActionChains(self.driver)
         checkbox = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[5]/div/label/span'))
-        action_chains.move_to_element(checkbox).click().perform()
+        moveAndClick(checkbox)
         self.checkChart()
     
     def test_data_type(self):
         data_types = self.getClickElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[3]/div/div/div/div[1]'))
         data_types.click()
-        action_chains = ActionChains(self.driver)
         total_deaths = self.getElement((By.ID, 'bui-10'))
-        action_chains.move_to_element(total_deaths).click().perform()
+        moveAndClick(total_deaths)
         self.checkChart()
     
     def test_chart_type(self):
         chart_types = self.getClickElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[4]/div/div/div/div[1]'))
         chart_types.click()
-        action_chains = ActionChains(self.driver)
         bar_chart = self.getElement((By.ID, 'bui-10'))
-        action_chains.move_to_element(bar_chart).click().perform()
+        moveAndClick(bar_chart)
         self.checkChart()
 
     def test_slider(self):
