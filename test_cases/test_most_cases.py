@@ -40,7 +40,7 @@ class WorstHitCountries(unittest.TestCase):
 
     def movePage(self):
         button = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[1]/div[1]/div[2]/div[1]/div[3]/div/div/label[2]/div[1]/div'))
-        moveAndClick(button)
+        self.moveAndClick(button)
         time.sleep(2)
         
     def checkChart(self):
@@ -59,13 +59,13 @@ class WorstHitCountries(unittest.TestCase):
         data_types = self.getClickElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[3]/div/div/div/div[1]'))
         data_types.click()
         total_deaths = self.getElement((By.ID, 'bui-10'))
-        moveAndClick(total_deaths)
+        self.moveAndClick(total_deaths)
         self.checkChart()
 
     def test_per_million(self):
         self.movePage()
         check_box = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[5]/div/label/span'))
-        moveAndClick(check_box)
+        self.moveAndClick(check_box)
         self.checkChart()
 
     def test_slider(self):
