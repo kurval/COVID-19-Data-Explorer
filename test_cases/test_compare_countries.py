@@ -58,15 +58,17 @@ class CompareCountries(unittest.TestCase):
     def test_data_type(self):
         data_types = self.getClickElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[3]/div/div/div/div[1]'))
         data_types.click()
-        total_deaths = self.getClickElement((By.ID, 'bui-10'))
-        total_deaths.click()
+        action_chains = ActionChains(self.driver)
+        total_deaths = self.getElement((By.ID, 'bui-10'))
+        action_chains.move_to_element(total_deaths).click().perform()
         self.checkChart()
     
     def test_chart_type(self):
         chart_types = self.getClickElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[4]/div/div/div/div[1]'))
         chart_types.click()
-        bar_chart = self.getClickElement((By.ID, 'bui-10'))
-        bar_chart.click()
+        action_chains = ActionChains(self.driver)
+        bar_chart = self.getElement((By.ID, 'bui-10'))
+        action_chains.move_to_element(bar_chart).click().perform()
         self.checkChart()
 
     def test_slider(self):
