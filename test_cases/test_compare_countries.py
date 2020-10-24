@@ -38,11 +38,11 @@ class CompareCountries(unittest.TestCase):
         self.assertTrue(chart.is_displayed())
 
     def test_check_cases_text(self):
-        cases = getClickElement((By.CSS_SELECTOR, "#cases"))
+        cases = self.getClickElement((By.CSS_SELECTOR, "#cases"))
         self.assertIn("Confirmed Cases", cases.text)
 
     def test_check_deaths_text(self):
-        deaths = getClickElement((By.CSS_SELECTOR, "#deaths"))
+        deaths = self.getClickElement((By.CSS_SELECTOR, "#deaths"))
         self.assertIn("Total Deaths", deaths.text)
 
     def test_chart_is_visible(self):
@@ -56,21 +56,21 @@ class CompareCountries(unittest.TestCase):
         self.checkChart()
     
     def test_data_type(self):
-        data_types = getClickElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[3]/div/div/div/div[1]'))
+        data_types = self.getClickElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[3]/div/div/div/div[1]'))
         data_types.click()
-        total_deaths = getClickElement((By.ID, 'bui-10'))
+        total_deaths = self.getClickElement((By.ID, 'bui-10'))
         total_deaths.click()
         self.checkChart()
     
     def test_chart_type(self):
-        chart_types = getClickElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[4]/div/div/div/div[1]'))
+        chart_types = self.getClickElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[4]/div/div/div/div[1]'))
         chart_types.click()
-        bar_chart = getClickElement((By.ID, 'bui-10'))
+        bar_chart = self.getClickElement((By.ID, 'bui-10'))
         bar_chart.click()
         self.checkChart()
 
     def test_slider(self):
-        slider = getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[7]/div/div/div[1]/div/div'))
+        slider = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[7]/div/div/div[1]/div/div'))
         action_chains = ActionChains(self.driver)
         action_chains.click_and_hold(slider).move_by_offset(-40, 0).release().perform()
         self.checkChart()
