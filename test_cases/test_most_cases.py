@@ -28,9 +28,13 @@ class WorstHitCountries(unittest.TestCase):
         wait = self.wait
         element = wait.until(EC.presence_of_element_located(attr))
         return element
+    
+    def getClickElement(self, attr):
+        wait = self.wait
+        element = wait.until(EC.element_to_be_clickable(attr))
+        return element
 
     def movePage(self):
-        wait = self.wait
         button = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[1]/div[1]/div[2]/div[1]/div[3]/div/div/label[2]/div[1]/div'))
         action_chains = ActionChains(self.driver)
         action_chains.move_to_element(button).click().perform()
@@ -48,19 +52,17 @@ class WorstHitCountries(unittest.TestCase):
         self.checkChart()
     
     def test_data_type(self):
-        wait = self.wait
         self.movePage()
-        data_types = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[3]/div/div/div/div[1]')))
+        data_types = getClickElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[3]/div/div/div/div[1]'))
         data_types.click()
-        total_deaths = wait.until(EC.element_to_be_clickable((By.ID, 'bui-10')))
+        total_deaths = getClickElement((By.ID, 'bui-10'))
         total_deaths.click()
-        #time.sleep(1)
-        #deaths = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[2]/div/h2'))
-        #self.assertEqual("COVID-19: total deaths in the worst-hit countries", deaths.text)
+        time.sleep(1)
+        deaths = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[2]/div/h2'))
+        self.assertEqual("COVID-19: total deaths in the worst-hit countries", deaths.text)
         self.checkChart()
 
     def test_per_million(self):
-        wait = self.wait
         self.movePage()
         check_box = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[5]/div/label/span'))
         action_chains = ActionChains(self.driver)
@@ -68,10 +70,9 @@ class WorstHitCountries(unittest.TestCase):
         self.checkChart()
 
     def test_slider(self):
-        wait = self.wait
         self.movePage()
         time.sleep(1)
-        slider = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[7]/div/div/div[1]/div')))
+        slider = getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[7]/div/div/div[1]/div'))
         action_chains = ActionChains(self.driver)
         action_chains.click_and_hold(slider).move_by_offset(-40, 0).release().perform()
         self.checkChart()

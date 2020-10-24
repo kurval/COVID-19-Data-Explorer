@@ -27,19 +27,22 @@ class CompareCountries(unittest.TestCase):
         element = wait.until(EC.presence_of_element_located(attr))
         return element
     
+    def getClickElement(self, attr):
+        wait = self.wait
+        element = wait.until(EC.element_to_be_clickable(attr))
+        return element
+    
     def checkChart(self):
         wait = self.wait
         chart = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, 'marks')))
         self.assertTrue(chart.is_displayed())
 
     def test_check_cases_text(self):
-        wait = self.wait
-        cases = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#cases")))
+        cases = getClickElement((By.CSS_SELECTOR, "#cases"))
         self.assertIn("Confirmed Cases", cases.text)
 
     def test_check_deaths_text(self):
-        wait = self.wait
-        deaths = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#deaths")))
+        deaths = getClickElement((By.CSS_SELECTOR, "#deaths"))
         self.assertIn("Total Deaths", deaths.text)
 
     def test_chart_is_visible(self):
@@ -47,31 +50,27 @@ class CompareCountries(unittest.TestCase):
         self.checkChart()
     
     def test_log_scale(self):
-        wait = self.wait
         action_chains = ActionChains(self.driver)
         checkbox = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[5]/div/label/span'))
         action_chains.move_to_element(checkbox).click().perform()
         self.checkChart()
     
     def test_data_type(self):
-        wait = self.wait
-        data_types = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[3]/div/div/div/div[1]')))
+        data_types = getClickElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[3]/div/div/div/div[1]'))
         data_types.click()
-        total_deaths = wait.until(EC.element_to_be_clickable((By.ID, 'bui-10')))
+        total_deaths = getClickElement((By.ID, 'bui-10'))
         total_deaths.click()
         self.checkChart()
     
     def test_chart_type(self):
-        wait = self.wait
-        chart_types = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[4]/div/div/div/div[1]')))
+        chart_types = getClickElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[4]/div/div/div/div[1]'))
         chart_types.click()
-        bar_chart = wait.until(EC.element_to_be_clickable((By.ID, 'bui-10')))
+        bar_chart = getClickElement((By.ID, 'bui-10'))
         bar_chart.click()
         self.checkChart()
 
     def test_slider(self):
-        wait = self.wait
-        slider = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[7]/div/div/div[1]/div/div')))
+        slider = getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[7]/div/div/div[1]/div/div'))
         action_chains = ActionChains(self.driver)
         action_chains.click_and_hold(slider).move_by_offset(-40, 0).release().perform()
         self.checkChart()
