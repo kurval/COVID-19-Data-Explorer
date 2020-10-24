@@ -55,10 +55,9 @@ class WorstHitCountries(unittest.TestCase):
         self.movePage()
         data_types = self.getClickElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[3]/div/div/div/div[1]'))
         data_types.click()
-        total_deaths = self.getClickElement((By.ID, 'bui-10'))
-        total_deaths.click()
-        time.sleep(3)
-        self.assertTrue("COVID-19: total deaths in the worst-hit countries" in self.driver.page_source)
+        action_chains = ActionChains(self.driver)
+        total_deaths = self.getElement((By.ID, 'bui-10'))
+        action_chains.move_to_element(total_deaths).click().perform()
         self.checkChart()
 
     def test_per_million(self):
