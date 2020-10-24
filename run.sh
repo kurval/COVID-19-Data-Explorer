@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Run your app in the background
-streamlit run app.py &
+streamlit run app.py >/dev/null &
+
 p1_pid=$!
 sleep 20
 python -m unittest discover -s test_cases
