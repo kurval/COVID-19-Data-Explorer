@@ -57,7 +57,7 @@ class WorstHitCountries(unittest.TestCase):
         data_types.click()
         total_deaths = self.getClickElement((By.ID, 'bui-10'))
         total_deaths.click()
-        time.sleep(1)
+        time.sleep(3)
         deaths = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[2]/div'))
         self.assertEqual("COVID-19: total deaths in the worst-hit countries", deaths.text)
         self.checkChart()
