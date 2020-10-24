@@ -51,7 +51,6 @@ class WorstHitCountries(unittest.TestCase):
     def test_move_to_most_cases(self):
         self.movePage()
         cases = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[2]/div'))
-        self.assertTrue("COVID-19: total confirmed cases in the worst-hit countries" in self.driver.page_source)
         self.checkChart()
     
     def test_data_type(self):
