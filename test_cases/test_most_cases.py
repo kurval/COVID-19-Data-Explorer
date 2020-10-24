@@ -57,7 +57,7 @@ class WorstHitCountries(unittest.TestCase):
         data_types.click()
         total_deaths = self.getClickElement((By.ID, 'bui-10'))
         total_deaths.click()
-        time.sleep(2)
+        time.sleep(3)
         self.assertTrue("COVID-19: total deaths in the worst-hit countries" in self.driver.page_source)
         self.checkChart()
 
