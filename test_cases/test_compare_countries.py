@@ -42,11 +42,11 @@ class CompareCountries(unittest.TestCase):
         self.assertTrue(chart.is_displayed())
 
     def test_check_cases_text(self):
-        cases = self.getClickElement((By.CSS_SELECTOR, "#cases"))
+        cases = self.getElement((By.CSS_SELECTOR, "#cases"))
         self.assertIn("Confirmed Cases", cases.text)
 
     def test_check_deaths_text(self):
-        deaths = self.getClickElement((By.CSS_SELECTOR, "#deaths"))
+        deaths = self.getElement((By.CSS_SELECTOR, "#deaths"))
         self.assertIn("Total Deaths", deaths.text)
 
     def test_chart_is_visible(self):
