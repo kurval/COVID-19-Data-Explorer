@@ -11,4 +11,4 @@ p2_pid=$!
 kill $p1_pid
 
 # Optionally exit true to prevent travis seeing this as an error
-exit 0
+# exit 0
