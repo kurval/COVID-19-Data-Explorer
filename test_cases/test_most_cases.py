@@ -58,7 +58,7 @@ class WorstHitCountries(unittest.TestCase):
         total_deaths = self.getClickElement((By.ID, 'bui-10'))
         total_deaths.click()
         time.sleep(1)
-        deaths = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[2]/div/h2'))
+        deaths = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[2]/div'))
         self.assertEqual("COVID-19: total deaths in the worst-hit countries", deaths.text)
         self.checkChart()
 
@@ -71,7 +71,6 @@ class WorstHitCountries(unittest.TestCase):
 
     def test_slider(self):
         self.movePage()
-        time.sleep(1)
         slider = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[7]/div/div/div[1]/div'))
         action_chains = ActionChains(self.driver)
         action_chains.click_and_hold(slider).move_by_offset(-40, 0).release().perform()
