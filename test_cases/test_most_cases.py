@@ -47,7 +47,7 @@ class WorstHitCountries(unittest.TestCase):
 
     def test_move_to_most_cases(self):
         self.movePage()
-        cases = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[2]/div/h2'))
+        cases = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[2]/div'))
         self.assertEqual("COVID-19: total confirmed cases in the worst-hit countries", cases.text)
         self.checkChart()
     
