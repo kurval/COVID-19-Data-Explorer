@@ -9,6 +9,3 @@ p2_pid=$!
 
 # Kill streamlit process
 kill $p1_pid
-
-# Optionally exit true to prevent travis seeing this as an error
-# exit 0
