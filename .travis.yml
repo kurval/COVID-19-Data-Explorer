@@ -25,7 +25,7 @@ before_script:
   - sed -i -e 's/baseUrlPath = ""/baseUrlPath = "covid19dataexplorer.com\/dev"/g' ~/.streamlit/config.toml
 
 script:
-  - bash run.sh
+  - bash runtests.sh
 
 notifications:
     email: false
