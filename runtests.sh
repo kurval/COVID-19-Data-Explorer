@@ -10,4 +10,4 @@ ret=$?
 # Kill streamlit process
 kill $p1_pid
 
-exit ret
+exit $ret
