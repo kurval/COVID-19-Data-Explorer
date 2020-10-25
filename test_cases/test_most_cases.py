@@ -28,7 +28,7 @@ class WorstHitCountries(unittest.TestCase):
     def test_move_to_most_cases(self):
         self.move_page()
         cases = self.get_element((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[2]/div'))
-        self.checkChart()
+        self.check_chart()
 
     def test_check_header(self):
         self.move_page()

@@ -25,7 +25,7 @@ class WorldCases(unittest.TestCase):
     # TEST CASES
     def test_chart_is_visible(self):
         self.move_page
-        self.checkChart()
+        self.check_chart()
 
     def test_check_header(self):
         self.move_page()

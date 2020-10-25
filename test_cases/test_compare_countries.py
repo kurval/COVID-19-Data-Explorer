@@ -41,7 +41,7 @@ class CompareCountries(unittest.TestCase):
         self.check_chart()
 
     def test_add_country(self):
-        countries = self.get_element((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[1]/div[1]/div[2]/div[1]/div[5]/div/div/div/div[1]'))
+        countries = self.get_click_element((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[1]/div[1]/div[2]/div[1]/div[5]/div/div/div/div[1]'))
         countries.click()
         country = self.get_element((By.ID, 'bui-10'))
         self.move_and_click(country)
