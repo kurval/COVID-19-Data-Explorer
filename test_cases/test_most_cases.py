@@ -48,6 +48,7 @@ class WorstHitCountries(unittest.TestCase):
         chart = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, 'marks')))
         self.assertTrue(chart.is_displayed())
 
+    # TEST CASES
     def test_move_to_most_cases(self):
         self.movePage()
         cases = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[2]/div'))

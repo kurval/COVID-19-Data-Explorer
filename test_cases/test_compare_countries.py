@@ -41,6 +41,7 @@ class CompareCountries(unittest.TestCase):
         chart = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, 'marks')))
         self.assertTrue(chart.is_displayed())
 
+    # TEST CASES
     def test_check_cases_text(self):
         cases = self.getElement((By.CSS_SELECTOR, "#cases"))
         self.assertIn("Confirmed Cases", cases.text)
