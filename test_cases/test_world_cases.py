@@ -18,39 +18,44 @@ class WorldCases(unittest.TestCase):
         options.add_argument("-width=1920")
         options.add_argument("-height=1080")
         ignored_exceptions = (NoSuchElementException, StaleElementReferenceException)
-        self.driver = webdriver.Firefox(executable_path='/usr/local/bin/geckodriver', options=options)
+        self.driver = webdriver.Firefox(options=options)
         self.wait = WebDriverWait(self.driver, 20, ignored_exceptions=ignored_exceptions)
         self.driver.get("http://localhost:8501/covid19dataexplorer.com/dev")
 
-    def getElement(self, attr):
+    # TEST CASES
+    def test_chart_is_visible(self):
+        self.move_page
+        self.checkChart()
+
+    def test_check_header(self):
+        self.move_page()
+        header = self.get_element((By.TAG_NAME, 'h2'))
+        self.assertEqual("COVID-19: new confirmed cases worldwide 🌐", header.text)
+    
+    def tearDown(self):
+        self.driver.close()
+
+    # HELPER METHODS
+    def get_element(self, attr):
         wait = self.wait
         element = wait.until(EC.presence_of_element_located(attr))
         return element
 
-    def moveAndClick(self, element):
+    def move_and_click(self, element):
         action_chains = ActionChains(self.driver)
         action_chains.move_to_element(element).click().perform()
     
-    def getClickElement(self, attr):
+    def get_click_element(self, attr):
         wait = self.wait
         element = wait.until(EC.element_to_be_clickable(attr))
         return element
     
-    def checkChart(self):
+    def check_chart(self):
         wait = self.wait
         chart = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, 'marks')))
         self.assertTrue(chart.is_displayed())
     
-    def movePage(self):
-        button = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[1]/div[1]/div[2]/div[1]/div[3]/div/div/label[4]/div[1]/div'))
-        self.moveAndClick(button)
+    def move_page(self):
+        button = self.get_element((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[1]/div[1]/div[2]/div[1]/div[3]/div/div/label[4]/div[1]/div'))
+        self.move_and_click(button)
         time.sleep(2)
-
-    # TEST CASES
-    def test_chart_is_visible(self):
-        self.movePage
-        time.sleep(1)
-        self.checkChart()
-    
-    def tearDown(self):
-        self.driver.close()

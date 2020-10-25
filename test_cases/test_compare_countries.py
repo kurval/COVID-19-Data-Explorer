@@ -18,66 +18,75 @@ class CompareCountries(unittest.TestCase):
         options.add_argument("-width=1920")
         options.add_argument("-height=1080")
         ignored_exceptions = (NoSuchElementException, StaleElementReferenceException)
-        self.driver = webdriver.Firefox(executable_path='/usr/local/bin/geckodriver', options=options)
+        self.driver = webdriver.Firefox(options=options)
         self.wait = WebDriverWait(self.driver, 20, ignored_exceptions=ignored_exceptions)
         self.driver.get("http://localhost:8501/covid19dataexplorer.com/dev")
 
-    def getElement(self, attr):
-        wait = self.wait
-        element = wait.until(EC.presence_of_element_located(attr))
-        return element
-
-    def moveAndClick(self, element):
-        action_chains = ActionChains(self.driver)
-        action_chains.move_to_element(element).click().perform()
-    
-    def getClickElement(self, attr):
-        wait = self.wait
-        element = wait.until(EC.element_to_be_clickable(attr))
-        return element
-    
-    def checkChart(self):
-        wait = self.wait
-        chart = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, 'marks')))
-        self.assertTrue(chart.is_displayed())
-
     # TEST CASES
     def test_check_cases_text(self):
-        cases = self.getElement((By.CSS_SELECTOR, "#cases"))
+        cases = self.get_element((By.CSS_SELECTOR, "#cases"))
         self.assertIn("Confirmed Cases", cases.text)
 
     def test_check_deaths_text(self):
-        deaths = self.getElement((By.CSS_SELECTOR, "#deaths"))
+        deaths = self.get_element((By.CSS_SELECTOR, "#deaths"))
         self.assertIn("Total Deaths", deaths.text)
 
     def test_chart_is_visible(self):
         time.sleep(1)
-        self.checkChart()
+        self.check_chart()
     
     def test_log_scale(self):
-        checkbox = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[5]/div/label/span'))
-        self.moveAndClick(checkbox)
-        self.checkChart()
+        checkbox = self.get_element((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[5]/div/label/span'))
+        self.move_and_click(checkbox)
+        self.check_chart()
+
+    def test_add_country(self):
+        countries = self.get_element((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[1]/div[1]/div[2]/div[1]/div[5]/div/div/div/div[1]'))
+        countries.click()
+        country = self.get_element((By.ID, 'bui-10'))
+        self.move_and_click(country)
+        time.sleep(2)
+        self.check_chart()
     
     def test_data_type(self):
-        data_types = self.getClickElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[3]/div/div/div/div[1]'))
+        data_types = self.get_click_element((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[3]/div/div/div/div[1]'))
         data_types.click()
-        total_deaths = self.getElement((By.ID, 'bui-10'))
-        self.moveAndClick(total_deaths)
-        self.checkChart()
+        total_deaths = self.get_element((By.ID, 'bui-10'))
+        self.move_and_click(total_deaths)
+        self.check_chart()
     
     def test_chart_type(self):
-        chart_types = self.getClickElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[4]/div/div/div/div[1]'))
+        chart_types = self.get_click_element((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[4]/div/div/div/div[1]'))
         chart_types.click()
-        bar_chart = self.getElement((By.ID, 'bui-10'))
-        self.moveAndClick(bar_chart)
-        self.checkChart()
+        bar_chart = self.get_element((By.ID, 'bui-10'))
+        self.move_and_click(bar_chart)
+        self.check_chart()
 
     def test_slider(self):
-        slider = self.getElement((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[7]/div/div/div[1]/div/div'))
+        slider = self.get_element((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[7]/div/div/div[1]/div/div'))
         action_chains = ActionChains(self.driver)
         action_chains.click_and_hold(slider).move_by_offset(-40, 0).release().perform()
-        self.checkChart()
+        self.check_chart()
 
     def tearDown(self):
         self.driver.close()
+    
+    # HELPER METHODS
+    def get_element(self, attr):
+        wait = self.wait
+        element = wait.until(EC.presence_of_element_located(attr))
+        return element
+
+    def move_and_click(self, element):
+        action_chains = ActionChains(self.driver)
+        action_chains.move_to_element(element).click().perform()
+    
+    def get_click_element(self, attr):
+        wait = self.wait
+        element = wait.until(EC.element_to_be_clickable(attr))
+        return element
+    
+    def check_chart(self):
+        wait = self.wait
+        chart = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, 'marks')))
+        self.assertTrue(chart.is_displayed())
