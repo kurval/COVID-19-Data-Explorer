@@ -24,11 +24,11 @@ class ContinentCases(unittest.TestCase, CommonMethods):
         chart = h.get_chart(self.driver)
         self.assertTrue(chart.is_displayed())
 
-    def test_check_header(self):
-        h = CommonMethods()
-        h.move_page((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[1]/div[1]/div[2]/div[1]/div[3]/div/div/label[3]/div[1]/div'), self.driver)
-        header = h.get_element((By.TAG_NAME, 'h2'), self.driver)
-        self.assertEqual("COVID-19: new confirmed cases by continent", header.text)
+    # def test_check_header(self):
+    #     h = CommonMethods()
+    #     h.move_page((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[1]/div[1]/div[2]/div[1]/div[3]/div/div/label[3]/div[1]/div'), self.driver)
+    #     header = h.get_element((By.TAG_NAME, 'h2'), self.driver)
+    #     self.assertEqual("COVID-19: new confirmed cases by continent", header.text)
     
     def tearDown(self):
         self.driver.close()
