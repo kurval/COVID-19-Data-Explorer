@@ -22,7 +22,7 @@ Using Alrair library for building interactive charts that are displayd with Vega
 * streamlit, altair, pandas
 * data.world's REST API
 * Travis CI
-* Selenium
+* selenium
 
 # Running with Docker
 You can run this app with Dockerfile   
