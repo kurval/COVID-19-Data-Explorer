@@ -21,6 +21,8 @@ Using Alrair library for building interactive charts that are displayd with Vega
 * python3
 * streamlit, altair, pandas
 * data.world's REST API
+* Travis CI
+* selenium
 
 # Running with Docker
 You can run this app with Dockerfile   
