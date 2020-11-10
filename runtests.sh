@@ -8,7 +8,7 @@ p1_pid=$!
 sleep 20
 
 # Running tests with unittest
-python -m unittest discover -s test_cases
+python3 -m unittest discover -s test_cases
 ret=$?
 
 # Kill streamlit process
