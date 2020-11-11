@@ -29,14 +29,14 @@ class CompareCountries(unittest.TestCase, CommonMethods):
         chart = self.h.get_chart(self.driver)
         self.assertTrue(chart.is_displayed())
 
-    def test_add_country(self):
-        countries = self.h.get_click_element((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[1]/div[1]/div[2]/div[1]/div[5]/div/div/div/div[1]'), self.driver)
-        countries.click()
-        country = self.h.get_element((By.ID, 'bui-10'), self.driver)
-        self.h.move_and_click(country, self.driver)
-        time.sleep(2)
-        chart = self.h.get_chart(self.driver)
-        self.assertTrue(chart.is_displayed())
+    # def test_add_country(self):
+    #     countries = self.h.get_click_element((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[1]/div[1]/div[2]/div[1]/div[5]/div/div/div/div[1]'), self.driver)
+    #     countries.click()
+    #     country = self.h.get_element((By.ID, 'bui-10'), self.driver)
+    #     self.h.move_and_click(country, self.driver)
+    #     time.sleep(2)
+    #     chart = self.h.get_chart(self.driver)
+    #     self.assertTrue(chart.is_displayed())
     
     def test_data_type(self):
         data_types = self.h.get_click_element((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[3]/div/div/div/div[1]'), self.driver)
