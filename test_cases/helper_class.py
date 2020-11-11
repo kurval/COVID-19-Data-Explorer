@@ -26,10 +26,10 @@ class CommonMethods():
             options = Options1()
         elif self.BROWSER == "chrome":
             options = Options2()
+            options.add_experimental_option('w3c', False)
         options.add_argument('-headless')
         options.add_argument("-width=1920")
         options.add_argument("-height=1080")
-        options.add_experimental_option('w3c', False)
         return options
     
     def get_exeptions(self):
