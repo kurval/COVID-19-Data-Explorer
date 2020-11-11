@@ -59,7 +59,17 @@ class CommonMethods():
         chart = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, 'marks')))
         return chart
 
-    def move_page(self, attr, driver):
-        button = self.get_element(attr, driver)
+    def move_to_most_cases_page(self, driver):
+        button = self.get_element((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[1]/div[1]/div[2]/div[1]/div[3]/div/div/label[2]/div[1]/div'), driver)
+        self.move_and_click(button, driver)
+        time.sleep(2)
+
+    def move_to_continent_page(self, driver):
+        button = self.get_element((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[1]/div[1]/div[2]/div[1]/div[3]/div/div/label[3]/div[1]/div'), driver)
+        self.move_and_click(button, driver)
+        time.sleep(2)
+
+    def move_to_world_cases_page(self, driver):
+        button = self.get_element((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[1]/div[1]/div[2]/div[1]/div[3]/div/div/label[4]/div[1]/div'), driver)
         self.move_and_click(button, driver)
         time.sleep(2)
