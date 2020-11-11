@@ -11,7 +11,6 @@ class WorstHitCountries(unittest.TestCase, CommonMethods):
 
     def test_move_to_most_cases(self):
         self.h.move_to_most_cases_page(self.driver)
-        cases = self.h.get_element((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[2]/div'), self.driver)
         chart = self.h.get_chart(self.driver)
         self.assertTrue(chart.is_displayed())
 
