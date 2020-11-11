@@ -30,8 +30,8 @@ class CompareCountries(unittest.TestCase, CommonMethods):
         self.assertTrue(chart.is_displayed())
 
     def test_add_country(self):
-        countries = self.h.get_click_element((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[1]/div[1]/div[2]/div[1]/div[5]/div/div/div/div[1]'), self.driver)
-        countries.click()
+        countries = self.h.get_element((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[1]/div[1]/div[2]/div[1]/div[5]/div/div/div/div[1]'), self.driver)
+        self.h.move_and_click(countries, self.driver)
         country = self.h.get_element((By.ID, 'bui-10'), self.driver)
         self.h.move_and_click(country, self.driver)
         time.sleep(2)

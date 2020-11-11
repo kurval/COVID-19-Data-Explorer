@@ -11,9 +11,11 @@ from selenium.webdriver.chrome.options import Options as Options2
 import time
 import warnings
 
+# HELPER METHODS
 class CommonMethods():
+    # Default browser
     BROWSER = "firefox"
-    # HELPER METHODS
+    
     def get_driver(self):
         warnings.filterwarnings(action="ignore", message="unclosed", category=ResourceWarning)
         if self.BROWSER == "firefox":
