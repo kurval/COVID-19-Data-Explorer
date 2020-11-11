@@ -8,8 +8,18 @@ p1_pid=$!
 sleep 20
 
 # Running tests with unittest
-python3 -m unittest discover -s test_cases
-ret=$?
+python tests.py firefox
+ret1=$?
+python tests.py chrome
+ret2=$?
+
+# Check if tests fails or passes
+if [ $ret1 != 0 ] || [ $ret2 != 0 ]
+then
+    ret=1
+else
+    ret=0
+fi
 
 # Kill streamlit process
 kill $p1_pid

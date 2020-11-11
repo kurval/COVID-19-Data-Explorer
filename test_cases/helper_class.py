@@ -6,20 +6,27 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver import ActionChains
-from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.firefox.options import Options as Options1
+from selenium.webdriver.chrome.options import Options as Options2
 import time
 
 class CommonMethods():
-    
+    BROWSER = "firefox"
     # HELPER METHODS
     def get_driver(self):
-        driver = webdriver.Firefox(options=self.get_options())
+        if self.BROWSER == "firefox":
+            driver = webdriver.Firefox(options=self.get_options())
+        elif self.BROWSER == "chrome":
+            driver = webdriver.Chrome(options=self.get_options())
         driver.get("http://localhost:8501/covid19dataexplorer.com/dev")
         return driver
 
     def get_options(self):
-        options = Options()
-        options.add_argument('-headless')
+        if self.BROWSER == "firefox":
+            options = Options1()
+        elif self.BROWSER == "chrome":
+            options = Options2()
+        #options.add_argument('-headless')
         options.add_argument("-width=1920")
         options.add_argument("-height=1080")
         return options

@@ -5,7 +5,7 @@ from test_cases.helper_class import CommonMethods
 import time
 
 class CompareCountries(unittest.TestCase, CommonMethods):
-        
+    
     def setUp(self):
         self.h = CommonMethods()
         self.driver = self.h.get_driver()
