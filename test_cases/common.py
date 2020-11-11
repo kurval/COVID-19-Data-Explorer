@@ -73,3 +73,7 @@ class CommonMethods():
         button = self.get_element((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[1]/div[1]/div[2]/div[1]/div[3]/div/div/label[4]/div[1]/div'), driver)
         self.move_and_click(button, driver)
         time.sleep(2)
+
+    def drag_slider(self, attr, driver):
+        action_chains = ActionChains(driver)
+        action_chains.click_and_hold(attr).move_by_offset(-40, 0).release().perform()

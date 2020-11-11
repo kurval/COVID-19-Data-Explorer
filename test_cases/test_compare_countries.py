@@ -1,6 +1,5 @@
 import unittest
 from selenium.webdriver.common.by import By
-from selenium.webdriver import ActionChains
 from test_cases.common import CommonMethods
 import time
 
@@ -56,8 +55,7 @@ class CompareCountries(unittest.TestCase, CommonMethods):
 
     def test_slider(self):
         slider = self.cm.get_element((By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[7]/div/div/div[1]/div/div'), self.driver)
-        action_chains = ActionChains(self.driver)
-        action_chains.click_and_hold(slider).move_by_offset(-40, 0).release().perform()
+        self.cm.drag_slider(slider, self.driver)
         chart = self.cm.get_chart(self.driver)
         self.assertTrue(chart.is_displayed())
 
