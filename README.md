@@ -47,7 +47,7 @@ You can also get the status by e-mail after execution.
 
 I'm using Python unittest as my test runner so I can also run the specific test class from the command line for example:  
 ```python -m unittest tests.CompareCountries```  
-or running a single test case from module:  
+or running a single test case:  
 ```python -m unittest tests.CompareCountries.test_check_chart```  
 
 # Data Source  
