@@ -45,7 +45,7 @@ I'm running tests with both Firefox and Chrome in the headless mode, which is su
 After tests are executed I can check my Travis CI build status page to see if my build passes or fails according to the return status of the build command.
 You can also get the status by e-mail after execution.  
 
-I'm using Python unittest as my test runner so I can also run the spesific test module from the command line for example:  
+I'm using Python unittest as my test runner so I can also run the specific test module from the command line for example:  
 ```python -m unittest tests.CompareCountries```  
 or just one test from module:  
 ```python -m unittest tests.CompareCountries.test_check_chart```  
