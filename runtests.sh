@@ -7,9 +7,12 @@ p1_pid=$!
 # Giving some time to import data
 sleep 20
 
-# Running tests with unittest
+# Running tests with Firefox and Chrome
+echo Running tests on Firefox
 python tests.py firefox
 ret1=$?
+
+echo Running tests on Chrome
 python tests.py chrome
 ret2=$?
 

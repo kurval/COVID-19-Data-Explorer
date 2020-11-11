@@ -9,11 +9,13 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.firefox.options import Options as Options1
 from selenium.webdriver.chrome.options import Options as Options2
 import time
+import warnings
 
 class CommonMethods():
     BROWSER = "firefox"
     # HELPER METHODS
     def get_driver(self):
+        warnings.filterwarnings(action="ignore", message="unclosed", category=ResourceWarning)
         if self.BROWSER == "firefox":
             driver = webdriver.Firefox(options=self.get_options())
         elif self.BROWSER == "chrome":

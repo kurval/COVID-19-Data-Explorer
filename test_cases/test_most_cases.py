@@ -2,12 +2,10 @@ import unittest
 from selenium.webdriver.common.by import By
 from selenium.webdriver import ActionChains
 from test_cases.helper_class import CommonMethods
-import warnings
 
 class WorstHitCountries(unittest.TestCase, CommonMethods):
 
     def setUp(self):
-        warnings.filterwarnings(action="ignore", message="unclosed", category=ResourceWarning)
         self.h = CommonMethods()
         self.driver = self.h.get_driver()
 
