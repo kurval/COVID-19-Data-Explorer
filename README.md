@@ -24,17 +24,8 @@ Using Alrair library for building interactive charts that are displayd with Vega
 * Travis CI
 * selenium
 
-# Running with Docker
+# Running app with Docker
 You can run this app with Dockerfile  
-
-# Testautomation  
-I have automated UI tests using Selenium library and Travis CI.  
-
-Travis-CI is a continuous integration tool that will run tests for a GitHub repository every time commits are pushed.  
-I'm running tests with both Firefox and Chrome in the headless mode, which is suitable for driving browser-based tests using Selenium and other tools.  
-
-After tests are executed I can check my Travis CI build status page to see if my build passes or fails according to the return status of the build command.  
-You can also get the status by e-mail after execution.
 
 Build the container:  
 ```docker build -t st-app .```  
@@ -44,6 +35,15 @@ And run it:
 
 Container is now available on:  
 ```http://<your docker-machine ip>:8501/```  
+
+# Testautomation  
+I have automated UI tests using Selenium library and Travis CI.  
+
+Travis-CI is a continuous integration tool that will run tests for a GitHub repository every time commits are pushed.  
+I'm running tests with both Firefox and Chrome in the headless mode, which is suitable for driving browser-based tests using Selenium and other tools.  
+
+After tests are executed I can check my Travis CI build status page to see if my build passes or fails according to the return status of the build command.  
+You can also get the status by e-mail after execution.  
 
 Data is originally sourced from: https://ourworldindata.org/coronavirus-source-data  
 More information about this dataset: https://github.com/owid/covid-19-data/tree/master/public/data
