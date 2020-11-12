@@ -31,9 +31,9 @@ class CompareCountries(unittest.TestCase, CommonMethods, PageLocators):
         self.assertTrue(chart.is_displayed())
 
     # def test_add_country(self):
-    #     countries = self.cm.get_click_element((By.XPATH, self.COUNTRIES_DROP), self.driver)
+    #     countries = self.cm.get_click_element((By.XPATH, self.pc.COUNTRIES_DROP), self.driver)
     #     countries.click()
-    #     country = self.cm.get_element((By.ID, 'bui-10'), self.driver)
+    #     country = self.cm.get_element((By.ID, self.pc.DROP_OPTION), self.driver)
     #     self.cm.move_and_click(country, self.driver)
     #     time.sleep(2)
     #     chart = self.cm.get_chart(self.driver)
