@@ -20,12 +20,12 @@ class WorstHitCountries(unittest.TestCase, CommonMethods, PageLocators):
     #     header = self.cm.get_element((By.TAG_NAME, 'h2'), self.driver)
     #     self.assertEqual("COVID-19: total confirmed cases in the worst-hit countries", header.text)
 
-    def test_data_type(self):
-        self.cm.move_page(self.pl.MOST_RADIO, self.driver)
-        self.cm.get_click_element((By.XPATH, self.pl.DATA_DROP), self.driver).click
-        self.cm.move_and_click((By.ID, self.pl.DROP_OPTION), self.driver)
-        chart = self.cm.get_chart(self.driver)
-        self.assertTrue(chart.is_displayed())
+    # def test_data_type(self):
+    #     self.cm.move_page(self.pl.MOST_RADIO, self.driver)
+    #     self.cm.get_click_element((By.XPATH, self.pl.DATA_DROP), self.driver).click
+    #     self.cm.move_and_click((By.ID, self.pl.DROP_OPTION), self.driver)
+    #     chart = self.cm.get_chart(self.driver)
+    #     self.assertTrue(chart.is_displayed())
 
     def test_per_million(self):
         self.cm.move_page(self.pl.MOST_RADIO, self.driver)

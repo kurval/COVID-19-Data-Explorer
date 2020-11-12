@@ -36,11 +36,11 @@ class CompareCountries(unittest.TestCase, CommonMethods, PageLocators):
     #     chart = self.cm.get_chart(self.driver)
     #     self.assertTrue(chart.is_displayed())
     
-    def test_data_type(self):
-        self.cm.get_click_element((By.XPATH, self.pl.DATA_DROP), self.driver).click()
-        self.cm.move_and_click((By.ID, self.pl.DROP_OPTION), self.driver)
-        chart = self.cm.get_chart(self.driver)
-        self.assertTrue(chart.is_displayed())
+    # def test_data_type(self):
+    #     self.cm.get_click_element((By.XPATH, self.pl.DATA_DROP), self.driver).click()
+    #     self.cm.move_and_click((By.ID, self.pl.DROP_OPTION), self.driver)
+    #     chart = self.cm.get_chart(self.driver)
+    #     self.assertTrue(chart.is_displayed())
     
     def test_chart_type(self):
         self.cm.get_click_element((By.XPATH, self.pl.CHART_DROP), self.driver).click()
