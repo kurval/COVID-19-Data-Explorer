@@ -44,7 +44,7 @@ def import_data():
     return df
 
 def main():
-    st.beta_set_page_config(
+    st.set_page_config(
         page_title="COVID-19 STATISTICS", 
         page_icon=":globe_with_meridians:"
     )

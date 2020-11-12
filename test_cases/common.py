@@ -15,6 +15,7 @@ import warnings
 class CommonMethods():
     # Default browser
     BROWSER = "firefox"
+    START_URL = "http://localhost:8501/covid19dataexplorer.com/dev"
     
     def get_driver(self):
         warnings.filterwarnings(action="ignore", message="unclosed", category=ResourceWarning)
@@ -22,7 +23,7 @@ class CommonMethods():
             driver = webdriver.Firefox(options=self.get_options())
         elif self.BROWSER == "chrome":
             driver = webdriver.Chrome(options=self.get_options())
-        driver.get("http://localhost:8501/covid19dataexplorer.com/dev")
+        driver.get(self.START_URL)
         return driver
 
     def get_options(self):
