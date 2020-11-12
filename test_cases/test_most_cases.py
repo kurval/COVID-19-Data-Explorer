@@ -35,8 +35,7 @@ class WorstHitCountries(unittest.TestCase, CommonMethods, PageLocators):
 
     def test_slider(self):
         self.cm.move_page(self.pl.MOST_RADIO, self.driver)
-        slider = self.cm.get_element((By.XPATH, self.pl.SLIDER), self.driver)
-        self.cm.drag_slider(slider, self.driver)
+        self.cm.drag_slider((By.XPATH, self.pl.SLIDER), self.driver)
         chart = self.cm.get_chart(self.driver)
         self.assertTrue(chart.is_displayed())
 

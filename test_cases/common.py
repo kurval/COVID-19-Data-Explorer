@@ -66,5 +66,6 @@ class CommonMethods():
         time.sleep(2)
 
     def drag_slider(self, attr, driver):
+        slider = self.get_element(attr, driver)
         action_chains = ActionChains(driver)
-        action_chains.click_and_hold(attr).move_by_offset(-40, 0).release().perform()
+        action_chains.click_and_hold(slider).move_by_offset(-40, 0).release().perform()
