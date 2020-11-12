@@ -8,7 +8,7 @@ class CompareCountries(unittest.TestCase, CommonMethods, PageLocators):
     
     def setUp(self):
         self.cm = CommonMethods()
-        self.pc = PageLocators()
+        self.pl = PageLocators()
         self.driver = self.cm.get_driver()
 
     def test_check_cases_text(self):
@@ -25,38 +25,31 @@ class CompareCountries(unittest.TestCase, CommonMethods, PageLocators):
         self.assertTrue(chart.is_displayed())
     
     def test_log_scale(self):
-        checkbox = self.cm.get_element((By.XPATH, self.pc.LOG_CHECKBOX), self.driver)
-        self.cm.move_and_click(checkbox, self.driver)
+        self.cm.move_and_click((By.XPATH, self.pl.LOG_CHECKBOX), self.driver)
         chart = self.cm.get_chart(self.driver)
         self.assertTrue(chart.is_displayed())
 
     # def test_add_country(self):
-    #     countries = self.cm.get_click_element((By.XPATH, self.pc.COUNTRIES_DROP), self.driver)
-    #     countries.click()
-    #     country = self.cm.get_element((By.ID, self.pc.DROP_OPTION), self.driver)
-    #     self.cm.move_and_click(country, self.driver)
+    #     self.cm.get_click_element((By.XPATH, self.pl.COUNTRIES_DROP), self.driver).click()
+    #     self.cm.move_and_click((By.ID, self.pl.DROP_OPTION), self.driver)
     #     time.sleep(2)
     #     chart = self.cm.get_chart(self.driver)
     #     self.assertTrue(chart.is_displayed())
     
     def test_data_type(self):
-        data_types = self.cm.get_click_element((By.XPATH, self.pc.DATA_DROP), self.driver)
-        data_types.click()
-        total_deaths = self.cm.get_element((By.ID, self.pc.DROP_OPTION), self.driver)
-        self.cm.move_and_click(total_deaths, self.driver)
+        self.cm.get_click_element((By.XPATH, self.pl.DATA_DROP), self.driver).click()
+        self.cm.move_and_click((By.ID, self.pl.DROP_OPTION), self.driver)
         chart = self.cm.get_chart(self.driver)
         self.assertTrue(chart.is_displayed())
     
     def test_chart_type(self):
-        chart_types = self.cm.get_click_element((By.XPATH, self.pc.CHART_DROP), self.driver)
-        chart_types.click()
-        bar_chart = self.cm.get_element((By.ID, self.pc.DROP_OPTION), self.driver)
-        self.cm.move_and_click(bar_chart, self.driver)
+        self.cm.get_click_element((By.XPATH, self.pl.CHART_DROP), self.driver).click()
+        self.cm.move_and_click((By.ID, self.pl.DROP_OPTION), self.driver)
         chart = self.cm.get_chart(self.driver)
         self.assertTrue(chart.is_displayed())
 
     def test_slider(self):
-        slider = self.cm.get_element((By.XPATH, self.pc.SLIDER), self.driver)
+        slider = self.cm.get_element((By.XPATH, self.pl.SLIDER), self.driver)
         self.cm.drag_slider(slider, self.driver)
         chart = self.cm.get_chart(self.driver)
         self.assertTrue(chart.is_displayed())
