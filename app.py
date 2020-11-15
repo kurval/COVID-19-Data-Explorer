@@ -5,8 +5,8 @@ import streamlit as st
 import altair as alt
 import click
 from PIL import Image
-from Functions.graph_functions import show_world_scatter, continent_cases, show_worst_hit_chart, show_compare_chart
-from Functions.option_functions import choose_chart1, choose_chart_type, choose_time_period
+from Functions.graph_functions import show_world_scatter, show_continent_cases, show_worst_hit_chart, show_compare_chart
+from Functions.option_functions import choose_data_type, choose_chart_type, choose_time_period
 from Functions.ui_elements import world_cases
 
 DATASET_ID = 'vale123/covid-19-complete-dataset'
@@ -32,10 +32,7 @@ def import_data():
     Imports data from dataworld.
     Query a dataset using the var = datadotworld.query('dataset_ID', 'query')
     '''
-    result = dw.query(
-        DATASET_ID,
-        QUERY
-    )
+    result = dw.query(DATASET_ID, QUERY)
     df = result.dataframe
     df['date'] = pd.to_datetime(df['date'])
     df[['total_cases', 'total_deaths']] = df[['total_cases', 'total_deaths']].apply(pd.to_numeric)
@@ -45,9 +42,8 @@ def import_data():
 
 def main():
     st.set_page_config(
-        page_title="COVID-19 STATISTICS", 
-        page_icon=":globe_with_meridians:"
-    )
+        page_title="COVID-19 STATISTICS",
+        page_icon=":globe_with_meridians:")
 
     with st.spinner('Please wait...'):
         df = import_data()
@@ -59,8 +55,7 @@ def main():
     st.sidebar.image(
         image, 
         use_column_width=True,
-        caption=f"Updated: {youngest.strftime('%Y-%m-%d')}"
-    )
+        caption=f"Updated: {youngest.strftime('%Y-%m-%d')}")
 
     st.sidebar.markdown("# Choose statistics")
     graph = st.sidebar.radio("Chart:",
@@ -74,7 +69,7 @@ def main():
     if (graph == "Country compare"):
         num_cases = df[(df['date'] == youngest) & (df['location'] == 'World')]
         world_cases(num_cases)
-        chart = choose_chart1()
+        chart = choose_data_type(1)
         show_compare_chart(df, chart, youngest, oldest)
 
     # Worst-hit countries charts
@@ -87,8 +82,7 @@ def main():
         ## COVID-19: new confirmed cases by continent\n
         Hover over each area to see the values
         """)
-        fig = continent_cases(df, 'new_cases')
-        st.altair_chart(fig, use_container_width=True)
+        show_continent_cases(df, 'new_cases')
 
     # World scatter plot
     if (graph == "Cases worldwide"):
@@ -96,8 +90,7 @@ def main():
         ## COVID-19: new confirmed cases worldwide 🌐\n
         Hover over each circle to see the values
         """)
-        fig = show_world_scatter(df, 'new_cases')
-        st.altair_chart(fig, use_container_width=True)
+        show_world_scatter(df, 'new_cases')
 
     ##Tips info text
     st.sidebar.markdown("# Tips")
