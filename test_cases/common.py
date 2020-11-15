@@ -56,13 +56,13 @@ class CommonMethods():
         element = wait.until(EC.element_to_be_clickable(attr))
         return element
     
-    def get_chart(self, driver):
+    def get_chart(self, attr, driver):
         wait = WebDriverWait(driver, 20, ignored_exceptions=self.get_exeptions())
-        chart = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, 'marks')))
+        chart = wait.until(EC.visibility_of_element_located(attr))
         return chart
 
     def move_page(self, attr, driver):
-        self.move_and_click((By.XPATH, attr), driver)
+        self.move_and_click(attr, driver)
         time.sleep(2)
 
     def drag_slider(self, attr, driver):

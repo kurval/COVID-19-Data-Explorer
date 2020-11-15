@@ -3,16 +3,16 @@ from selenium.webdriver.common.by import By
 from test_cases.common import CommonMethods
 from test_cases.resources.locators import PageLocators
 
-class WorldCases(unittest.TestCase, CommonMethods, PageLocators):
+class WorldCases(unittest.TestCase):
 
+    cm = CommonMethods()
+    pl = PageLocators()
     def setUp(self):
-        self.cm = CommonMethods()
-        self.pl = PageLocators()
         self.driver = self.cm.get_driver()
 
     def test_chart_is_visible(self):
         self.cm.move_page(self.pl.WORLD_RADIO, self.driver)
-        chart = self.cm.get_chart(self.driver)
+        chart = self.cm.get_chart(self.pl.CHART, self.driver)
         self.assertTrue(chart.is_displayed())
 
     # def test_check_header(self):
