@@ -14,7 +14,7 @@ import warnings
 # HELPER METHODS
 class CommonMethods():
     # Default browser
-    BROWSER = "firefox"
+    BROWSER = "chrome"
     START_URL = "http://localhost:8501/covid19dataexplorer.com/dev"
     
     def get_driver(self):
@@ -23,6 +23,7 @@ class CommonMethods():
             driver = webdriver.Firefox(options=self.get_options())
         elif self.BROWSER == "chrome":
             driver = webdriver.Chrome(options=self.get_options())
+        driver.set_window_size(1920, 1080)
         driver.get(self.START_URL)
         return driver
 
@@ -33,8 +34,6 @@ class CommonMethods():
             options = Options2()
             options.add_experimental_option('w3c', False)
         options.add_argument('-headless')
-        options.add_argument("-width=1920")
-        options.add_argument("-height=1080")
         return options
     
     def get_exeptions(self):

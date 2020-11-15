@@ -12,7 +12,6 @@ class MostCases(unittest.TestCase):
     def test_move_to_most_cases(self):
         self.cm.move_page(self.pl.MOST_RADIO, self.driver)
         chart = self.cm.get_chart(self.pl.CHART, self.driver)
-        print(self.driver.title)
         self.assertTrue(chart.is_displayed())
 
     def test_check_header(self):
