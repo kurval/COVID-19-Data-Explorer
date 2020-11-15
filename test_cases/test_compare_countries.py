@@ -1,7 +1,6 @@
 import unittest
 from test_cases.common import CommonMethods
 from test_cases.resources.locators import PageLocators
-import time
 
 class CompareCountries(unittest.TestCase):
     
