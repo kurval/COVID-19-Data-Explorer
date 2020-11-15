@@ -18,7 +18,7 @@ class ContinentCases(unittest.TestCase):
     # def test_check_header(self):
     #     h = CommonMethods()
     #     self.cm.move_page(self.pl.CONTINENT_RADIO, self.driver)
-    #     header = self.cm.get_element((By.TAG_NAME, 'h2'), self.driver)
+    #     header = self.cm.get_element(self.pl.HEADER, self.driver)
     #     self.assertEqual("COVID-19: new confirmed cases by continent", header.text)
     
     def tearDown(self):

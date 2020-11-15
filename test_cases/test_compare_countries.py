@@ -20,7 +20,6 @@ class CompareCountries(unittest.TestCase):
         self.assertIn("Total Deaths", deaths.text)
 
     def test_chart_is_visible(self):
-        time.sleep(1)
         chart = self.cm.get_chart(self.pl.CHART, self.driver)
         self.assertTrue(chart.is_displayed())
     
@@ -32,7 +31,6 @@ class CompareCountries(unittest.TestCase):
     # def test_add_country(self):
     #     self.cm.get_click_element(self.pl.COUNTRIES_DROP, self.driver).click()
     #     self.cm.move_and_click(self.pl.DROP_OPTION, self.driver)
-    #     time.sleep(2)
     #     chart = self.cm.get_chart(self.pl.CHART, self.driver)
     #     self.assertTrue(chart.is_displayed())
     
@@ -42,11 +40,11 @@ class CompareCountries(unittest.TestCase):
     #     chart = self.cm.get_chart(self.pl.CHART, self.driver)
     #     self.assertTrue(chart.is_displayed())
     
-    def test_chart_type(self):
-        self.cm.get_click_element(self.pl.CHART_DROP, self.driver).click()
-        self.cm.move_and_click(self.pl.DROP_OPTION, self.driver)
-        chart = self.cm.get_chart(self.pl.CHART, self.driver)
-        self.assertTrue(chart.is_displayed())
+    # def test_chart_type(self):
+    #     self.cm.get_click_element(self.pl.CHART_DROP, self.driver).click()
+    #     self.cm.move_and_click(self.pl.DROP_OPTION, self.driver)
+    #     chart = self.cm.get_chart(self.pl.CHART, self.driver)
+    #     self.assertTrue(chart.is_displayed())
 
     def test_slider(self):
         self.cm.drag_slider(self.pl.SLIDER, self.driver)

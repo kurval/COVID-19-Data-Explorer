@@ -18,7 +18,7 @@ class WorldCases(unittest.TestCase):
     # def test_check_header(self):
     #     h = CommonMethods()
     #     self.cm.move_page(self.pl.WORLD_RADIO, self.driver)
-    #     header = self.cm.get_element((By.TAG_NAME, 'h2'), self.driver)
+    #     header = self.cm.get_element(self.pl.HEADER, self.driver)
     #     self.assertEqual("COVID-19: new confirmed cases worldwide 🌐", header.text)
     
     def tearDown(self):

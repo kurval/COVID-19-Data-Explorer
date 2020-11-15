@@ -57,6 +57,7 @@ class CommonMethods():
         return element
     
     def get_chart(self, attr, driver):
+        time.sleep(1)
         wait = WebDriverWait(driver, 20, ignored_exceptions=self.get_exeptions())
         chart = wait.until(EC.visibility_of_element_located(attr))
         return chart

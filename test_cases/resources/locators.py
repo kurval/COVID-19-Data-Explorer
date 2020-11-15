@@ -2,6 +2,7 @@ from selenium.webdriver.common.by import By
 
 class PageLocators:
     CHART = (By.CLASS_NAME, 'marks')
+    HEADER = (By.TAG_NAME, 'h2')
     CASES_TEXT = (By.CSS_SELECTOR, "#cases")
     DEATHS_TEXT = (By.CSS_SELECTOR, "#deaths")
     LOG_CHECKBOX = (By.XPATH, '//*[@id="root"]/div[1]/div/div/div/div/section[2]/div/div[1]/div[5]/div/label/span')

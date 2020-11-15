@@ -17,7 +17,7 @@ class WorstHitCountries(unittest.TestCase):
 
     # def test_check_header(self):
     #     self.cm.move_page(self.pl.MOST_RADIO, self.driver)
-    #     header = self.cm.get_element((By.TAG_NAME, 'h2'), self.driver)
+    #     header = self.cm.get_element(self.pl.HEADER, self.driver)
     #     self.assertEqual("COVID-19: total confirmed cases in the worst-hit countries", header.text)
 
     # def test_data_type(self):
