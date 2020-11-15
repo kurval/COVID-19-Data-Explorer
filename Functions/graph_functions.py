@@ -2,7 +2,7 @@ import pandas as pd
 import streamlit as st
 import altair as alt
 from Functions.chart_configuration import set_tooltip
-from Functions.option_functions import choose_time_period, choose_chart_type, choose_data_type
+from Functions.choose_functions import choose_time_period, choose_chart_type, choose_data_type
 from Functions.helper\
 import format_numbers, get_continent_values,\
         get_country_values, get_N_HexCol,\

@@ -6,7 +6,7 @@ import altair as alt
 import click
 from PIL import Image
 from Functions.graph_functions import show_world_scatter, show_continent_cases, show_worst_hit_chart, show_compare_chart
-from Functions.option_functions import choose_data_type, choose_chart_type, choose_time_period
+from Functions.choose_functions import choose_data_type, choose_chart_type, choose_time_period
 from Functions.ui_elements import world_cases
 
 DATASET_ID = 'vale123/covid-19-complete-dataset'
