@@ -1,6 +1,6 @@
 from selenium.webdriver.common.by import By
 
-class PageLocators:
+class PageLocators(object):
     CHART = (By.CLASS_NAME, 'marks')
     HEADER = (By.TAG_NAME, 'h2')
     CASES_TEXT = (By.CSS_SELECTOR, "#cases")

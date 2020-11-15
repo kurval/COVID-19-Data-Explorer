@@ -1,5 +1,4 @@
 import unittest
-from selenium.webdriver.common.by import By
 from test_cases.common import CommonMethods
 from test_cases.resources.locators import PageLocators
 import time

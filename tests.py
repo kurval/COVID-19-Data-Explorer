@@ -2,7 +2,7 @@ import unittest
 import sys
 from selenium import webdriver
 from test_cases.test_compare_countries import CompareCountries
-from test_cases.test_most_cases import WorstHitCountries
+from test_cases.test_most_cases import MostCases
 from test_cases.test_continent_cases import ContinentCases
 from test_cases.test_world_cases import WorldCases
 from test_cases.common import CommonMethods

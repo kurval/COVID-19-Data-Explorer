@@ -46,6 +46,12 @@ class CommonMethods():
         element = wait.until(EC.presence_of_element_located(attr))
         return element
 
+    def get_title(self, attr, text, driver):
+        wait = WebDriverWait(driver, 20, ignored_exceptions=self.get_exeptions())
+        wait.until(EC.text_to_be_present_in_element(attr, text))
+        element = self.get_element(attr, driver)
+        return element
+
     def move_and_click(self, attr, driver):
         element = self.get_element(attr, driver)
         action_chains = ActionChains(driver)

@@ -1,5 +1,4 @@
 import unittest
-from selenium.webdriver.common.by import By
 from test_cases.common import CommonMethods
 from test_cases.resources.locators import PageLocators
 
@@ -15,10 +14,10 @@ class WorldCases(unittest.TestCase):
         chart = self.cm.get_chart(self.pl.CHART, self.driver)
         self.assertTrue(chart.is_displayed())
 
-    # def test_check_header(self):
-    #     self.cm.move_page(self.pl.WORLD_RADIO, self.driver)
-    #     header = self.cm.get_element(self.pl.HEADER, self.driver)
-    #     self.assertEqual("COVID-19: new confirmed cases worldwide 🌐", header.text)
+    def test_check_header(self):
+        self.cm.move_page(self.pl.WORLD_RADIO, self.driver)
+        header = self.cm.get_title(self.pl.HEADER,, "COVID-19: new confirmed cases", self.driver)
+        self.assertEqual("COVID-19: new confirmed cases worldwide 🌐", header.text)
     
     def tearDown(self):
         self.driver.close()
