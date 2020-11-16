@@ -34,7 +34,7 @@ class MostCases(unittest.TestCase):
 
     def test_slider(self):
         self.cm.move_page(self.pl.MOST_RADIO, self.driver)
-        self.cm.drag_slider(self.pl.SLIDER, self.driver)
+        self.cm.drag_slider(self.pl.SLIDER2, self.driver)
         chart = self.cm.get_chart(self.pl.CHART, self.driver)
         self.assertTrue(chart.is_displayed())
 

@@ -45,7 +45,7 @@ class CompareCountries(unittest.TestCase):
     #     self.assertTrue(chart.is_displayed())
 
     def test_slider(self):
-        self.cm.drag_slider(self.pl.SLIDER, self.driver)
+        self.cm.drag_slider(self.pl.SLIDER1, self.driver)
         chart = self.cm.get_chart(self.pl.CHART, self.driver)
         self.assertTrue(chart.is_displayed())
 
