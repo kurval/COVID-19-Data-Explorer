@@ -39,10 +39,10 @@ Container is now available on:
 # Testautomation  
 I have automated UI tests using Selenium library and Travis CI.  
 
-Travis-CI is a continuous integration tool that will run tests for a GitHub repository every time commits are pushed.  
+Travis-CI is a continuous integration tool that will run tests for a GitHub repository every time commits are pushed.
 I'm running tests with both Firefox and Chrome in the headless mode, which is suitable for driving browser-based tests using Selenium and other tools.  
 
-After tests are executed I can check my Travis CI build status page to see if my build passes or fails according to the return status of the build command.
+After all tests have finished I can check my Travis CI build status page to see if my build passes or fails according to the return status of the build command.
 You can also get the status by e-mail after execution.  
 
 I'm using Python unittest as my test runner so I can also run the specific test class from the command line for example:  
