@@ -7,7 +7,7 @@ def choose_data_type(chart_type):
 
         return: chart number ('1':total_cases, '2':total_deaths, '3':new_cases, '4':new_deaths)
     '''
-    if (chart_type == 1):
+    if chart_type == 1:
         stats = {
             'Total cases':'1',
             'Total deaths':'2',
@@ -21,9 +21,9 @@ def choose_data_type(chart_type):
             'New deaths'
         ]
     else:
-         stats = {'Total cases':'1', 'Total deaths':'2'}
-         charts = ['Total cases', 'Total deaths']
-    
+        stats = {'Total cases':'1', 'Total deaths':'2'}
+        charts = ['Total cases', 'Total deaths']
+
     chart = st.selectbox('Choose data type:', charts)
     return stats[chart]
 
@@ -60,3 +60,4 @@ def choose_time_period(youngest, oldest, key):
             'Choose date (days) *default is the most recent date', days, 0, 0))
         startdate = youngest - pd.DateOffset(days=period)
     return startdate, period
+    

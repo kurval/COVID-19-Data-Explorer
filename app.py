@@ -1,12 +1,13 @@
 #!/usr/bin/python3
+"""Streamlit Covid-19 app"""
 import datadotworld as dw
 import pandas as pd
 import streamlit as st
-import altair as alt
-import click
 from PIL import Image
-from Functions.graph_functions import show_world_scatter, show_continent_cases, show_worst_hit_chart, show_compare_chart
-from Functions.choose_functions import choose_data_type, choose_chart_type, choose_time_period
+from Functions.graph_functions\
+import show_world_scatter, show_continent_cases,\
+       show_worst_hit_chart, show_compare_chart
+from Functions.choose_functions import choose_data_type
 from Functions.ui_elements import world_cases
 
 DATASET_ID = 'vale123/covid-19-complete-dataset'
@@ -53,31 +54,30 @@ def main():
 
     image = Image.open('./Images/covid_logo.png')
     st.sidebar.image(
-        image, 
+        image,
         use_column_width=True,
         caption=f"Updated: {youngest.strftime('%Y-%m-%d')}")
 
     st.sidebar.markdown("# Choose statistics")
     graph = st.sidebar.radio("Chart:",
-        ("Country compare",
-        "Worst-hit countries",
-        "Cases by continent",
-        "Cases worldwide")
-    )
-    
+                             ("Country compare",
+                              "Worst-hit countries",
+                              "Cases by continent",
+                              "Cases worldwide"))
+
     # Compare countries chart
-    if (graph == "Country compare"):
+    if graph == "Country compare":
         num_cases = df[(df['date'] == youngest) & (df['location'] == 'World')]
         world_cases(num_cases)
         chart = choose_data_type(1)
         show_compare_chart(df, chart, youngest, oldest)
 
     # Worst-hit countries charts
-    if (graph == "Worst-hit countries"):
+    if graph == "Worst-hit countries":
         show_worst_hit_chart(df, youngest, oldest)
 
     # Cases by continent
-    if (graph == "Cases by continent"):
+    if graph == "Cases by continent":
         st.markdown("""
         ## COVID-19: new confirmed cases by continent\n
         Hover over each area to see the values
@@ -85,7 +85,7 @@ def main():
         show_continent_cases(df, 'new_cases')
 
     # World scatter plot
-    if (graph == "Cases worldwide"):
+    if graph == "Cases worldwide":
         st.markdown("""
         ## COVID-19: new confirmed cases worldwide 🌐\n
         Hover over each circle to see the values
@@ -94,7 +94,7 @@ def main():
 
     ##Tips info text
     st.sidebar.markdown("# Tips")
-    if (graph == "Country compare"):
+    if graph == "Country compare":
         info_text = """
         **Use the sidebar** to select or deselect countries.\n
         **Compare countries** by selecting multiple options.\n
@@ -102,17 +102,17 @@ def main():
         **Adjust time period** by dragging the slider or just clicking it.\n
         **Hover over** each line/block to see the values.
         """
-    elif (graph == "Worst-hit countries"):
+    elif graph == "Worst-hit countries":
         info_text = """
         **Adjust time period** by dragging the slider or just clicking it.\n
         **By clicking the checkbox** you can see the values per one million of population.\n
         **Hover over** each line/block to see the values.
         """
-    elif (graph == "Cases by continent"):
+    elif graph == "Cases by continent":
         info_text = """
         **Hover over** each line/block to see the values.
         """
-    elif (graph == "Cases worldwide"):
+    elif graph == "Cases worldwide":
         info_text = """
         **Hover over** each area to see the values.
         """

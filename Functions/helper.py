@@ -1,10 +1,8 @@
-import pandas as pd
-import streamlit as st
 import colorsys
-import random
+import streamlit as st
 
 @st.cache(show_spinner=False)
-def get_N_HexCol(N=20):
+def get_colors(N=20):
     '''
     Generates list of colors
     '''
@@ -27,7 +25,7 @@ def get_top_values(df, label, userdate):
     '''
     Gets top20 sorted values from given chart and adds new date and formattes columns.
         param: dataframe, label(value), userdate(timestamp)
-        type: pd df object, str, datetime,  
+        type: pd df object, str, datetime,
         return: new dataframe
     '''
     top20_values = df.groupby('location').sum().reset_index()
@@ -80,6 +78,6 @@ def get_country_values(df, options, label):
 
 @st.cache(show_spinner=False)
 def get_continent_values(df, label):
-    new_df = df.groupby(['date','continent']).sum().reset_index()
+    new_df = df.groupby(['date', 'continent']).sum().reset_index()
     new_df = new_df[['date', 'continent', label]]
     return new_df
