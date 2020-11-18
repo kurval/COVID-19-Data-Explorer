@@ -34,7 +34,7 @@ And run it:
 ```docker run -p 8501:8501 --name st-app -it --rm st-app```  
 
 Container is now available on:  
-```http://<your docker-machine ip>:8501/```  
+```http://<your virtual machine ip>:8501/```  
 
 # Testautomation  
 I have automated UI tests using Selenium library and Travis CI.  
