@@ -22,4 +22,4 @@ CMD streamlit run app.py
 # docker run -p 8501:8501 --name st-app -it --rm st-app
 
 # Open your browser
-# http://<your docker-machine ip>:8501/
+# http://<your virtual machine ip>:8501/
