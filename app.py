@@ -68,7 +68,8 @@ def main():
     # Compare countries chart
     if graph == "Country compare":
         num_cases = df[(df['date'] == youngest) & (df['location'] == 'World')]
-        #world_cases(num_cases)
+        if not num_cases.empty:
+            world_cases(num_cases)
         chart = choose_data_type(1)
         show_compare_chart(df, chart, youngest, oldest)
 
