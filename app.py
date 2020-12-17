@@ -13,8 +13,7 @@ from Functions.ui_elements import world_cases
 DATASET_ID = 'vale123/covid-19-complete-dataset'
 
 QUERY = """
-        SELECT continent,
-        location,
+        SELECT location,
         date,
         total_cases,
         total_deaths,
