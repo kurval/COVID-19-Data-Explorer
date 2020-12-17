@@ -36,7 +36,7 @@ def import_data():
     result = dw.query(DATASET_ID, QUERY)
     df = result.dataframe
     df['date'] = pd.to_datetime(df['date'])
-    df[['total_cases', 'total_deaths']] = df[['total_cases', 'total_deaths']].apply(pd.to_numeric)
+    df[['total_cases', 'total_deaths', 'new_cases', 'new_deaths']] = df[['total_cases', 'total_deaths', 'new_cases', 'new_deaths']].apply(pd.to_numeric)
     floats = df.select_dtypes(include=['float64']).columns.tolist()
     df[floats] = df[floats].astype('float32')
     return df
@@ -62,7 +62,7 @@ def main():
     graph = st.sidebar.radio("Chart:",
                              ("Country compare",
                               "Worst-hit countries",
-                              "Cases by continent",
+                            #   "Cases by continent",
                               "Cases worldwide"))
 
     # Compare countries chart
@@ -77,12 +77,12 @@ def main():
         show_worst_hit_chart(df, youngest, oldest)
 
     # Cases by continent
-    if graph == "Cases by continent":
-        st.markdown("""
-        ## COVID-19: new confirmed cases by continent\n
-        Hover over each area to see the values
-        """)
-        show_continent_cases(df, 'new_cases')
+    # if graph == "Cases by continent":
+    #     st.markdown("""
+    #     ## COVID-19: new confirmed cases by continent\n
+    #     Hover over each area to see the values
+    #     """)
+    #     show_continent_cases(df, 'new_cases')
 
     # World scatter plot
     if graph == "Cases worldwide":
@@ -108,10 +108,10 @@ def main():
         **By clicking the checkbox** you can see the values per one million of population.\n
         **Hover over** each line/block to see the values.
         """
-    elif graph == "Cases by continent":
-        info_text = """
-        **Hover over** each line/block to see the values.
-        """
+    # elif graph == "Cases by continent":
+    #     info_text = """
+    #     **Hover over** each line/block to see the values.
+    #     """
     elif graph == "Cases worldwide":
         info_text = """
         **Hover over** each area to see the values.
