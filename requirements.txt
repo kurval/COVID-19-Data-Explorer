@@ -4,3 +4,4 @@ datadotworld==1.7.0
 selenium==3.141.0
 streamlit==0.72.0
 Pillow==8.0.1
+click==7.1.2
