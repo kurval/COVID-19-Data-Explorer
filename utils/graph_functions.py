@@ -1,9 +1,9 @@
 import pandas as pd
 import streamlit as st
 import altair as alt
-from Functions.chart_configuration import set_tooltip
-from Functions.choose_functions import choose_time_period, choose_chart_type, choose_data_type
-from Functions.helper\
+from utils.chart_configuration import set_tooltip
+from utils.choose_functions import choose_time_period, choose_chart_type, choose_data_type
+from utils.helper\
 import get_continent_values,\
         get_country_values, get_colors,\
         get_top_values, get_values_by_date,\

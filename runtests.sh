@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Run streamlit app in the background
-streamlit run app.py &
+streamlit run app.py > output_file 2>&1 &
 p1_pid=$!
 
 # Giving some time to import data
@@ -23,6 +23,10 @@ then
 else
     ret=0
 fi
+
+# Showing output
+echo ****LOGS****
+cat output_file
 
 # Kill streamlit process
 kill $p1_pid

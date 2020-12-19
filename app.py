@@ -4,11 +4,11 @@ import datadotworld as dw
 import pandas as pd
 import streamlit as st
 from PIL import Image
-from Functions.graph_functions\
+from utils.graph_functions\
 import show_world_scatter, show_continent_cases,\
        show_worst_hit_chart, show_compare_chart
-from Functions.choose_functions import choose_data_type
-from Functions.ui_elements import world_cases
+from utils.choose_functions import choose_data_type
+from utils.ui_elements import world_cases
 
 DATASET_ID = 'vale123/covid-19-complete-dataset'
 

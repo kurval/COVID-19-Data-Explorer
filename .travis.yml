@@ -31,6 +31,8 @@ install:
   - sudo ln -s /usr/local/share/geckodriver /usr/local/bin/geckodriver
 
 before_script:
+  - sudo touch output_file
+  - sudo chmod 777 output_file
   - cat .dw/config | grep -o 'ey.*' | dw configure
   - mkdir ~/.streamlit && touch ~/.streamlit/config.toml
   - streamlit config show > ~/.streamlit/config.toml
