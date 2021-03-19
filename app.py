@@ -18,9 +18,7 @@ QUERY = """
         total_cases,
         total_deaths,
         new_cases,
-        new_deaths,
-        new_cases_per_million,
-        new_deaths_per_million
+        new_deaths
         FROM owid_covid_data
         WHERE location != 'International'
         """
@@ -57,12 +55,13 @@ def main():
         use_column_width=True,
         caption=f"Updated: {youngest.strftime('%Y-%m-%d')}")
 
-    st.sidebar.markdown("# Choose statistics")
-    graph = st.sidebar.radio("Chart:",
-                             ("Country compare",
-                              "Worst-hit countries",
-                            #   "Cases by continent",
-                              "Cases worldwide"))
+    graph = "Country compare"
+    # st.sidebar.markdown("# Choose statistics")
+    # graph = st.sidebar.radio("Chart:",
+    #                          ("Country compare",
+    #                           "Worst-hit countries",
+    #                           "Cases by continent",
+    #                           "Cases worldwide"))
 
     # Compare countries chart
     if graph == "Country compare":
@@ -71,9 +70,9 @@ def main():
         chart = choose_data_type(1)
         show_compare_chart(df, chart, youngest, oldest)
 
-    # Worst-hit countries charts
-    if graph == "Worst-hit countries":
-        show_worst_hit_chart(df, youngest, oldest)
+    # # Worst-hit countries charts
+    # if graph == "Worst-hit countries":
+    #     show_worst_hit_chart(df, youngest, oldest)
 
     # Cases by continent
     # if graph == "Cases by continent":
@@ -83,13 +82,13 @@ def main():
     #     """)
     #     show_continent_cases(df, 'new_cases')
 
-    # World scatter plot
-    if graph == "Cases worldwide":
-        st.markdown("""
-        ## COVID-19: new confirmed cases worldwide 🌐\n
-        Hover over each circle to see the values
-        """)
-        show_world_scatter(df, 'new_cases')
+    # # World scatter plot
+    # if graph == "Cases worldwide":
+    #     st.markdown("""
+    #     ## COVID-19: new confirmed cases worldwide 🌐\n
+    #     Hover over each circle to see the values
+    #     """)
+    #     show_world_scatter(df, 'new_cases')
 
     ##Tips info text
     st.sidebar.markdown("# Tips")
