@@ -1,5 +1,3 @@
-![Build Status](https://travis-ci.com/kurval/COVID-19-Data-Explorer.svg?branch=master)
-
 # Covid-19 Data Explorer
 App is live at: https://www.covid19dataexplorer.com/
 
