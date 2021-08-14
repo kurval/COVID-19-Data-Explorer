@@ -21,6 +21,7 @@ QUERY = """
         new_deaths
         FROM owid_covid_data
         WHERE location != 'International'
+        AND date >= '2021-1-1'
         """
 
 # Cache for 6 hours
