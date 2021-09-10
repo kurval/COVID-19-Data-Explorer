@@ -67,9 +67,10 @@ def main():
     # Compare countries chart
     if graph == "Country compare":
         total_cases = df[(df['location'] == 'World') & (df['date'] == youngest)]
-        world_cases(total_cases)
-        chart = choose_data_type(1)
-        show_compare_chart(df, chart, youngest, oldest)
+        if not total_cases.empty:
+            world_cases(total_cases)
+            chart = choose_data_type(1)
+            show_compare_chart(df, chart, youngest, oldest)
 
     # # Worst-hit countries charts
     # if graph == "Worst-hit countries":
