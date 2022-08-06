@@ -2,6 +2,6 @@ pandas==1.1.4
 altair==4.1.0
 datadotworld==1.7.0
 selenium==3.141.0
-streamlit==0.72.0
+streamlit==1.11.1
 Pillow==8.3.2
 click==7.1.2
